@@ -16,6 +16,8 @@ jobs:
           node-version: '22'
       - run: npm ci
       - run: npx @11ty/eleventy
+      - run: ls -la _site/
+      - run: cat _site/index.html
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _site
