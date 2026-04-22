@@ -1,0 +1,23 @@
+{
+  "name": "ai-tool-navigator",
+  "version": "1.0.0",
+  "description": "AIツールのレビュー・比較・使い方ガイド",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kaneko-ai/ai-tool-navigator.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kaneko-ai/ai-tool-navigator/issues"
+  },
+  "homepage": "https://github.com/kaneko-ai/ai-tool-navigator#readme",
+  "devDependencies": {
+    "@11ty/eleventy": "^3.1.5"
+  }
+}
