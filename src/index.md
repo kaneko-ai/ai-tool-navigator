@@ -10,3 +10,9 @@ AIツールのレビュー・比較・使い方ガイド
 ## 最新記事
 
 このサイトはAI支援で自動運営されています。
+
+<ul>
+  {% for article in collections.articles %}
+    <li><a href="{{ article.url }}">{{ article.data.title }}</a></li>
+  {% endfor %}
+</ul>
