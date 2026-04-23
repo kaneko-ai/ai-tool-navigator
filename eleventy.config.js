@@ -1,4 +1,8 @@
 module.exports = function(eleventyConfig) {
+  eleventyConfig.addCollection("articles", function(collectionApi) {
+    return collectionApi.getFilteredByGlob("src/*.md").sort((a,b) => b.date - a.date);
+  });
+
   return {
     dir: {
       input: "src",
@@ -8,7 +12,3 @@ module.exports = function(eleventyConfig) {
     pathPrefix: "/ai-tool-navigator/"
   };
 };
-
-eleventyConfig.addCollection("articles", function(collectionApi) {
-  return collectionApi.getGlobSrc("src/articles/*.md").sort((a,b) => b.date - a.date);
-});
