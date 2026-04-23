@@ -1,13 +1,18 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <title>{{ title }}</title>
-</head>
-<body>
-  <article>
+---
+layout: base.njk
+---
+
+<article>
+  <header>
+    <time datetime="{{ date }}">{{ date }}</time>
+    <div class="tags">
+      {% for tag in tags %}
+        <span class="tag">{{ tag }}</span>
+      {% endfor %}
+    </div>
     <h1>{{ title }}</h1>
-    <div>{{ content | safe }}</div>
-  </article>
-</body>
-</html>
+  </header>
+  <div class="content">
+    {{ content | safe }}
+  </div>
+</article>
