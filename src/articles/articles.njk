@@ -1,0 +1,19 @@
+---
+layout: base.njk
+title: 記事一覧
+permalink: /articles/
+---
+<h1>記事一覧</h1>
+{% set articles = collections.articles %}
+{% if articles.length > 0 %}
+  {% for post in articles | reverse %}
+    <div style="margin-bottom: 20px;">
+      <a href="{{ post.url | url }}" style="font-size: 18px; font-weight: bold;">{{ post.data.title }}</a>
+      {% if post.date %}
+        <div style="color: #8b949e; font-size: 14px;">{{ post.date | dateToRfc3339 | truncate(10, true, "") }}</div>
+      {% endif %}
+    </div>
+  {% endfor %}
+{% else %}
+  <p>記事を準備中です。</p>
+{% endif %}

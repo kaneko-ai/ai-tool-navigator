@@ -1,0 +1,17 @@
+---
+layout: base.njk
+title: AI Tool Navigator
+---
+<h1>AI Tool Navigator</h1>
+<p>AIツールのレビュー・比較・使い方ガイド</p>
+<h2>最新記事</h2>
+{% set articles = collections.articles %}
+{% if articles.length > 0 %}
+<ul>
+{% for post in articles | reverse %}
+<li><a href="{{ post.url | url }}">{{ post.data.title }}</a></li>
+{% endfor %}
+</ul>
+{% else %}
+<p>記事を準備中です。</p>
+{% endif %}
