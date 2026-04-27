@@ -172,3 +172,6 @@ venv/
 
 # Any file with .env extension (defense in depth)
 *.env
+*.before-quality-fix
+*.old-hermes-era
+*.recovery-backup
