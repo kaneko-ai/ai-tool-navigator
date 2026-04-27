@@ -210,7 +210,7 @@ def call_freellmapi(prompt, env, max_tokens=6000):
     }
 
     last_error = None
-    for model_name in ["auto", "gemini-2.5-flash"]:
+    for model_name in ["llama-3.3-70b-versatile", "qwen3-235b", "gemini-2.5-flash", "auto"]:
         try:
             body = dict(base_body)
             body["model"] = model_name
