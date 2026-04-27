@@ -138,3 +138,37 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 _site/
+
+# === Project-specific additions (Day1) ===
+# Key files (any format)
+*.key
+*.pem
+
+# Secrets directory
+secrets/
+
+# Hermes Agent leftovers (deprecated, never commit)
+.hermes/
+~/.hermes/
+
+# Backup files
+*.bak
+*.bak2
+*.backup
+
+# Local snapshots and config (Day1 evacuation target)
+ai-blog-config/
+
+# macOS metadata
+.DS_Store
+**/.DS_Store
+
+# Python (for daily_article_generator.py local runs)
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# Any file with .env extension (defense in depth)
+*.env
