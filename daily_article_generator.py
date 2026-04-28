@@ -26,7 +26,7 @@ from datetime import timezone
 # ============================================================
 # 設定
 # ============================================================
-REPO_DIR = "/Users/common/ai-tool-navigator"
+REPO_DIR = os.path.dirname(os.path.abspath(__file__))
 ARTICLES_DIR = os.path.join(REPO_DIR, "src/articles")
 ENV_FILE = os.path.expanduser("~/ai-blog-config/.env")
 
