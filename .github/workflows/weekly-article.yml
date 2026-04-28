@@ -36,4 +36,4 @@ jobs:
           NVIDIA_BASE_URL: https://integrate.api.nvidia.com/v1
           # FreeLLMAPI関連は未設定 → 1段目は意図的に失敗 → 2段目Geminiから開始
         run: |
-          python3 daily_article_generator.py
+          python3 -u daily_article_generator.py 2>&1
