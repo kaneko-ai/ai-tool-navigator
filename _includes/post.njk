@@ -12,7 +12,16 @@ layout: base.njk
     </div>
     <h1>{{ title }}</h1>
   </header>
+
+  <div class="pr-notice">
+    ※本記事は広告（アフィリエイトリンク）を含みます。リンク経由でのご購入により当サイトに収益が発生する場合があります。
+  </div>
+
   <div class="content">
     {{ content | safe }}
+  </div>
+
+  <div class="ai-disclosure">
+    本記事はAIで下書きを作成し、人間が内容を監修・編集しています。情報の正確性には配慮していますが、最新仕様や料金は各サービス公式サイトでご確認ください。
   </div>
 </article>
