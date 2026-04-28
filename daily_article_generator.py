@@ -408,6 +408,7 @@ def git_commit_and_push(repo_dir, commit_message):
 # ============================================================
 def main():
     print("[INFO] === daily_article_generator.py start ===")
+    print("[INFO] Started at (JST): " + get_jst_now().isoformat())
     env = load_env()
     if not env:
         print("[ERROR] env file empty or not found: " + ENV_FILE)
