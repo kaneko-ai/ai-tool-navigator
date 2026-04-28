@@ -132,6 +132,7 @@ SYSTEM_PROMPT = (
 # ============================================================
 def load_env():
     env = {}
+    # 1. .env file (local Mac execution)
     if os.path.exists(ENV_FILE):
         with open(ENV_FILE, "r", encoding="utf-8") as f:
             for line in f:
@@ -139,6 +140,13 @@ def load_env():
                 if line and not line.startswith("#") and "=" in line:
                     key, val = line.split("=", 1)
                     env[key.strip()] = val.strip().strip('"').strip("'")
+    # 2. OS environment variables (CI/Actions execution, also used as fallback/override-source)
+    for key in ("GOOGLE_API_KEY", "NVIDIA_API_KEY", "NVIDIA_BASE_URL",
+                "FREELLMAPI_KEY", "OPENAI_API_KEY", "OPENAI_API_BASE",
+                "GITHUB_TOKEN", "TAVILY_API_KEY"):
+        os_val = os.environ.get(key, "")
+        if os_val and not env.get(key):
+            env[key] = os_val
     return env
 
 
