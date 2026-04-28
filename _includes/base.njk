@@ -84,7 +84,11 @@
     {{ content | safe }}
 
     <footer>
-      Powered by Navigator X
+      <p>
+        <a href="{{ '/about/' | url }}">運営者情報</a> ・
+        <a href="{{ '/privacy/' | url }}">プライバシーポリシー</a>
+      </p>
+      <p>Powered by Navigator X</p>
     </footer>
   </div>
 </body>
