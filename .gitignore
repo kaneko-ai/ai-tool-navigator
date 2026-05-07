@@ -175,3 +175,4 @@ venv/
 *.before-quality-fix
 *.old-hermes-era
 *.recovery-backup
+daily_article_generator.py.bak.*

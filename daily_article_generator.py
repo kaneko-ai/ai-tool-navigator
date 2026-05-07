@@ -43,68 +43,190 @@ AIツールの知識を活かしてブログで発信してみませんか？当
 """
 
 TOPICS = [
+    # ===== 軸1: AI学習・スクール系（10トピック） =====
     {
-        "title": "無料で使えるAI API比較 2026年最新版",
-        "keywords": "AI API 無料 比較 2026 OpenRouter NVIDIA NIM Google AI",
-        "search_query": "free AI API 2026 OpenRouter NVIDIA NIM Google AI Studio",
-        "guidance": "OpenRouter、NVIDIA NIM、Google AI Studio、Hugging Faceなど主要な無料AI APIを比較。無料枠の制限、対応モデル、手順を具体的に書き、比較表を含める。"
+        "title": "【2026年最新】AIスクール補助金完全ガイド｜最大70%OFFで受講できる8校",
+        "keywords": "AIスクール 補助金 リスキリング 給付金 2026",
+        "search_query": "AIスクール 補助金 教育訓練給付金 2026",
+        "guidance": "経産省リスキリング補助金（最大70%・56万円）、教育訓練給付金（最大80%OFF）の適用条件を整理。主要AIスクール8校の補助金適用可否を比較表化。受給フロー（申請→受講→還付）も解説。CTA候補: メイカラ、AIビジネス活用講座、Neuro Dive。"
     },
     {
-        "title": "FreeLLMAPI 統合ハブの構築実録｜14プロバイダ40モデルを1キーで使う方法",
-        "keywords": "FreeLLMAPI 統合 LLM プロバイダ ルーティング 2026",
-        "search_query": "free LLM API gateway router multiple providers 2026",
-        "guidance": "FreeLLMAPIで複数のLLMプロバイダ（OpenRouter, NVIDIA NIM, Google等）を1つのエンドポイントに統合する方法。導入手順、認証、フォールバック設計、実際の運用ログを含める。"
+        "title": "生成AIスクールおすすめ7校徹底比較2026｜DMM・SAMURAI・デジハクと中堅校の違い",
+        "keywords": "生成AIスクール おすすめ 比較 2026 社会人",
+        "search_query": "生成AIスクール おすすめ 比較 社会人",
+        "guidance": "DMM生成AI CAMP（月14,800円リニューアル）、デジハク、SAMURAI ENGINEER等の大手と、メイカラ・AIビジネス活用講座等の中堅校を料金/期間/サポート/補助金対応の4軸で比較。「大手 vs 中堅」の選び方フレームを提示。比較表必須。CTA候補: メイカラ、AIビジネス活用講座。"
     },
     {
-        "title": "AI副業で月5万円を稼ぐロードマップ",
-        "keywords": "AI 副業 月5万 稼ぐ 初心者 2026",
-        "search_query": "AI side hustle earn money beginner 2026 roadmap",
-        "guidance": "3ヶ月で月5万円を達成するためのステップ。案件例、必要なツール、手順を解説。"
+        "title": "未経験からAIエンジニア転職｜2026年版ロードマップと現実的な学習期間",
+        "keywords": "AIエンジニア 未経験 転職 ロードマップ 2026",
+        "search_query": "AIエンジニア 未経験 転職 ロードマップ",
+        "guidance": "Python基礎→機械学習→深層学習→ポートフォリオの4段階。各段階の学習時間目安（合計600〜1000時間）。求人ボックス調べAIエンジニア平均年収595万円、シニア600〜900万円のデータ引用。Neuro Dive、Python Winnerをスクール選択肢として紹介。CTA候補: Neuro Dive、Python Winner。"
     },
     {
-        "title": "マルチモーダルAI徹底比較｜GPT-5 vs Gemini vs Claude",
-        "keywords": "マルチモーダルAI 比較 GPT-5 Gemini Claude 2026",
-        "search_query": "multimodal AI comparison GPT-5 Gemini Claude 2026",
-        "guidance": "2026年時点の主要AIの機能を比較。テキスト・画像・音声への対応状況を比較表付きで解説。"
+        "title": "Pythonスクールおすすめ5校2026｜独学挫折者が選ぶべき条件",
+        "keywords": "Python スクール おすすめ 未経験 挫折",
+        "search_query": "Python スクール 比較 未経験 挫折",
+        "guidance": "独学挫折の典型3パターン（環境構築、エラー対応、モチベ維持）を提示し、それを解決するスクール選びの基準を解説。RUNTEQ、Dpro等と比較しつつPython Winnerを推薦。CTA候補: Python Winner。"
     },
     {
-        "title": "AIエージェント フレームワーク比較｜LangChain vs AutoGen vs CrewAI",
-        "keywords": "AIエージェント 比較 LangChain AutoGen CrewAI 2026",
-        "search_query": "AI agent framework comparison LangChain AutoGen CrewAI 2026",
-        "guidance": "主要なAIエージェントフレームワークを比較。機能、難易度、ユースケース、コミュニティ規模を解説。"
+        "title": "G検定・E資格の難易度と勉強時間2026｜独学 vs スクールどちらが効率的？",
+        "keywords": "G検定 E資格 難易度 勉強時間 2026",
+        "search_query": "G検定 E資格 違い 難易度 勉強時間",
+        "guidance": "G検定（15〜70時間、独学可能）、E資格（100〜200時間+JDLA認定講座必須）の違いを表で解説。E資格はJDLA認定講座必須のため、対応スクール（Neuro Dive、AIビジネス活用講座のJDLA対応コース等）への誘導が自然。CTA候補: Neuro Dive、AIビジネス活用講座。"
     },
     {
-        "title": "プロンプトエンジニアリング実践テクニック10選",
-        "keywords": "プロンプトエンジニアリング テクニック ChatGPT Claude 2026",
-        "search_query": "prompt engineering techniques best practices 2026",
-        "guidance": "実務で使えるテクニックを紹介。具体的なプロンプト例（before/after）を含める。"
+        "title": "2026年AI副業のリアル｜ノーコードAIで月5万円は可能か？案件単価の実勢データ",
+        "keywords": "AI 副業 月5万 ノーコード 案件単価 2026",
+        "search_query": "AI 副業 始め方 単価 ノーコード",
+        "guidance": "コエテコ調査『生成AI案件は他案件比1.8倍』、侍エンジニア『ノーコード案件平均5〜30万円』の実勢データを引用。月5万円達成の現実的なルートを提示し、『誰でも稼げる』表現は避ける。スキル習得段階でメイカラ・Python Winnerに誘導。CTA候補: メイカラ、Python Winner。"
     },
     {
-        "title": "AI画像生成で稼ぐ方法｜ストックフォト販売完全ガイド",
-        "keywords": "AI画像生成 稼ぐ Adobe Stock Midjourney 2026",
-        "search_query": "AI image generation stock photo selling 2026",
-        "guidance": "ストックフォトサイトで販売して収益を得る方法。ツール選び、審査のコツを解説。"
+        "title": "ChatGPT業務活用の学習ロードマップ｜プロンプトエンジニアリングから業務自動化まで",
+        "keywords": "ChatGPT 業務活用 プロンプトエンジニアリング 学習",
+        "search_query": "ChatGPT 仕事 使い方 学習 プロンプト",
+        "guidance": "3段階構成（プロンプト基礎→業務適用→自動化）。法人導入の失敗5パターン（目的不在、現場不在、全社一斉、効果測定ゼロ、セキュリティ後回し）を反面教師として活用。AIビジネス活用講座を実務寄り学習として紹介。CTA候補: AIビジネス活用講座。"
     },
     {
-        "title": "AI音声合成アプリ比較｜ビジネス活用ガイド",
-        "keywords": "AI音声合成 TTS アプリ 比較 2026",
-        "search_query": "AI text to speech app comparison business use 2026",
-        "guidance": "日本語対応TTSアプリを比較。ナレーションや動画制作での活用事例を解説。"
+        "title": "データサイエンティスト需要は本当に高い？2026年の年収・キャリアパスを実データで検証",
+        "keywords": "データサイエンティスト 需要 2026 年収 キャリア",
+        "search_query": "データサイエンティスト 将来性 年収",
+        "guidance": "Renue『年収400〜1,800万円』、Levtech『人材不足が継続』等のデータを整理。生成AI時代に役割がどう変化するか（単なる分析→『問いを立てる人材』へ）を解説。Neuro Dive、メイカラを学習選択肢として紹介。CTA候補: Neuro Dive、メイカラ。"
     },
     {
-        "title": "LLMファインチューニング入門｜自分専用AIの作り方",
-        "keywords": "LLM ファインチューニング 入門 LoRA 2026",
-        "search_query": "LLM fine-tuning tutorial LoRA beginner guide 2026",
-        "guidance": "LoRAの仕組みと実行手順を初心者向けに解説。必要な準備とコストを提示。"
+        "title": "文系出身でもAIエンジニアになれる？数学が苦手な人の学習順序",
+        "keywords": "文系 AIエンジニア 数学 苦手 学習",
+        "search_query": "文系 AIエンジニア 数学",
+        "guidance": "線形代数→微積分→確率統計の必要レベルを『文系でも追いつける』基準で解説。実例（文系出身AIエンジニア体験談の引用）。スクールでの学習が独学より効率的な理由を提示。CTA候補: AI CONNECT、メイカラ。"
     },
     {
-        "title": "AIデータ分析ツール比較｜ノーコードで始めるデータサイエンス",
-        "keywords": "AI データ分析 ツール ノーコード 2026",
-        "search_query": "AI data analysis tools no-code comparison 2026",
-        "guidance": "プログラミング不要な分析ツールを比較。具体的なユースケースを解説。"
+        "title": "【2026年】AI資格おすすめ5選｜G検定・E資格・統計検定・Python資格・生成AI検定の使い分け",
+        "keywords": "AI 資格 おすすめ G検定 E資格 統計検定",
+        "search_query": "AI 資格 おすすめ 比較",
+        "guidance": "5資格を難易度・勉強時間・取得後のキャリアメリットで比較。『資格単体では転職に不十分→スクール+資格の組み合わせ』を結論に置き、Neuro Dive、メイカラに誘導。CTA候補: Neuro Dive、メイカラ。"
+    },
+    # ===== 軸2: フリーランス・転職系（10トピック） =====
+    {
+        "title": "【2026年最新】フリーランスエンジニア平均月単価79.9万円｜実勢データから見る独立可能ライン",
+        "keywords": "フリーランスエンジニア 単価 相場 2026 月額",
+        "search_query": "フリーランスエンジニア 単価 相場 2026",
+        "guidance": "en-japan・PR TIMES の2026年2月調査（平均79.9万円、最高320万円、職種別ランキング）を引用。職種別単価の表必須。フリーランスボード等の案件検索サービスを『市場価値を知る第一歩』として紹介。CTA候補: フリーランスボード、IT求人ナビフリーランス。"
+    },
+    {
+        "title": "AIエンジニア年収2026｜求人ボックス調査で595万円、シニアは900万円超の実態",
+        "keywords": "AIエンジニア 年収 2026 平均 求人",
+        "search_query": "AIエンジニア 年収 平均",
+        "guidance": "求人ボックス（595万円）、Studio Tale（600〜900万円、最上位2000万円超）の数値を整理。年収レンジ別に必要スキル（ジュニア=Python基礎、シニア=MLOps/LLM運用）を提示。スカウト型サービスへ自然誘導。CTA候補: TechClips ME、ミライフ。"
+    },
+    {
+        "title": "IT転職エージェントおすすめ7社徹底比較2026｜SaaS・AI特化型の選び方",
+        "keywords": "IT転職エージェント おすすめ 比較 2026 SaaS",
+        "search_query": "IT転職エージェント おすすめ 比較",
+        "guidance": "レバテックキャリア、マイナビIT AGENT、Geekly等の大手と、SaaS/AI特化のミライフ、TechClips MEを比較。『総合型 vs 特化型』の選び方フレーム。SaaS業界年収（IS 400〜700万円等）も提示。CTA候補: ミライフ、TechClips ME。"
+    },
+    {
+        "title": "未経験からフリーランスエンジニアへの最短ルート｜独立前にやるべき3つの準備",
+        "keywords": "フリーランスエンジニア 未経験 独立 準備",
+        "search_query": "フリーランス 未経験 独立",
+        "guidance": "『実務経験浅めでも平均単価63万円』（レバテックフリーランス）のデータを根拠に、現実的な独立ハードルを提示。準備3ステップ（実務2年→案件サイト登録→初案件獲得）。フリーランスボードを案件検索の入口として紹介。CTA候補: フリーランスボード、IT求人ナビフリーランス。"
+    },
+    {
+        "title": "【失敗回避】フリーランスエンジニア独立で多い5つの落とし穴｜先輩の失敗例から学ぶ",
+        "keywords": "フリーランスエンジニア 独立 失敗 原因",
+        "search_query": "フリーランス 独立 失敗",
+        "guidance": "tech-stock、Levtech、note等の複数ソースで一致する失敗5パターン（スキル偏り、営業力不足、資金管理、タスク管理、単価設定ミス）を実例ベースで解説。各失敗の『先回り対策』として案件検索サービス・エージェント活用を紹介。CTA候補: フリーランスボード、TechClips ME。"
+    },
+    {
+        "title": "SaaS×AI業界転職ガイド2026｜年収400〜1,500万円の市場で勝つ方法",
+        "keywords": "SaaS 転職 AI 2026 年収",
+        "search_query": "SaaS AI 転職 年収",
+        "guidance": "Geekly『SaaS 2026年3大トレンド: AIエージェント・バーティカル・コンパウンド』を起点に、年収レンジを職種別に整理。SaaS/AI特化のミライフ（EPC 853.75）を強く推薦。CTA候補: ミライフ。"
+    },
+    {
+        "title": "副業エンジニアの始め方2026｜週2日で月5万円から始める現実的ステップ",
+        "keywords": "副業エンジニア 始め方 月5万 週2",
+        "search_query": "副業エンジニア 始め方",
+        "guidance": "x-hours『週2日副業の7ステップ』、侍エンジニア『月1万円ロードマップ』のフレームを参考に、現実的な収入レンジ（最初は月1〜5万円、慣れて月10〜20万円）を提示。誇大表現は避ける。エージェント・案件サイト登録を最初の一歩として紹介。CTA候補: フリーランスボード、Agent Kikkake。"
+    },
+    {
+        "title": "スカウト型転職サービス比較｜年収アップ実績平均160万円の活用法",
+        "keywords": "スカウト型 転職サービス ITエンジニア おすすめ",
+        "search_query": "スカウト型 転職 エンジニア",
+        "guidance": "Findy、レバテックダイレクト、Direct type、Green等を比較。『スカウト型+エージェント併用で平均160万円アップ』（onamae調査）データを活用。TechClips ME（年収提示型スカウト）を独自ポジションとして強く紹介。CTA候補: TechClips ME。"
+    },
+    {
+        "title": "30代未経験からのITエンジニア転職｜年齢別現実的なキャリア戦略",
+        "keywords": "30代 未経験 ITエンジニア 転職",
+        "search_query": "30代 未経験 エンジニア 転職",
+        "guidance": "30代未経験の現実的なハードル（実務経験ない時の年収レンジ300〜400万円台）を率直に提示。スクール+エージェント併用が成功パターン。Agent Kikkake、ミライフを年齢層別に紹介。CTA候補: Agent Kikkake、ミライフ。"
+    },
+    {
+        "title": "フリーランス案件検索サイト比較2026｜単価・案件数・サポートで選ぶ7社",
+        "keywords": "フリーランス 案件検索サイト 比較 2026",
+        "search_query": "フリーランス 案件サイト 比較",
+        "guidance": "レバテックフリーランス、Pe-bank、フリーランスボード、IT求人ナビ等を平均単価・案件数・福利厚生で比較。『平均月単価79.9万円市場で自分に合う案件サイトを選ぶ基準』を提示。CTA候補: フリーランスボード、IT求人ナビフリーランス。"
+    },
+    # ===== 軸3: AI英語学習系（10トピック） =====
+    {
+        "title": "AI英会話アプリおすすめ7選2026｜スピーク・スピークバディ・fondiを徹底比較",
+        "keywords": "AI英会話 アプリ おすすめ 比較 2026",
+        "search_query": "AI英会話 アプリ おすすめ 比較",
+        "guidance": "スピーク（EPC 358.02）、スピークバディ、fondi、パタプライングリッシュ等を料金/AI性能/学習機能/口コミで比較。スピークの確定率100%・口コミ高評価を強調しつつ訴求。CTA候補: スピーク。"
+    },
+    {
+        "title": "AI英会話とオンライン英会話どっちが効果的？併用するベストな組み合わせ方",
+        "keywords": "AI英会話 オンライン英会話 比較 効果",
+        "search_query": "AI英会話 オンライン 違い",
+        "guidance": "『AIで毎日アウトプット練習→週1回オンラインで実践』の併用パターンを推奨。スピーク（AI側）+ベストティーチャー（オンライン×Writing側）の組み合わせを具体例として提示。CTA候補: スピーク、ベストティーチャー。"
+    },
+    {
+        "title": "【2026年最新】英語コーチングおすすめ7社｜短期で結果を出すサービス比較",
+        "keywords": "英語コーチング おすすめ 比較 2026 ビジネス",
+        "search_query": "英語コーチング おすすめ 比較",
+        "guidance": "PROGRIT、Bizmates Coaching、レアジョブコーチング等の大手と、TEPPEN ENGLISHを比較。料金（月30,000〜80,000円相場）・期間・サポート体制で表化。完全没入型のTEPPEN ENGLISHを独自ポジで強く推薦。CTA候補: TEPPEN ENGLISH。"
+    },
+    {
+        "title": "ChatGPTで英語学習｜シャドーイング教材を自作する5つのプロンプト",
+        "keywords": "ChatGPT 英語学習 シャドーイング プロンプト",
+        "search_query": "ChatGPT 英語 シャドーイング",
+        "guidance": "シャドーイング教材作成の5プロンプト例（モノローグ生成、レベル別調整、ビジネス英語特化等）を提示。『独学派には強力だが、添削や発音指導が必要な人にはコーチング型が有効』として自然にTEPPEN ENGLISH・ベストティーチャーへ誘導。CTA候補: TEPPEN ENGLISH、ベストティーチャー。"
+    },
+    {
+        "title": "TOEIC600点→800点を目指す社会人の最短ルート｜AI活用で効率化する勉強法",
+        "keywords": "TOEIC 600点 800点 勉強法 社会人",
+        "search_query": "TOEIC スコアアップ 勉強法",
+        "guidance": "コエテコ『シャドーイング有効』を起点に、目標スコア別学習時間（600→730→800で各150〜250時間）を提示。AIアプリでスピーキング、オンライン英会話で実践、コーチングで全体管理という3段構成。CTA候補: スピーク、TEPPEN ENGLISH。"
+    },
+    {
+        "title": "英会話が続かない7つの理由と対策｜AIアプリで習慣化する方法",
+        "keywords": "英会話 続かない 原因 対策 習慣化",
+        "search_query": "英会話 続かない 対策",
+        "guidance": "複数ソースで一致する継続失敗7パターン（モチベ依存、目的曖昧、目標過大、時間管理、効果実感不足、講師相性、孤独）を解説。AI英会話の『24時間×低コスト×進捗可視化』が継続に有利な点を提示。CTA候補: スピーク、スマイルゼミENGLISH。"
+    },
+    {
+        "title": "子ども向けオンライン英会話おすすめ5選2026｜AI教材×ネイティブ講師で選ぶ",
+        "keywords": "子ども オンライン英会話 おすすめ 2026 AI",
+        "search_query": "子ども 英語 オンライン",
+        "guidance": "kimini、ネイティブキャンプ、hanaso kids等の大手と、Global Step Academy（4歳〜中学生対応）、スマイルゼミENGLISH（AIタブレット型）を比較。年齢別の選び方フレームを提示。CTA候補: Global Step Academy、スマイルゼミENGLISH。"
+    },
+    {
+        "title": "ビジネス英語コーチングの選び方｜PROGRIT・TEPPEN ENGLISH・Bizmatesを徹底比較",
+        "keywords": "ビジネス英語 コーチング 比較 PROGRIT TEPPEN",
+        "search_query": "ビジネス英語 コーチング",
+        "guidance": "料金・期間・自習時間管理・コーチ体制で4社を比較。『短期集中で結果を出したい層』にTEPPEN ENGLISH（完全没入型）を推薦。法人受講事例も紹介。CTA候補: TEPPEN ENGLISH。"
+    },
+    {
+        "title": "英語Writing力を伸ばす3つの方法｜添削サービス vs ChatGPT校正の使い分け",
+        "keywords": "英語 ライティング 上達 添削 ChatGPT",
+        "search_query": "英語 ライティング 上達",
+        "guidance": "ChatGPT校正の限界（細かなニュアンス、ビジネスフォーマルな表現）を指摘し、人間講師によるWriting添削（ベストティーチャー独自ポジ）の価値を提示。『ChatGPT下書き→ベストティーチャー添削』の併用フローを推薦。CTA候補: ベストティーチャー。"
+    },
+    {
+        "title": "AIタブレット教材で子どもの英語力は伸びる？スマイルゼミENGLISH実態レビュー",
+        "keywords": "AIタブレット 英語 子ども スマイルゼミ",
+        "search_query": "スマイルゼミ 英語 効果",
+        "guidance": "AIタブレット型学習のメリット（個別最適化、進捗可視化、保護者の負担軽減）と限界（実践会話量、講師との対話）を整理。スマイルゼミENGLISH（EPC 311.11、確定率75%）を中心に、Global Step Academyとの併用案も提示。CTA候補: スマイルゼミENGLISH、Global Step Academy。"
     }
 ]
-
 SYSTEM_PROMPT = (
     "あなたはAI技術と副業に詳しい技術ブロガーです。日本語で読者に具体的で実用的な情報を提供します。\n"
     "現在は2026年4月です。記事は2026年4月時点の最新情報として執筆してください。\n"
