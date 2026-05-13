@@ -2,10 +2,10 @@
 layout: post.njk
 title: "マルチモーダルAI徹底比較｜GPT-5 vs Gemini vs Claude"
 date: 2026-05-03
-tags: [AI, マルチモーダルAI]
 description: "2026年4月、進化するマルチモーダルAIが副業を変革。GPT-5など最新AIの定義、機能、具体的な活用法を解説。コンテンツ制作、リサーチ、顧客対応など、AIで生産性を劇的に向上させる方法を紹介します。"
 ai_generated: true
 generated_via: "gemini_direct"
+tags: ["comparison", "llm"]
 ---
 
 ## マルチモーダルAIとは？2026年時点の定義と進化

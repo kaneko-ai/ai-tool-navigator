@@ -2,9 +2,9 @@
 layout: post.njk
 title: "AIエージェント フレームワーク比較 Hermes vs LangChain"
 date: 2026-04-24
-tags: [AI, AIエージェント フレームワーク 比較]
 description: "AIエージェント フレームワーク比較 Hermes vs LangChainについて詳しく解説します。"
 ai_generated: true
+tags: ["comparison", "agent"]
 ---
 
 ## AIエージェント フレームワーク 比較の観点と前提条件

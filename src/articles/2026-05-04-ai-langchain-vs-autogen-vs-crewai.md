@@ -2,10 +2,10 @@
 layout: post.njk
 title: "AIエージェント フレームワーク比較｜LangChain vs AutoGen vs CrewAI"
 date: 2026-05-04
-tags: [AI, AIエージェント]
 description: "2026年、AIエージェントフレームワークはマルチエージェントシステムへと進化。本記事では、LangChain、AutoGen、CrewAIの3つに焦点を当て、それぞれの特徴、学習難易度、副業での具体的な活用方法を深掘り解説。"
 ai_generated: true
 generated_via: "gemini_direct"
+tags: ["comparison", "agent"]
 ---
 
 ## AIエージェントフレームワークとは？2026年における進化と重要性

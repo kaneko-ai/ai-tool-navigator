@@ -2,7 +2,6 @@
 layout: post.njk
 title: "2026年版 無料で使えるAI APIまとめ（NVIDIA NIM, Google AI, etc）"
 date: 2026-04-23
-tags: [AI, ツールレビュー]
 ai_generated: true
 noindex: true
 ---正直に言う。お前らがまだ2026年版 無料で使えるAI APIまとめ（NVIDIA NIM, Google AI, etc）について知らないか、あるいは手動でやってるって、マジで時代遅れだぜ。無料でここまでできるのに、なぜ手を出さない？　それがわからないなら、この記事を読んだ意味がない。今すぐやれ。
@@ -26,6 +25,8 @@ noindex: true
 
 > 本記事には特定の商品・サービスへのリンクが含まれていないため、アフィリエイトはありません。将来的にリンクを追加する場合は、景品表示法に準じた広告表記を必ず入れてください。
 
+tags: ["comparison", "llm"]
+eleventyExcludeFromCollections: true
 ---
 
 ## AIブログを始めるなら

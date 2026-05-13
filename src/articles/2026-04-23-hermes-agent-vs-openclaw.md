@@ -2,9 +2,10 @@
 layout: post.njk
 title: "Hermes Agent vs OpenClaw 比較レビュー"
 date: 2026-04-23
-tags: [AI, ツールレビュー]
 ai_generated: true
 noindex: true
+tags: ["comparison", "agent"]
+eleventyExcludeFromCollections: true
 ---
 正直に言う。お前らがまだHermes Agent vs OpenClaw 比較レビューについて知らないか、あるいは手動でやってるって、マジで時代遅れだぜ。無料でここまでできるのに、なぜ手を出さない？　それがわからないなら、この記事を読んだ意味がない。今すぐやれ。
 

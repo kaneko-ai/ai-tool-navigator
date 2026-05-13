@@ -2,9 +2,9 @@
 title: "ミライフで進めるAI・データ転職"
 description: "AI・データ職への転職でミライフを検討する人向けに、相談前の準備、他社サービスとの比較軸、面談での確認ポイントを整理しました。"
 date: 2026-05-13
-tags: ["ai-tools","career-change","ai-data-career"]
 ai_assisted: true
 editor_reviewed: true
+tags: ["career"]
 ---
 
 ミライフを検討するときは、知名度よりも「どの工程をどこまで支援してくれるか」を具体的に比べると判断しやすいです。  
