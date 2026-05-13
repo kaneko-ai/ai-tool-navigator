@@ -40,17 +40,36 @@ jobs:
           mkdir -p drafts/$DRAFT_DATE
           echo "Draft date: $DRAFT_DATE"
 
+      - name: Build recent topics context
+        run: |
+          chmod +x scripts/build_topic_context.sh
+          ./scripts/build_topic_context.sh /tmp/recent_topics.txt 30
+          echo "::group::Recent topics context"
+          cat /tmp/recent_topics.txt
+          echo "::endgroup::"
+          
       - name: Stage 1 - Topic expansion
         id: stage1
         env:
           GH_TOKEN: ${{ secrets.COPILOT_PAT }}
         run: |
           DRAFT_DATE="${{ steps.topic.outputs.draft_date }}"
-          copilot -p "$(cat prompts/01_topic_select.md)" \
+
+          # プロンプト本体 + 直近トピックリストを結合（重複防止コンテキスト注入）
+          {
+            cat prompts/01_topic_select.md
+            echo ""
+            echo "==="
+            echo ""
+            cat /tmp/recent_topics.txt
+          } > /tmp/stage1_prompt.txt
+
+          copilot -p "$(cat /tmp/stage1_prompt.txt)" \
             --model auto \
             --allow-all-tools \
             --output-format json \
             > /tmp/stage1.jsonl 2> /tmp/stage1.stderr || true
+
 
           # 本文抽出
           jq -r 'select(.type=="assistant.message") | .data.content' /tmp/stage1.jsonl \
