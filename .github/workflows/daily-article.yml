@@ -28,6 +28,29 @@ jobs:
       - name: Install GitHub Copilot CLI
         run: npm install -g @github/copilot
 
+      - name: Debug Copilot CLI output format
+        env:
+          GH_TOKEN: ${{ secrets.COPILOT_PAT }}
+        run: |
+          echo "=== copilot version ==="
+          copilot --version || true
+          echo ""
+          echo "=== copilot --help ==="
+          copilot --help || true
+          echo ""
+          echo "=== copilot suggest --help ==="
+          copilot suggest --help 2>&1 || true
+          echo ""
+          echo "=== Test run with --model auto, capture stderr ==="
+          copilot -p "Say hello in one word" --model auto 2> /tmp/test_stderr.log > /tmp/test_stdout.log
+          echo "--- stdout ---"
+          cat /tmp/test_stdout.log
+          echo "--- stderr ---"
+          cat /tmp/test_stderr.log
+          echo "--- env vars related to copilot ---"
+          env | grep -i copilot || true
+
+
       - name: Resolve today's topic
         id: topic
         run: |
