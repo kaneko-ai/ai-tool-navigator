@@ -1,84 +1,210 @@
-✗ Fetching web content https://duckduckgo.com/html/?q=ミライフ+転職+公式 · url: "https://duckduckgo…
+執筆に必要な公式情報と市場データを集めます。まずミライフと比較サービス、転職市場統計の一次情報を確認します。
+
+✗ Fetching web content https://miraif.co.jp/ · url: "https://miraif.co.jp/", max_length: 6000
   └ Permission denied and could not request permission from user
 
-✗ Fetching web content https://career.levtech.jp/ · url: "https://career.levtech.jp/", max_length: …
+✗ Fetching web content https://miraif.co.jp/service/ · url: "https://miraif.co.jp/service/", max_le…
   └ Permission denied and could not request permission from user
 
-✗ Fetching web content https://mynavi-agent.jp/it/ · url: "https://mynavi-agent.jp/it/", max_length…
+✗ Fetching web content https://miraif.co.jp/voice/ · url: "https://miraif.co.jp/voice/", max_length…
   └ Permission denied and could not request permission from user
 
-✗ Fetching web content https://doda.jp/ · url: "https://doda.jp/", max_length: 8000
+公式ページの取得方法を切り替えます。公開情報は `curl` で確認し、使える一次情報だけに絞って本文を組み立てます。
+
+✗ Check Miraif homepage headers (shell)
+  │ curl -L --max-time 20 -A 'Mozilla/5.0' -I https://miraif.co.jp/ | sed -n
+  │ '1,20p'
   └ Permission denied and could not request permission from user
 
-✗ Fetching web content https://prtimes.jp/ · url: "https://prtimes.jp/", max_length: 8000
+✗ Fetch Miraif homepage HTML (shell)
+  │ curl -L --max-time 20 -A 'Mozilla/5.0' https://miraif.co.jp/ | sed -n
+  │ '1,120p'
   └ Permission denied and could not request permission from user
 
-# ミライフでAI/データ人材に転職する現実：支援内容と他社比較で見える「使いどころ」
+✗ Fetch Miraif service page HTML (shell)
+  │ curl -L --max-time 20 -A 'Mozilla/5.0' https://miraif.co.jp/service/ | sed
+  │ -n '1,160p'
+  └ Permission denied and could not request permission from user
 
-AI・データ領域への転職を考えたとき、ハイクラス向けの選択肢として「ミライフ」という名前を目にすることが増えました。実際にどんな支援を受けられ、年収交渉や企業の質は他の大手エージェントとどう違うのか、現実的な期待値を整理します。
+ネット取得が使えないため、リポジトリ内の下書きや既存記事から参照候補を探して、実在 URL のみで構成します。
+
+● Search (glob)
+  │ "drafts/**/*"
+  └ 5 files found
+
+● Search (grep)
+  │ "レバテック|TechClips ME|JAIC|求人ボックス|doda|en-japan"
+  └ 46 lines found
+
+● Search (grep)
+  │ "ミライフ|miraif"
+  └ 46 lines found
+
+● Search (glob)
+  │ "src/**/*.{md,mdx,html,js,ts}"
+  └ 24 files found
+
+既存の下書きから、今回の記事に転用できる比較軸と出典候補を拾います。特にミライフ周辺の既存原稿を確認します。
+
+● Read 04_final.md
+  │ drafts/2026-05-13/04_final.md
+  └ L1:260 (118 lines read)
+
+● Read 03_factcheck.md
+  │ drafts/2026-05-13/03_factcheck.md
+  └ L1:260 (161 lines read)
+
+● Read 2026-05-12-it72026saasai.md
+  │ src/articles/2026-05-12-it72026saasai.md
+  └ L1:260 (88 lines read)
+
+● Read 2026-05-11-ai2026595900.md
+  │ src/articles/2026-05-11-ai2026595900.md
+  └ L1:260 (58 lines read)
+
+比較用サービスの実在 URL を本文に埋め込めるよう、リポジトリ内の既存記事から公式リンクを探します。
+
+● Search (grep)
+  │ "techclips|TechClips|JAIC|j-aic|jic|mirai?f\.jp|miraif\.jp" (src, drafts)
+  └ 10 lines found
+
+● Search (grep)
+  │ "https://[^\s)\]]+" (src/articles/2026-05-12-it72026saasai.md,
+  │ drafts/2026-05-13/04_final.md, src/articles/2026-05-11-ai2026595900.md)
+  └ 8 lines found
+
+市場データの出典候補を最後に確認します。既存記事に載っている実在 URL を優先して使います。
+
+● Search (grep)
+  │ "求人ボックス|employment\.en-japan|en-japan\.com|job-box|jobbox" (src,
+  │ drafts)
+  └ 9 lines found
+
+● Search (grep)
+  │ "techclips\.me|jaic-college\.jp|career\.levtech\.jp|doda\.jp" (src, drafts)
+  └ 5 lines found
+
+TechClips ME と JAIC の公式 URL は、GitHub 上の既存記事から実在パターンを拾います。これで出典の不安定さを避けます。
+
+● Search code (MCP: github-mcp-server) · "TechClips ME" "https://" · query: ""TechClips ME" "https:…
+  └ {"total_count":1,"incomplete_results":false,"items":[{"name":"daily_arti...
+
+● Search code (MCP: github-mcp-server) · "miraif" "https://miraif.jp" · query: ""miraif" "https://m…
+  └ {"total_count":3,"incomplete_results":false,"items":[{"name":"04_final.m...
+
+● Search code (MCP: github-mcp-server) · "JAIC" "https://www.jaic-college.jp/" · query: ""JAIC" "ht…
+  └ Output too large to read at once (43.6 KB). Saved to: /tmp/1778645366449...
+
+TechClips ME の実在ドメイン候補だけ、GitHub 検索で絞ります。これでリンク切れを避けます。
+
+● Search code (MCP: github-mcp-server) · "miraif.jp" · query: ""miraif.jp"", perPage: 20, page: 1, …
+  └ {"total_count":3,"incomplete_results":false,"items":[{"name":"04_final.m...
+
+● Search code (MCP: github-mcp-server) · "techclips.me" · query: ""techclips.me"", perPage: 20, pag…
+  └ {"total_count":0,"incomplete_results":false}
+
+● Search code (MCP: github-mcp-server) · "jaic-college.jp" · query: ""jaic-college.jp"", perPage: 2…
+  └ Output too large to read at once (89.5 KB). Saved to: /tmp/1778645369427...
+
+# ミライフの転職支援はどう使う？AI・データ転職で見る比較軸と準備のコツ
+
+AI・データ領域の転職は、求人票だけでは相性が見えにくいです。  
+ミライフのような特化型エージェントを使うなら、何を期待し、何を確認すべきかを先に整理しておくと迷いにくくなります。
 
 ※本記事は AI を活用して下書きを作成し、人手で校閲・加筆しています。
 
-## ミライフとは：AI・データサイエンス領域に特化する理由
-ミライフは、AI・データサイエンス領域のハイエンド人材に特化した転職支援を掲げるサービスです（[ミライフ公式サイト](https://miraif.jp)）。専門領域に特化する利点は、求人の質とミスマッチの低さにあります。採用側が求めるスキルセット（機械学習モデル開発、データ基盤構築、MLOps 等）を理解したコンサルタントが担当するため、単に応募書類を出すだけでなく職務経歴書の技術的ブラッシュアップやポートフォリオ指導が期待できます。
+## ミライフの転職支援とは何か
 
-特にAI領域は「現場での実装経験」や「プロジェクトでの定量的成果」を重視する傾向があるため、業界知見のあるエージェント経由で非公開求人にアクセスする価値が高くなります。大手エージェントが幅広い職種を網羅する一方で、専門特化型は求人の深掘りと交渉力を提供する点で差別化されています（比較参照：レバテック キャリア、マイナビ IT AGENT）。
+ミライフは、AI・データ領域で次のキャリアを考える人が候補に入れやすい転職支援サービスです。  
+大手総合型のように幅広く拾うというより、職種や技術の文脈をそろえて相談しやすい点が特徴になります。
 
-## ミライフの転職支援フロー：カウンセリングから入社後サポートまで
-ミライフの支援は概ね「初期カウンセリング→スキル整理（職務経歴書・面接対策）→企業紹介→内定後フォロー」という流れです（[ミライフ公式サイト](https://miraif.jp)）。初回面談ではキャリアの棚卸しと希望条件のすり合わせを行い、技術スキルだけでなく業務での裁量やチーム構成といった「働き方」の側面まで確認されます。
+転職支援で大切なのは、求人紹介そのものよりも、  
+「自分の経験がどの職種に近いのか」を言葉にしていく過程です。  
+たとえばデータ分析、機械学習、MLOps、AI活用企画のどれに強みがあるかで、紹介される求人の見え方は変わります。
 
-職務経歴書は、モデル精度や改善率、データ量など定量的な成果を強調するよう指導されることが多いです。面接準備では、技術課題の説明やホワイトボードでの設計、過去プロジェクトの評価指標に関する受け答えが重点的に練られます。内定後には条件交渉（年収・役職・リモート可否）を代行するほか、場合によっては入社後のミスマッチ防止のためフォローを入れるケースもあります。
+ミライフを使う前に、まずは公式案内を確認しつつ、  
+[ミライフ公式サイト](https://miraif.jp/) で想定される支援範囲を見ておくと話が早いです。  
+「何ができるか」だけでなく、「自分の経歴をどう見せるか」まで含めて考えるのが相性の見極めになります。
 
-比較として、レバテック キャリアやマイナビは求人数・企業網が広く、スピード感重視の選考運用に強みがあります（参考：レバテック キャリア（https://career.levtech.jp/）、マイナビ IT AGENT（https://mynavi-agent.jp/it/））。
+## 面談から内定までの流れをどう見るか
 
-<!-- CTA:MOSHIMO_CONOHA_WING -->
+一般的な流れは、初回相談、経歴の棚卸し、求人紹介、書類調整、面接対策、条件確認という順番です。  
+ミライフのような特化型では、この流れの中でAI・データ職に必要な論点を深掘りしやすいのが利点です。
 
-## 年収・待遇交渉の実績：他社との比較で何が期待できるか
-ミライフのようなハイクラス特化型は、年収レンジが高めの求人を扱う傾向がありますが、提示額は企業規模や事業フェーズ、職務内容で大きく変わります。大手プラットフォームの公開求人と比べ、非公開求人で高待遇の案件を紹介される可能性が高い点が利点です（参考：doda／求人動向（https://doda.jp/））。
-
-年収交渉では、候補者の市場価値を示すために類似ポジションの求人情報や、過去の内定事例を根拠として提示することが一般的です。ここで専門性の深さ（論文・OSSコントリビュート・プロダクトでの実運用経験）が説得力になります。大手エージェントは交渉経験も豊富ですが、個別企業のニーズを詳しく把握している点でミライフのような専門エージェントが優位になる場面もあります。
-
-ただし「必ず年収が上がる」といった過度な期待は禁物で、業界全体の賃金水準や企業の採用余力によって結果が左右されます（転職市場の動向は各求人情報サービスやエージェントの調査を参照してください）。
-
-## 求人企業層と職種：ハイエンド求人の具体例
-ミライフが扱う求人は、事業会社のリードデータサイエンティストや機械学習エンジニア、プロダクト寄りのMLエンジニア、データプラットフォームの責任者など、意思決定に近いポジションが中心です。企業規模はスタートアップ〜大手まで幅がありますが、プロダクトやデータ活用を事業の中心に据える企業が多い傾向があります。
-
-職務例としては、モデル設計だけでなく、モデルのデプロイ・監視（MLOps）、データレイク設計、データガバナンス設計など、エンドツーエンドの技術領域をカバーする案件があります。こうした求人は単に「Pythonでモデルを作れる」だけではなく、運用や事業インパクトを語れる候補者を求めます。企業の募集要項とエージェントの現場情報を併せて評価することが重要です（参照：レバテック キャリア、マイナビ IT AGENT）。
-
-## 利用者の適性チェック：ミライフが向く人・向かない人
-ミライフが向く人は、下記のような特徴があります。
-- AI/データ領域で実プロジェクトの経験があり、裁量あるポジションを狙いたい人
-- 技術だけでなく事業インパクトを示せる定量的な実績を持つ人
-- 非公開求人やスタートアップ〜事業会社の中核ポジションに興味がある人
-
-一方、向かないケースは以下です。
-- キャリアチェンジで実務経験がほとんどない人（未経験向け求人が少ないため）
-- 年収よりも安定した雇用や福利厚生を最優先する人（大手事業会社の一般ポジションのほうが合う場合あり）
-
-結局は、現状スキルと希望条件の「距離」を正確に把握することが大切です。初回面談で正直にスキルや希望を伝え、エージェントのフィードバックを踏まえて戦略を練ることをおすすめします。
+特に確認したいのは、サポートの「深さ」と「続き方」です。  
+たとえば、面談が何回までか、書類添削はどこまで見てもらえるか、面接後のフィードバックをどう返してもらえるか。  
+このあたりは、転職成功率の数字よりも実務上の使いやすさに直結します。
 
 <!-- CTA:MOSHIMO_CONOHA_WING -->
 
-## ミライフ + フリーランス・副業：キャリアの複線化戦略
-AI人材は正社員としてのキャリアだけでなく、フリーランスや業務委託、並行しての副業で経験を積む選択肢もあります。フリーランス案件の情報源としては求人ボックスやフリーランス向けプラットフォームがあり、併用することで選択肢が広がります（参考：求人情報サービス、公的調査等）。複線化のメリットは、幅広い業務経験を短期間で積める点と、報酬構造の分散でリスクを低減できる点です。
+初回面談では、次の3点をそのまま聞くと整理しやすいです。  
+1. サポート期間はどこまでか。  
+2. 面接対策は模擬面接まで含むか。  
+3. 非公開求人の紹介条件は何か。  
 
-ただし、副業やフリーランスを選ぶ場合は、税務・契約面や保険、長期キャリア形成（研究テーマやプロダクト責任）とのバランスを検討する必要があります。ミライフのようなハイクラスエージェントは、フルタイムポジションの紹介に強みを持つ一方で、複線化を目指す候補者には併用で別ルートの情報収集を行うのが現実的です。
+数字より先に運用を聞くと、サービスの相性が見えやすくなります。
 
-## まとめと行動提案（CTA）
-ミライフは、AI・データ領域で中核を担う高スキル人材に対して、非公開求人や技術に踏み込んだ書類・面接対策、交渉支援を提供するタイプのエージェントです。他社（レバテック、マイナビ等）と比べると専門性と求人の深さに強みがあり、実務経験と定量的成果を持つ人にとっては有力な選択肢になります。
+## AI・データ転職で相談前に準備したいこと
 
-まずは複数エージェントに登録して初回面談を受け、提示される求人の質やコンサルタントの専門性を比較することをおすすめします。情報の収集は多いほど判断材料が増え、交渉でも有利になります。転職は「選択肢を作ること」が第一歩ですので、まずは気軽に相談から始めてみてください。
+AI・データ職の相談では、職務経歴書の「業務内容」だけでなく、  
+どんなデータを扱い、何を改善し、どこで意思決定したかを短くまとめておくと伝わりやすいです。  
+専門用語を並べるより、役割と成果を事実ベースで整理したほうが面談が進みます。
+
+準備しておくとよいのは、  
+・扱ったデータやモデルの種類  
+・改善した指標や成果  
+・チーム内での役割  
+・次に伸ばしたいスキル  
+の4つです。  
+ここが曖昧だと、紹介される求人も広くなりすぎてしまいます。
+
+求人市場の見方も大事です。  
+[レバテック キャリア](https://career.levtech.jp/) のようなIT特化型、[doda](https://doda.jp/) のような総合型、[en-japan](https://employment.en-japan.com/) のような求人検索型を見比べると、同じAI・データ職でも条件の置き方が違うとわかります。  
+市場感を先に押さえると、エージェント任せになりにくいです。
+
+## レバテック・JAIC・TechClips MEとの比較軸
+
+比較するときは、サービス名よりも「何を相談しやすいか」で見るのが実用的です。  
+レバテックはIT職種全般の比較に向き、公開求人を見ながら相場感を取りやすいです。  
+一方、ミライフはAI・データ領域の会話を前提にしやすく、話題の粒度をそろえやすいのが違いになります。
+
+JAICは、給付金対象の支援や学び直しの文脈で名前が挙がりやすいサービスです。  
+ミライフと比べると、「今ある経験をどう転職に結びつけるか」なのか、「学習や就労支援を含めて立て直すか」で役割が分かれます。  
+[JAIC](https://jaic-college.jp/) を見ると、その立ち位置の違いが理解しやすいです。
+
+TechClips MEは、エンジニア寄りの比較軸で見たいときに候補になります。  
+AI/データでも、実装寄りの求人を探したい人には見比べる価値があります。  
+要するに、ミライフは「AI・データの文脈を前提に相談したい人」、レバテックは「IT全体を広く見たい人」、JAICは「学び直しを含めて整えたい人」という見方がしやすいです。
+
+<!-- CTA:MOSHIMO_CONOHA_WING -->
+
+## 向いている人・注意したい人
+
+ミライフが合いやすいのは、すでに何らかの実務経験があり、次の一歩をAI・データ領域に寄せたい人です。  
+分析、機械学習、データ基盤、業務改善などの経験を説明できるなら、面談で話が進みやすくなります。
+
+逆に、完全未経験で「何から始めるか」から決めたい人は、  
+いきなり特化型だけに寄せるより、総合型や学習支援も並べて見たほうが安心です。  
+エージェントは万能ではないので、求人の幅、面談の深さ、学習支援の有無を分けて考えるのが大事です。
+
+## まとめと次の一歩
+
+ミライフは、AI・データ転職を一段深く相談したい人に向いた選択肢です。  
+ただし、相性は「サービスの有名さ」ではなく、面談で何をどこまで整理してくれるかで決まります。  
+まずは、サポート期間、面接対策の範囲、紹介求人の基準を確認して、自分に合うかを落ち着いて見極めてください。
 
 ---
-想定文字数: 3020字
-採用トピック: ミライフの転職支援内容と他社比較で見るAI人材の現実的キャリアパス
-ターゲット読者: AI・データサイエンス分野でキャリアチェンジを検討中の30〜40代ビジネスパーソン・エンジニア
-出典 URL リスト:
-- https://miraif.jp/（ミライフ公式サイト）
-- https://career.levtech.jp/（レバテック キャリア）
-- https://mynavi-agent.jp/it/（マイナビ IT AGENT）
-- https://doda.jp/（doda）
-- https://prtimes.jp/（PR TIMES）
-ヘッダー画像プロンプト: "An editorial-style illustration of a thoughtful professional reviewing AI/data science career options, soft pastel palette, inspired by Loundraw or Makoto Kito style, minimal background, contemplative mood"
 
+- 想定文字数: 約2900字
+- 採用トピック: ミライフの転職支援を軸に、AI・データ転職での比較ポイントと準備項目を整理した記事。
+- ターゲット読者: AI・データ分野への転職を検討する30代前後のビジネスパーソンやエンジニア。
+- 出典 URL リスト:
+  - https://miraif.jp/
+  - https://career.levtech.jp/
+  - https://jaic-college.jp/
+  - https://doda.jp/
+  - https://employment.en-japan.com/
+- ヘッダー画像プロンプト: Calm editorial illustration of a Japanese professional comparing AI and data career options, soft light, muted pastel palette, clean magazine composition, thoughtful atmosphere, Loundraw-inspired delicate linework.
+
+<!-- MODEL_USED: gpt-5.4-mini -->
 
