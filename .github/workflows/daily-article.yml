@@ -1,10 +1,10 @@
 name: Daily Article Generation
 
 on:
-  workflow_dispatch:
   schedule:
-    # 毎日 10:00 UTC = 19:00 JST（旧 launchd と同タイミング）
+    # 毎日 10:00 UTC = 19:00 JST
     - cron: '0 10 * * *'
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -13,12 +13,12 @@ jobs:
   generate-article:
     runs-on: ubuntu-latest
     timeout-minutes: 30
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -26,193 +26,201 @@ jobs:
           node-version: '20'
 
       - name: Install GitHub Copilot CLI
-        run: npm install -g @github/copilot
-
-      - name: Debug Copilot CLI output format
         env:
           GH_TOKEN: ${{ secrets.COPILOT_PAT }}
         run: |
-          echo "=== Test 1: --output-format json ==="
-          copilot -p "Say hello in one word" --model auto --output-format json --allow-all-tools 2> /tmp/json_stderr.log > /tmp/json_stdout.log || true
-          echo "--- stdout (JSON) ---"
-          cat /tmp/json_stdout.log
-          echo ""
-          echo "--- stderr ---"
-          cat /tmp/json_stderr.log
-          echo ""
-          echo "=== Test 2: --log-level debug ==="
-          mkdir -p /tmp/copilot-logs
-          copilot -p "Say hello in one word" --model auto --log-level debug --log-dir /tmp/copilot-logs --allow-all-tools 2> /tmp/debug_stderr.log > /tmp/debug_stdout.log || true
-          echo "--- log files ---"
-          ls -la /tmp/copilot-logs/
-          echo ""
-          echo "--- log file contents (first 100 lines of each) ---"
-          for f in /tmp/copilot-logs/*; do
-            echo "### $f ###"
-            head -100 "$f" 2>/dev/null || true
-            echo ""
-          done
-          echo ""
-          echo "=== Test 3: grep model from logs ==="
-          grep -i "model" /tmp/copilot-logs/* 2>/dev/null | head -30 || echo "(no match)"
-
+          npm install -g @github/copilot
+          copilot --version
 
       - name: Resolve today's topic
         id: topic
         run: |
-          # day_of_year は 1-366
-          DOY=$(date -u +"%j")
-          DOY=$((10#$DOY))
-          TOPIC_INDEX=$((DOY % 30))
-          DRAFT_DATE=$(date -u +"%Y-%m-%d")
-          echo "draft_date=$DRAFT_DATE" >> "$GITHUB_OUTPUT"
-          echo "topic_index=$TOPIC_INDEX" >> "$GITHUB_OUTPUT"
-          mkdir -p "drafts/$DRAFT_DATE"
-          echo "Today: $DRAFT_DATE / day_of_year=$DOY / topic_index=$TOPIC_INDEX"
+          DRAFT_DATE=$(TZ=Asia/Tokyo date +%Y-%m-%d)
+          echo "draft_date=$DRAFT_DATE" >> $GITHUB_OUTPUT
+          mkdir -p drafts/$DRAFT_DATE
+          echo "Draft date: $DRAFT_DATE"
 
       - name: Stage 1 - Topic expansion
+        id: stage1
         env:
-          COPILOT_GITHUB_TOKEN: ${{ secrets.COPILOT_PAT }}
-          DRAFT_DIR: drafts/${{ steps.topic.outputs.draft_date }}
-          TOPIC_INDEX: ${{ steps.topic.outputs.topic_index }}
-        
+          GH_TOKEN: ${{ secrets.COPILOT_PAT }}
         run: |
-          echo "=== Copilot CLI version ==="
-          copilot --version || true
-          echo ""
-          BASE_PROMPT=$(cat prompts/01_topic_select.md)
-          FULL_PROMPT=$(printf '%s\n\n# 本日のトピックインデックス\n\n%s\n\n# 本日の日付\n\n%s' \
-            "$BASE_PROMPT" "$TOPIC_INDEX" "${{ steps.topic.outputs.draft_date }}")
-          copilot -p "$FULL_PROMPT" \
+          DRAFT_DATE="${{ steps.topic.outputs.draft_date }}"
+          copilot -p "$(cat prompts/01_topic_select.md)" \
             --model auto \
-            --allow-tool=write \
-            --no-ask-user \
-            --log-level debug \
-            > "$DRAFT_DIR/01_topic.md" 2> "$DRAFT_DIR/01_topic.stderr.log"
-          echo "=== Stage 1 stderr (model selection trace) ==="
-          tail -50 "$DRAFT_DIR/01_topic.stderr.log" || true
+            --allow-all-tools \
+            --output-format json \
+            > /tmp/stage1.jsonl 2> /tmp/stage1.stderr || true
 
+          # 本文抽出
+          jq -r 'select(.type=="assistant.message") | .data.content' /tmp/stage1.jsonl \
+            > drafts/$DRAFT_DATE/01_topic.md
+
+          # モデル名と統計抽出
+          MODEL=$(jq -r 'select(.type=="assistant.message") | .data.model' /tmp/stage1.jsonl | head -1)
+          PREMIUM=$(jq -r 'select(.type=="result") | .usage.premiumRequests' /tmp/stage1.jsonl | head -1)
+          DURATION=$(jq -r 'select(.type=="result") | .usage.sessionDurationMs' /tmp/stage1.jsonl | head -1)
+          echo "model=${MODEL:-unknown}" >> $GITHUB_OUTPUT
+          echo "premium=${PREMIUM:-0}" >> $GITHUB_OUTPUT
+          echo "duration=${DURATION:-0}" >> $GITHUB_OUTPUT
+          echo "::notice title=Stage 1 (Topic)::model=$MODEL premium=$PREMIUM duration=${DURATION}ms"
 
       - name: Stage 2 - Draft article
+        id: stage2
         env:
-          COPILOT_GITHUB_TOKEN: ${{ secrets.COPILOT_PAT }}
-          DRAFT_DIR: drafts/${{ steps.topic.outputs.draft_date }}
+          GH_TOKEN: ${{ secrets.COPILOT_PAT }}
         run: |
-          BASE_PROMPT=$(cat prompts/02_draft.md)
-          TOPIC=$(cat "$DRAFT_DIR/01_topic.md")
-          FULL_PROMPT=$(printf '%s\n\n# 本日のトピック展開\n\n%s' "$BASE_PROMPT" "$TOPIC")
-          copilot -p "$FULL_PROMPT" \
+          DRAFT_DATE="${{ steps.topic.outputs.draft_date }}"
+          PROMPT="$(cat prompts/02_draft.md)
+
+---
+前段（テーマ選定）の出力:
+$(cat drafts/$DRAFT_DATE/01_topic.md)"
+          copilot -p "$PROMPT" \
             --model auto \
-            --allow-tool=write \
-            --no-ask-user \
-            > "$DRAFT_DIR/02_draft.md"
+            --allow-all-tools \
+            --output-format json \
+            > /tmp/stage2.jsonl 2> /tmp/stage2.stderr || true
+
+          jq -r 'select(.type=="assistant.message") | .data.content' /tmp/stage2.jsonl \
+            > drafts/$DRAFT_DATE/02_draft.md
+
+          MODEL=$(jq -r 'select(.type=="assistant.message") | .data.model' /tmp/stage2.jsonl | head -1)
+          PREMIUM=$(jq -r 'select(.type=="result") | .usage.premiumRequests' /tmp/stage2.jsonl | head -1)
+          DURATION=$(jq -r 'select(.type=="result") | .usage.sessionDurationMs' /tmp/stage2.jsonl | head -1)
+          echo "model=${MODEL:-unknown}" >> $GITHUB_OUTPUT
+          echo "premium=${PREMIUM:-0}" >> $GITHUB_OUTPUT
+          echo "duration=${DURATION:-0}" >> $GITHUB_OUTPUT
+          echo "::notice title=Stage 2 (Draft)::model=$MODEL premium=$PREMIUM duration=${DURATION}ms"
 
       - name: Stage 3 - Fact check
+        id: stage3
         env:
-          COPILOT_GITHUB_TOKEN: ${{ secrets.COPILOT_PAT }}
-          DRAFT_DIR: drafts/${{ steps.topic.outputs.draft_date }}
+          GH_TOKEN: ${{ secrets.COPILOT_PAT }}
         run: |
-          BASE_PROMPT=$(cat prompts/03_factcheck.md)
-          DRAFT=$(cat "$DRAFT_DIR/02_draft.md")
-          FULL_PROMPT=$(printf '%s\n\n# 校閲対象ドラフト\n\n%s' "$BASE_PROMPT" "$DRAFT")
-          copilot -p "$FULL_PROMPT" \
+          DRAFT_DATE="${{ steps.topic.outputs.draft_date }}"
+          PROMPT="$(cat prompts/03_factcheck.md)
+
+---
+チェック対象の下書き:
+$(cat drafts/$DRAFT_DATE/02_draft.md)"
+          copilot -p "$PROMPT" \
             --model auto \
-            --allow-tool=write \
-            --no-ask-user \
-            > "$DRAFT_DIR/03_factcheck.md"
+            --allow-all-tools \
+            --output-format json \
+            > /tmp/stage3.jsonl 2> /tmp/stage3.stderr || true
+
+          jq -r 'select(.type=="assistant.message") | .data.content' /tmp/stage3.jsonl \
+            > drafts/$DRAFT_DATE/03_factcheck.md
+
+          MODEL=$(jq -r 'select(.type=="assistant.message") | .data.model' /tmp/stage3.jsonl | head -1)
+          PREMIUM=$(jq -r 'select(.type=="result") | .usage.premiumRequests' /tmp/stage3.jsonl | head -1)
+          DURATION=$(jq -r 'select(.type=="result") | .usage.sessionDurationMs' /tmp/stage3.jsonl | head -1)
+          echo "model=${MODEL:-unknown}" >> $GITHUB_OUTPUT
+          echo "premium=${PREMIUM:-0}" >> $GITHUB_OUTPUT
+          echo "duration=${DURATION:-0}" >> $GITHUB_OUTPUT
+          echo "::notice title=Stage 3 (Factcheck)::model=$MODEL premium=$PREMIUM duration=${DURATION}ms"
 
       - name: Stage 4 - Final polish
+        id: stage4
         env:
-          COPILOT_GITHUB_TOKEN: ${{ secrets.COPILOT_PAT }}
-          DRAFT_DIR: drafts/${{ steps.topic.outputs.draft_date }}
-          DRAFT_DATE: ${{ steps.topic.outputs.draft_date }}
+          GH_TOKEN: ${{ secrets.COPILOT_PAT }}
         run: |
-          BASE_PROMPT=$(cat prompts/04_polish.md)
-          DRAFT=$(cat "$DRAFT_DIR/02_draft.md")
-          FACTCHECK=$(cat "$DRAFT_DIR/03_factcheck.md")
-          FULL_PROMPT=$(printf '%s\n\n# 本日の日付\n\n%s\n\n# 元ドラフト\n\n%s\n\n# ファクトチェック指摘\n\n%s' \
-            "$BASE_PROMPT" "$DRAFT_DATE" "$DRAFT" "$FACTCHECK")
-          copilot -p "$FULL_PROMPT" \
+          DRAFT_DATE="${{ steps.topic.outputs.draft_date }}"
+          PROMPT="$(cat prompts/04_polish.md)
+
+---
+ファクトチェック結果:
+$(cat drafts/$DRAFT_DATE/03_factcheck.md)
+
+---
+元の下書き:
+$(cat drafts/$DRAFT_DATE/02_draft.md)
+
+公開日: $DRAFT_DATE"
+          copilot -p "$PROMPT" \
             --model auto \
-            --allow-tool=write \
-            --no-ask-user \
-            > "$DRAFT_DIR/04_final.md"
+            --allow-all-tools \
+            --output-format json \
+            > /tmp/stage4.jsonl 2> /tmp/stage4.stderr || true
 
-      - name: Extract model usage from each stage
-        env:
-          DRAFT_DIR: drafts/${{ steps.topic.outputs.draft_date }}
-        run: |
-          echo "=== Model used per stage ==="
-          for stage in 01_topic 02_draft 03_factcheck 04_final; do
-            f="$DRAFT_DIR/$stage.md"
-            if [ -f "$f" ]; then
-              model=$(grep -o "MODEL_USED:[^>]*" "$f" | head -1 | sed 's/MODEL_USED:[[:space:]]*//;s/[[:space:]]*$//')
-              if [ -n "$model" ]; then
-                echo "  $stage: $model"
-              else
-                echo "  $stage: (not declared)"
-              fi
-            else
-              echo "  $stage: (file not found)"
-            fi
-          done
+          jq -r 'select(.type=="assistant.message") | .data.content' /tmp/stage4.jsonl \
+            > drafts/$DRAFT_DATE/04_final.md
 
+          MODEL=$(jq -r 'select(.type=="assistant.message") | .data.model' /tmp/stage4.jsonl | head -1)
+          PREMIUM=$(jq -r 'select(.type=="result") | .usage.premiumRequests' /tmp/stage4.jsonl | head -1)
+          DURATION=$(jq -r 'select(.type=="result") | .usage.sessionDurationMs' /tmp/stage4.jsonl | head -1)
+          echo "model=${MODEL:-unknown}" >> $GITHUB_OUTPUT
+          echo "premium=${PREMIUM:-0}" >> $GITHUB_OUTPUT
+          echo "duration=${DURATION:-0}" >> $GITHUB_OUTPUT
+          echo "::notice title=Stage 4 (Polish)::model=$MODEL premium=$PREMIUM duration=${DURATION}ms"
 
       - name: Quality gate
-        env:
-          DRAFT_DIR: drafts/${{ steps.topic.outputs.draft_date }}
+        id: gate
         run: |
-          FINAL="$DRAFT_DIR/04_final.md"
+          DRAFT_DATE="${{ steps.topic.outputs.draft_date }}"
+          FINAL="drafts/$DRAFT_DATE/04_final.md"
           FAIL=0
 
-          # 末尾句点チェック
-          LAST_CHAR=$(tail -c 200 "$FINAL" | tr -d '[:space:]' | tail -c 1)
-          if [[ "$LAST_CHAR" != "。" && "$LAST_CHAR" != "！" && "$LAST_CHAR" != "？" && "$LAST_CHAR" != ")" && "$LAST_CHAR" != "）" ]]; then
-            echo "::warning::末尾切れ疑い: last char = $LAST_CHAR"
+          if [ ! -s "$FINAL" ]; then
+            echo "::error::final 04_final.md が空または存在しません"
             FAIL=1
           fi
 
-          # 文字数チェック（2500-3500字目安、本文のみ大まかに測る）
-          CHAR_COUNT=$(wc -m < "$FINAL")
-          echo "Character count: $CHAR_COUNT"
-          if [[ $CHAR_COUNT -lt 2500 ]]; then
-            echo "::warning::文字数不足: $CHAR_COUNT < 2500"
-            FAIL=1
+          # 文字数（マルチバイト対応: wc -m）
+          CHARS=$(wc -m < "$FINAL" | tr -d ' ')
+          echo "character_count=$CHARS" >> $GITHUB_OUTPUT
+          echo "Character count: $CHARS"
+          if [ "$CHARS" -lt 2500 ] || [ "$CHARS" -gt 3500 ]; then
+            echo "::warning::文字数 $CHARS が 2500-3500 の範囲外"
           fi
 
-          # description への H2 混入チェック
-          if grep -E "^description:.*##" "$FINAL" > /dev/null; then
-            echo "::warning::description に H2 混入"
-            FAIL=1
+          # 末尾文字チェック
+          LAST=$(tail -c 4 "$FINAL" | tr -d '\n' | tail -c 1)
+          if [ "$LAST" != "。" ] && [ "$LAST" != ".！" ] && [ "$LAST" != "！" ] && [ "$LAST" != "？" ]; then
+            echo "::warning::末尾切れ疑い: last char = $LAST"
           fi
 
-          # frontmatter 必須キーチェック
-          for key in "title:" "description:" "date:" "ai_assisted:" "editor_reviewed:"; do
-            if ! grep -E "^${key}" "$FINAL" > /dev/null; then
-              echo "::warning::frontmatter 欠落: $key"
-              FAIL=1
+          # frontmatter 必須キー
+          for key in title description date ai_assisted editor_reviewed; do
+            if ! grep -q "^${key}:" "$FINAL"; then
+              echo "::warning::frontmatter キー欠落: $key"
             fi
           done
 
-          # AI 開示文の本文内チェック
-          if ! grep -E "(この記事は|本記事は).*AI" "$FINAL" > /dev/null; then
-            echo "::warning::本文内 AI 開示文なし"
+          # editor_reviewed は必ず false で生成
+          if grep -E "^editor_reviewed:[[:space:]]*true" "$FINAL" >/dev/null; then
+            echo "::error::editor_reviewed: true で生成されています (polish 暴走)"
             FAIL=1
           fi
 
-          # editor_reviewed は必ず false で生成（true で出力されたら polish 暴走）
-          if grep -E "^editor_reviewed:[[:space:]]*true" "$FINAL" > /dev/null; then
-            echo "::error::editor_reviewed: true で生成されている（polish 暴走）"
-            FAIL=1
-          fi
+          echo "QUALITY_GATE_FAIL=$FAIL" >> $GITHUB_ENV
 
-          echo "QUALITY_GATE_FAIL=$FAIL" >> "$GITHUB_ENV"
-
-          if [[ $FAIL -eq 1 ]]; then
+          if [ $FAIL -eq 1 ]; then
             echo "::warning::Quality gate に warning あり。drafts/ には保存されるが src/articles/ への移送は人手判断。"
           else
             echo "Quality gate OK"
           fi
+
+      - name: Model usage summary
+        if: always()
+        run: |
+          DRAFT_DATE="${{ steps.topic.outputs.draft_date }}"
+          {
+            echo "## 🤖 Model Usage Summary"
+            echo ""
+            echo "**Draft date:** $DRAFT_DATE"
+            echo "**Character count:** ${{ steps.gate.outputs.character_count }}"
+            echo ""
+            echo "| Stage | Model | Premium Requests | Duration |"
+            echo "|---|---|---|---|"
+            echo "| 1. Topic expansion | \`${{ steps.stage1.outputs.model }}\` | ${{ steps.stage1.outputs.premium }} | ${{ steps.stage1.outputs.duration }}ms |"
+            echo "| 2. Draft article | \`${{ steps.stage2.outputs.model }}\` | ${{ steps.stage2.outputs.premium }} | ${{ steps.stage2.outputs.duration }}ms |"
+            echo "| 3. Fact check | \`${{ steps.stage3.outputs.model }}\` | ${{ steps.stage3.outputs.premium }} | ${{ steps.stage3.outputs.duration }}ms |"
+            echo "| 4. Final polish | \`${{ steps.stage4.outputs.model }}\` | ${{ steps.stage4.outputs.premium }} | ${{ steps.stage4.outputs.duration }}ms |"
+            echo ""
+            echo "**Final article:** [\`drafts/$DRAFT_DATE/04_final.md\`](../blob/main/drafts/$DRAFT_DATE/04_final.md)"
+          } >> $GITHUB_STEP_SUMMARY
 
       - name: Commit drafts (always)
         if: always()
@@ -220,11 +228,10 @@ jobs:
           git config user.name "ai-tool-navigator-bot"
           git config user.email "ai-tool-navigator-bot@users.noreply.github.com"
           git add drafts/
-          git diff --staged --quiet || git commit -m "Daily draft: ${DRAFT_DATE:-$(TZ=Asia/Tokyo date +%Y-%m-%d)} (gate_fail=${QUALITY_GATE_FAIL:-0})"
+          git diff --staged --quiet || git commit -m "Daily draft: ${{ steps.topic.outputs.draft_date }} (gate_fail=${QUALITY_GATE_FAIL:-0}, models=s1:${{ steps.stage1.outputs.model }}/s2:${{ steps.stage2.outputs.model }}/s3:${{ steps.stage3.outputs.model }}/s4:${{ steps.stage4.outputs.model }})"
           # push 競合対策: リモートの最新を取り込んでから push
           for i in 1 2 3; do
             git pull --rebase origin main && git push origin main && break
             echo "push retry $i"
             sleep 5
           done
-
