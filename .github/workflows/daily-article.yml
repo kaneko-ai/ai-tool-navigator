@@ -71,12 +71,15 @@ jobs:
           GH_TOKEN: ${{ secrets.COPILOT_PAT }}
         run: |
           DRAFT_DATE="${{ steps.topic.outputs.draft_date }}"
-          PROMPT="$(cat prompts/02_draft.md)
+          {
+            cat prompts/02_draft.md
+            echo ""
+            echo "==="
+            echo "前段（テーマ選定）の出力:"
+            cat drafts/$DRAFT_DATE/01_topic.md
+          } > /tmp/stage2_prompt.txt
 
----
-前段（テーマ選定）の出力:
-$(cat drafts/$DRAFT_DATE/01_topic.md)"
-          copilot -p "$PROMPT" \
+          copilot -p "$(cat /tmp/stage2_prompt.txt)" \
             --model auto \
             --allow-all-tools \
             --output-format json \
@@ -93,18 +96,22 @@ $(cat drafts/$DRAFT_DATE/01_topic.md)"
           echo "duration=${DURATION:-0}" >> $GITHUB_OUTPUT
           echo "::notice title=Stage 2 (Draft)::model=$MODEL premium=$PREMIUM duration=${DURATION}ms"
 
+
       - name: Stage 3 - Fact check
         id: stage3
         env:
           GH_TOKEN: ${{ secrets.COPILOT_PAT }}
         run: |
           DRAFT_DATE="${{ steps.topic.outputs.draft_date }}"
-          PROMPT="$(cat prompts/03_factcheck.md)
+          {
+            cat prompts/03_factcheck.md
+            echo ""
+            echo "==="
+            echo "チェック対象の下書き:"
+            cat drafts/$DRAFT_DATE/02_draft.md
+          } > /tmp/stage3_prompt.txt
 
----
-チェック対象の下書き:
-$(cat drafts/$DRAFT_DATE/02_draft.md)"
-          copilot -p "$PROMPT" \
+          copilot -p "$(cat /tmp/stage3_prompt.txt)" \
             --model auto \
             --allow-all-tools \
             --output-format json \
@@ -127,18 +134,21 @@ $(cat drafts/$DRAFT_DATE/02_draft.md)"
           GH_TOKEN: ${{ secrets.COPILOT_PAT }}
         run: |
           DRAFT_DATE="${{ steps.topic.outputs.draft_date }}"
-          PROMPT="$(cat prompts/04_polish.md)
+          {
+            cat prompts/04_polish.md
+            echo ""
+            echo "==="
+            echo "ファクトチェック結果:"
+            cat drafts/$DRAFT_DATE/03_factcheck.md
+            echo ""
+            echo "==="
+            echo "元の下書き:"
+            cat drafts/$DRAFT_DATE/02_draft.md
+            echo ""
+            echo "公開日: $DRAFT_DATE"
+          } > /tmp/stage4_prompt.txt
 
----
-ファクトチェック結果:
-$(cat drafts/$DRAFT_DATE/03_factcheck.md)
-
----
-元の下書き:
-$(cat drafts/$DRAFT_DATE/02_draft.md)
-
-公開日: $DRAFT_DATE"
-          copilot -p "$PROMPT" \
+          copilot -p "$(cat /tmp/stage4_prompt.txt)" \
             --model auto \
             --allow-all-tools \
             --output-format json \
@@ -154,6 +164,7 @@ $(cat drafts/$DRAFT_DATE/02_draft.md)
           echo "premium=${PREMIUM:-0}" >> $GITHUB_OUTPUT
           echo "duration=${DURATION:-0}" >> $GITHUB_OUTPUT
           echo "::notice title=Stage 4 (Polish)::model=$MODEL premium=$PREMIUM duration=${DURATION}ms"
+
 
       - name: Quality gate
         id: gate
