@@ -1,0 +1,166 @@
+name: Daily Article Generation
+
+on:
+  workflow_dispatch:
+  schedule:
+    # 毎日 10:00 UTC = 19:00 JST（旧 launchd と同タイミング）
+    - cron: '0 10 * * *'
+
+permissions:
+  contents: write
+
+jobs:
+  generate-article:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install GitHub Copilot CLI
+        run: npm install -g @github/copilot
+
+      - name: Resolve today's topic
+        id: topic
+        run: |
+          # day_of_year は 1-366
+          DOY=$(date -u +"%j")
+          DOY=$((10#$DOY))
+          TOPIC_INDEX=$((DOY % 30))
+          DRAFT_DATE=$(date -u +"%Y-%m-%d")
+          echo "draft_date=$DRAFT_DATE" >> "$GITHUB_OUTPUT"
+          echo "topic_index=$TOPIC_INDEX" >> "$GITHUB_OUTPUT"
+          mkdir -p "drafts/$DRAFT_DATE"
+          echo "Today: $DRAFT_DATE / day_of_year=$DOY / topic_index=$TOPIC_INDEX"
+
+      - name: Stage 1 - Topic expansion
+        env:
+          COPILOT_GITHUB_TOKEN: ${{ secrets.COPILOT_PAT }}
+          DRAFT_DIR: drafts/${{ steps.topic.outputs.draft_date }}
+          TOPIC_INDEX: ${{ steps.topic.outputs.topic_index }}
+        run: |
+          BASE_PROMPT=$(cat prompts/01_topic_select.md)
+          FULL_PROMPT=$(printf '%s\n\n# 本日のトピックインデックス\n\n%s\n\n# 本日の日付\n\n%s' \
+            "$BASE_PROMPT" "$TOPIC_INDEX" "${{ steps.topic.outputs.draft_date }}")
+          copilot -p "$FULL_PROMPT" \
+            --model auto \
+            --allow-tool=write \
+            --no-ask-user \
+            > "$DRAFT_DIR/01_topic.md"
+
+      - name: Stage 2 - Draft article
+        env:
+          COPILOT_GITHUB_TOKEN: ${{ secrets.COPILOT_PAT }}
+          DRAFT_DIR: drafts/${{ steps.topic.outputs.draft_date }}
+        run: |
+          BASE_PROMPT=$(cat prompts/02_draft.md)
+          TOPIC=$(cat "$DRAFT_DIR/01_topic.md")
+          FULL_PROMPT=$(printf '%s\n\n# 本日のトピック展開\n\n%s' "$BASE_PROMPT" "$TOPIC")
+          copilot -p "$FULL_PROMPT" \
+            --model auto \
+            --allow-tool=write \
+            --no-ask-user \
+            > "$DRAFT_DIR/02_draft.md"
+
+      - name: Stage 3 - Fact check
+        env:
+          COPILOT_GITHUB_TOKEN: ${{ secrets.COPILOT_PAT }}
+          DRAFT_DIR: drafts/${{ steps.topic.outputs.draft_date }}
+        run: |
+          BASE_PROMPT=$(cat prompts/03_factcheck.md)
+          DRAFT=$(cat "$DRAFT_DIR/02_draft.md")
+          FULL_PROMPT=$(printf '%s\n\n# 校閲対象ドラフト\n\n%s' "$BASE_PROMPT" "$DRAFT")
+          copilot -p "$FULL_PROMPT" \
+            --model auto \
+            --allow-tool=write \
+            --no-ask-user \
+            > "$DRAFT_DIR/03_factcheck.md"
+
+      - name: Stage 4 - Final polish
+        env:
+          COPILOT_GITHUB_TOKEN: ${{ secrets.COPILOT_PAT }}
+          DRAFT_DIR: drafts/${{ steps.topic.outputs.draft_date }}
+          DRAFT_DATE: ${{ steps.topic.outputs.draft_date }}
+        run: |
+          BASE_PROMPT=$(cat prompts/04_polish.md)
+          DRAFT=$(cat "$DRAFT_DIR/02_draft.md")
+          FACTCHECK=$(cat "$DRAFT_DIR/03_factcheck.md")
+          FULL_PROMPT=$(printf '%s\n\n# 本日の日付\n\n%s\n\n# 元ドラフト\n\n%s\n\n# ファクトチェック指摘\n\n%s' \
+            "$BASE_PROMPT" "$DRAFT_DATE" "$DRAFT" "$FACTCHECK")
+          copilot -p "$FULL_PROMPT" \
+            --model auto \
+            --allow-tool=write \
+            --no-ask-user \
+            > "$DRAFT_DIR/04_final.md"
+
+      - name: Quality gate
+        env:
+          DRAFT_DIR: drafts/${{ steps.topic.outputs.draft_date }}
+        run: |
+          FINAL="$DRAFT_DIR/04_final.md"
+          FAIL=0
+
+          # 末尾句点チェック
+          LAST_CHAR=$(tail -c 200 "$FINAL" | tr -d '[:space:]' | tail -c 1)
+          if [[ "$LAST_CHAR" != "。" && "$LAST_CHAR" != "！" && "$LAST_CHAR" != "？" && "$LAST_CHAR" != ")" && "$LAST_CHAR" != "）" ]]; then
+            echo "::warning::末尾切れ疑い: last char = $LAST_CHAR"
+            FAIL=1
+          fi
+
+          # 文字数チェック（2500-3500字目安、本文のみ大まかに測る）
+          CHAR_COUNT=$(wc -m < "$FINAL")
+          echo "Character count: $CHAR_COUNT"
+          if [[ $CHAR_COUNT -lt 2500 ]]; then
+            echo "::warning::文字数不足: $CHAR_COUNT < 2500"
+            FAIL=1
+          fi
+
+          # description への H2 混入チェック
+          if grep -E "^description:.*##" "$FINAL" > /dev/null; then
+            echo "::warning::description に H2 混入"
+            FAIL=1
+          fi
+
+          # frontmatter 必須キーチェック
+          for key in "title:" "description:" "date:" "ai_assisted:" "editor_reviewed:"; do
+            if ! grep -E "^${key}" "$FINAL" > /dev/null; then
+              echo "::warning::frontmatter 欠落: $key"
+              FAIL=1
+            fi
+          done
+
+          # AI 開示文の本文内チェック
+          if ! grep -E "(この記事は|本記事は).*AI" "$FINAL" > /dev/null; then
+            echo "::warning::本文内 AI 開示文なし"
+            FAIL=1
+          fi
+
+          # editor_reviewed は必ず false で生成（true で出力されたら polish 暴走）
+          if grep -E "^editor_reviewed:[[:space:]]*true" "$FINAL" > /dev/null; then
+            echo "::error::editor_reviewed: true で生成されている（polish 暴走）"
+            FAIL=1
+          fi
+
+          echo "QUALITY_GATE_FAIL=$FAIL" >> "$GITHUB_ENV"
+
+          if [[ $FAIL -eq 1 ]]; then
+            echo "::warning::Quality gate に warning あり。drafts/ には保存されるが src/articles/ への移送は人手判断。"
+          else
+            echo "Quality gate OK"
+          fi
+
+      - name: Commit drafts (always)
+        run: |
+          git config user.name "ai-tool-navigator-bot"
+          git config user.email "ai-tool-navigator-bot@users.noreply.github.com"
+          git add drafts/
+          git diff --staged --quiet || git commit -m "Daily draft: ${{ steps.topic.outputs.draft_date }} (gate_fail=${QUALITY_GATE_FAIL:-0})"
+          git push
