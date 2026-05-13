@@ -176,3 +176,7 @@ venv/
 *.old-hermes-era
 *.recovery-backup
 daily_article_generator.py.bak.*
+src/articles.backup.*
+
+# Eleventy build output
+_site/
