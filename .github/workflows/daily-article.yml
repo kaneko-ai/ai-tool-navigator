@@ -46,7 +46,11 @@ jobs:
           COPILOT_GITHUB_TOKEN: ${{ secrets.COPILOT_PAT }}
           DRAFT_DIR: drafts/${{ steps.topic.outputs.draft_date }}
           TOPIC_INDEX: ${{ steps.topic.outputs.topic_index }}
+        
         run: |
+          echo "=== Copilot CLI version ==="
+          copilot --version || true
+          echo ""
           BASE_PROMPT=$(cat prompts/01_topic_select.md)
           FULL_PROMPT=$(printf '%s\n\n# 本日のトピックインデックス\n\n%s\n\n# 本日の日付\n\n%s' \
             "$BASE_PROMPT" "$TOPIC_INDEX" "${{ steps.topic.outputs.draft_date }}")
@@ -54,7 +58,11 @@ jobs:
             --model auto \
             --allow-tool=write \
             --no-ask-user \
-            > "$DRAFT_DIR/01_topic.md"
+            --log-level debug \
+            > "$DRAFT_DIR/01_topic.md" 2> "$DRAFT_DIR/01_topic.stderr.log"
+          echo "=== Stage 1 stderr (model selection trace) ==="
+          tail -50 "$DRAFT_DIR/01_topic.stderr.log" || true
+
 
       - name: Stage 2 - Draft article
         env:
@@ -100,6 +108,26 @@ jobs:
             --allow-tool=write \
             --no-ask-user \
             > "$DRAFT_DIR/04_final.md"
+
+      - name: Extract model usage from each stage
+        env:
+          DRAFT_DIR: drafts/${{ steps.topic.outputs.draft_date }}
+        run: |
+          echo "=== Model used per stage ==="
+          for stage in 01_topic 02_draft 03_factcheck 04_final; do
+            f="$DRAFT_DIR/$stage.md"
+            if [ -f "$f" ]; then
+              model=$(grep -o "MODEL_USED:[^>]*" "$f" | head -1 | sed 's/MODEL_USED:[[:space:]]*//;s/[[:space:]]*$//')
+              if [ -n "$model" ]; then
+                echo "  $stage: $model"
+              else
+                echo "  $stage: (not declared)"
+              fi
+            else
+              echo "  $stage: (file not found)"
+            fi
+          done
+
 
       - name: Quality gate
         env:
