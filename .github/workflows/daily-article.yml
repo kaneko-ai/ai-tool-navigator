@@ -35,10 +35,17 @@ jobs:
       - name: Resolve today's topic
         id: topic
         run: |
-          DRAFT_DATE=$(TZ=Asia/Tokyo date +%Y-%m-%d)
+          DRAFT_DATE_BASE=$(TZ=Asia/Tokyo date +%Y-%m-%d)
+          DRAFT_DATE="$DRAFT_DATE_BASE"
+          SUFFIX=2
+          while [ -d "drafts/$DRAFT_DATE" ]; do
+            DRAFT_DATE="${DRAFT_DATE_BASE}-${SUFFIX}"
+            SUFFIX=$((SUFFIX+1))
+          done
           echo "draft_date=$DRAFT_DATE" >> $GITHUB_OUTPUT
           mkdir -p drafts/$DRAFT_DATE
-          echo "Draft date: $DRAFT_DATE"
+          echo "Draft date: $DRAFT_DATE (base: $DRAFT_DATE_BASE)"
+
 
       - name: Build recent topics context
         run: |
