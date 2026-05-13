@@ -1,18 +1,35 @@
 ---
 layout: base.njk
 title: 記事一覧
+description: AI Tool Navigator の全記事一覧。AIツール、キャリア、副業、技術解説など多様なトピックを掲載しています。
 permalink: /articles/
 ---
+
 <h1>記事一覧</h1>
+<p style="color: var(--color-text-muted); margin-bottom: var(--space-xl);">全 {{ collections.articles.length }} 件の記事</p>
+
 {% set articles = collections.articles %}
 {% if articles.length > 0 %}
-  {% for post in articles | reverse %}
-    <div style="margin-bottom: 20px;">
-      <a href="{{ post.url | url }}" style="font-size: 18px; font-weight: bold;">{{ post.data.title }}</a>
-      {% if post.date %}
+<ul class="article-list">
+{% for post in articles | reverse %}
+  <li>
+    <a href="{{ post.url | url }}" class="article-card">
+      {% if post.date %}<span class="article-card-date">{{ post.date.toISOString().slice(0,10) }}</span>{% endif %}
+      <span class="article-card-title">{{ post.data.title }}</span>
+      {% if post.data.description %}
+      <span class="article-card-description">{{ post.data.description }}</span>
       {% endif %}
-    </div>
-  {% endfor %}
+      {% if post.data.tags %}
+      <span class="article-card-tags">
+        {% for tag in post.data.tags %}
+          {% if tag != 'articles' %}<span class="tag">{{ tag }}</span>{% endif %}
+        {% endfor %}
+      </span>
+      {% endif %}
+    </a>
+  </li>
+{% endfor %}
+</ul>
 {% else %}
-  <p>記事を準備中です。</p>
+<p>記事を準備中です。</p>
 {% endif %}

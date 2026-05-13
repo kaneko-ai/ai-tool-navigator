@@ -1,15 +1,35 @@
 ---
 layout: base.njk
 title: AI Tool Navigator
+description: AIツールのレビュー・比較・使い方ガイド。最新のAIサービスを実際に試した結果を中立的にまとめています。
 ---
-<h1>AI Tool Navigator</h1>
-<p>AIツールのレビュー・比較・使い方ガイド</p>
+
+<section class="hero">
+  <h1>AI Tool Navigator</h1>
+  <p>AIツールのレビュー・比較・使い方ガイド</p>
+</section>
+
 <h2>最新記事</h2>
 {% set articles = collections.articles %}
 {% if articles.length > 0 %}
-<ul>
+<ul class="article-list">
 {% for post in articles | reverse %}
-<li><a href="{{ post.url | url }}">{{ post.data.title }}</a></li>
+  <li>
+    <a href="{{ post.url | url }}" class="article-card">
+      {% if post.date %}<span class="article-card-date">{{ post.date.toISOString().slice(0,10) }}</span>{% endif %}
+      <span class="article-card-title">{{ post.data.title }}</span>
+      {% if post.data.description %}
+      <span class="article-card-description">{{ post.data.description }}</span>
+      {% endif %}
+      {% if post.data.tags %}
+      <span class="article-card-tags">
+        {% for tag in post.data.tags %}
+          {% if tag != 'articles' %}<span class="tag">{{ tag }}</span>{% endif %}
+        {% endfor %}
+      </span>
+      {% endif %}
+    </a>
+  </li>
 {% endfor %}
 </ul>
 {% else %}
