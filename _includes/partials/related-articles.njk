@@ -1,0 +1,28 @@
+{# 関連記事: eleventyConfig.addFilter("relatedTo") で事前計算 #}
+{% set related = collections.articles | relatedTo(page, 4) %}
+
+{% if related.length > 0 %}
+<section class="related-articles">
+  <h2 class="related-articles__title">関連記事</h2>
+  <ul class="related-articles__list">
+    {% for post in related %}
+      <li class="related-articles__card">
+        <a href="{{ post.url | url }}" class="related-articles__link">
+          <p class="related-articles__date">{{ post.date.toISOString().slice(0,10) }}</p>
+          <h3 class="related-articles__heading">{{ post.data.title }}</h3>
+          {% if post.data.description %}
+            <p class="related-articles__desc">{{ post.data.description | truncate(80) }}</p>
+          {% endif %}
+          {% if post.data.tags %}
+            <ul class="related-articles__tags">
+              {% for t in post.data.tags %}
+                <li class="related-articles__tag">#{{ t }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+</section>
+{% endif %}

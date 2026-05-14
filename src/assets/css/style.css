@@ -449,3 +449,71 @@ footer a:hover {
 .tag-cloud__link { display: inline-flex; align-items: baseline; gap: 0.4rem; padding: 0.5rem 0.9rem; background: #f3f6fb; border: 1px solid #dbe3ee; border-radius: 999px; text-decoration: none; color: #1a2a44; }
 .tag-cloud__link:hover { background: #e6efff; border-color: #b8cdf0; }
 .tag-cloud__name { font-weight: 600; font-size: 0.95rem; }
+
+/* ============ Related Articles (Day18) ============ */
+.related-articles {
+  margin: 3rem 0 2rem;
+  padding-top: 2rem;
+  border-top: 2px solid #e1e8f0;
+}
+.related-articles__title {
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+  color: #1a2a44;
+}
+.related-articles__list {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+}
+.related-articles__card {
+  background: #f9fbfd;
+  border: 1px solid #dbe3ee;
+  border-radius: 8px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+.related-articles__card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(20, 40, 80, 0.08);
+  border-color: #b8cdf0;
+}
+.related-articles__link {
+  display: block;
+  padding: 1rem;
+  text-decoration: none;
+  color: inherit;
+}
+.related-articles__date {
+  font-size: 0.8rem;
+  color: #607390;
+  margin: 0 0 0.3rem;
+}
+.related-articles__heading {
+  font-size: 1rem;
+  margin: 0 0 0.5rem;
+  line-height: 1.4;
+  color: #1a2a44;
+}
+.related-articles__desc {
+  font-size: 0.85rem;
+  color: #4a5568;
+  margin: 0 0 0.5rem;
+  line-height: 1.5;
+}
+.related-articles__tags {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+.related-articles__tag {
+  font-size: 0.7rem;
+  color: #0066cc;
+  background: #eaf2fb;
+  padding: 0.1rem 0.5rem;
+  border-radius: 10px;
+}
