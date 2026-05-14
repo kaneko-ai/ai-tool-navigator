@@ -4,7 +4,10 @@ title: "2026年版 無料で使えるAI APIまとめ（NVIDIA NIM, Google AI, et
 date: 2026-04-23
 ai_generated: true
 noindex: true
----正直に言う。お前らがまだ2026年版 無料で使えるAI APIまとめ（NVIDIA NIM, Google AI, etc）について知らないか、あるいは手動でやってるって、マジで時代遅れだぜ。無料でここまでできるのに、なぜ手を出さない？　それがわからないなら、この記事を読んだ意味がない。今すぐやれ。
+eleventyExcludeFromCollections: true
+tags: ["ai-tools"]
+---
+正直に言う。お前らがまだ2026年版 無料で使えるAI APIまとめ（NVIDIA NIM, Google AI, etc）について知らないか、あるいは手動でやってるって、マジで時代遅れだぜ。無料でここまでできるのに、なぜ手を出さない？　それがわからないなら、この記事を読んだ意味がない。今すぐやれ。
 
 ■ 問題提起
 お前らはこうしてるだろ？高い有料プランに金を払って、あるいは面倒な手動作業を続けてる。それ、間違いだ。
