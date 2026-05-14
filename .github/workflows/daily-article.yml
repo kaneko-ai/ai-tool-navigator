@@ -204,6 +204,14 @@ jobs:
             FAIL=1
           fi
 
+          # front-matter 先頭性チェック（独白リーク防止）
+          FIRST_NONEMPTY_LINE=$(grep -m1 -nE '\S' "$FINAL" | head -1 | cut -d: -f1)
+          FIRST_CONTENT=$(sed -n "${FIRST_NONEMPTY_LINE}p" "$FINAL")
+          if [ "$FIRST_CONTENT" != "---" ]; then
+            echo "::error::front-matter が先頭にありません（独白リーク疑い）。最初の非空行: '$FIRST_CONTENT'"
+            FAIL=1
+          fi
+
           # 文字数（マルチバイト対応: wc -m）
           CHARS=$(wc -m < "$FINAL" | tr -d ' ')
           echo "character_count=$CHARS" >> $GITHUB_OUTPUT
