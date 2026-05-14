@@ -1,0 +1,22 @@
+---
+permalink: "/tags/"
+layout: base.njk
+title: "タグ一覧 | ai-tool-navigator"
+description: "ai-tool-navigator のすべてのタグ一覧。"
+---
+<section class="tag-index">
+  <header class="tag-index__header">
+    <p class="tag-index__breadcrumb"><a href="{{ '/' | url }}">トップ</a> &gt; タグ一覧</p>
+    <h1 class="tag-index__title">タグ一覧</h1>
+    <p class="tag-index__lead">関心のあるカテゴリから記事を探せます。</p>
+  </header>
+  <ul class="tag-cloud">
+    {% for tag in collections.tagList %}
+      <li class="tag-cloud__item">
+        <a href="{{ ('/tags/' + tag + '/') | url }}" class="tag-cloud__link">
+          <span class="tag-cloud__name">#{{ tag }}</span>
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+</section>

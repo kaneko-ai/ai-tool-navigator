@@ -180,3 +180,7 @@ src/articles.backup.*
 
 # Eleventy build output
 _site/
+
+# Backup files (timestamped)
+*.bak.*
+*.bak

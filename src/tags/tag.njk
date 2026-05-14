@@ -1,0 +1,35 @@
+---
+pagination:
+  data: collections.tagList
+  size: 1
+  alias: tag
+permalink: "/tags/{{ tag | slugify }}/"
+layout: base.njk
+eleventyComputed:
+  title: "「{{ tag }}」の記事一覧 | ai-tool-navigator"
+  description: "「{{ tag }}」タグが付いた記事の一覧です。"
+---
+<section class="tag-page">
+  <header class="tag-page__header">
+    <p class="tag-page__breadcrumb"><a href="{{ '/' | url }}">トップ</a> &gt; <a href="{{ '/tags/' | url }}">タグ一覧</a> &gt; {{ tag }}</p>
+    <h1 class="tag-page__title">タグ: {{ tag }}</h1>
+  </header>
+  <ul class="article-list">
+    {% for post in collections.articles %}
+      {% if tag in post.data.tags %}
+        <li class="article-card">
+          <a class="article-card__link" href="{{ post.url | url }}">
+            <p class="article-card__date">{{ post.date.toISOString().slice(0,10) }}</p>
+            <h2 class="article-card__title">{{ post.data.title }}</h2>
+            {% if post.data.description %}<p class="article-card__description">{{ post.data.description }}</p>{% endif %}
+            {% if post.data.tags %}
+              <ul class="article-card__tags">
+                {% for t in post.data.tags %}<li class="article-card__tag">#{{ t }}</li>{% endfor %}
+              </ul>
+            {% endif %}
+          </a>
+        </li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+</section>
