@@ -5,14 +5,34 @@
   <meta name="google-site-verification" content="s5O5ewNj4ezNiNm9OrPmNNzaqHaU2yHeaA-B11Kfp2c" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{ title }} | AI Tool Navigator</title>
-  {% if description %}<meta name="description" content="{{ description }}">{% endif %}
-  {% if noindex %}<meta name="robots" content="noindex, nofollow">{% endif %}
-  {% if description %}<meta property="og:description" content="{{ description }}">{% endif %}
-  <meta property="og:title" content="{{ title }}">
-  <meta property="og:type" content="article">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="{{ '/assets/css/style.css' | url }}">
+
+  {# --- OGP / Twitter Card / Canonical --- #}
+  {% set siteName = "ai-tool-navigator" %}
+  {% set siteUrl = "https://kaneko-ai.github.io/ai-tool-navigator" %}
+  {% set defaultDesc = "AI関連ツールの比較・解説サイト。AI学習、フリーランス転職、英語学習の実用ガイドをまとめています。" %}
+  {% set pageTitle = title or (siteName + " | AIツール比較・解説") %}
+  {% set pageDesc = description or defaultDesc %}
+  {% set pageUrl = siteUrl + (page.url or "/") %}
+
+  <meta name="description" content="{{ pageDesc }}">
+  <link rel="canonical" href="{{ pageUrl }}">
+
+  <meta property="og:type" content="{% if layout == 'post.njk' %}article{% else %}website{% endif %}">
+  <meta property="og:site_name" content="{{ siteName }}">
+  <meta property="og:title" content="{{ pageTitle }}">
+  <meta property="og:description" content="{{ pageDesc }}">
+  <meta property="og:url" content="{{ pageUrl }}">
+  <meta property="og:locale" content="ja_JP">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="{{ pageTitle }}">
+  <meta name="twitter:description" content="{{ pageDesc }}">
+
+  {% if noindex %}<meta name="robots" content="noindex,follow">{% endif %}
+
   <!-- Google Analytics 4 -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-8J2LVW54HE"></script>
   <script>

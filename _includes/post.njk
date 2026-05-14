@@ -2,6 +2,34 @@
 layout: base.njk
 ---
 
+{# --- JSON-LD BlogPosting 構造化データ --- #}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": {{ title | dump | safe }},
+  "description": {{ (description or "AIツール比較・解説の記事です。") | dump | safe }},
+  "datePublished": "{{ date.toISOString() }}",
+  "dateModified": "{{ date.toISOString() }}",
+  "author": {
+    "@type": "Organization",
+    "name": "ai-tool-navigator 編集部",
+    "url": "https://kaneko-ai.github.io/ai-tool-navigator/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "ai-tool-navigator",
+    "url": "https://kaneko-ai.github.io/ai-tool-navigator/"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://kaneko-ai.github.io/ai-tool-navigator{{ page.url }}"
+  },
+  "inLanguage": "ja",
+  "keywords": {{ (tags | join(", ")) | dump | safe }}
+}
+</script>
+
 <article>
   <header>
     <time datetime="{{ date }}">{{ date }}</time>
