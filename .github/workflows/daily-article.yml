@@ -212,6 +212,19 @@ jobs:
             FAIL=1
           fi
 
+          # 機械校閲（grep ベース、追加コストなし）
+          if [ -f scripts/review_helper.sh ]; then
+            echo "::group::Review helper output"
+            bash scripts/review_helper.sh "$FINAL" || REVIEW_EXIT=$?
+            echo "::endgroup::"
+            if [ "${REVIEW_EXIT:-0}" -eq 2 ]; then
+              echo "::error::review_helper で errors を検出"
+              FAIL=1
+            elif [ "${REVIEW_EXIT:-0}" -eq 1 ]; then
+              echo "::warning::review_helper で warnings を検出（FAILにはしない）"
+            fi
+          fi
+
           # 文字数（マルチバイト対応: wc -m）
           CHARS=$(wc -m < "$FINAL" | tr -d ' ')
           echo "character_count=$CHARS" >> $GITHUB_OUTPUT
