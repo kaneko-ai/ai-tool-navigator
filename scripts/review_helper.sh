@@ -68,6 +68,7 @@ SKIP_PATTERNS = [
     'ConoHa WING',
     '※本記事は広告',
     '* * *',
+    '<!--',
     '---',
 ]
 while lines and any(pat in lines[-1] for pat in SKIP_PATTERNS):
