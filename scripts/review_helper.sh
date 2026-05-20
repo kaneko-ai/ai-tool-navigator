@@ -70,6 +70,20 @@ SKIP_PATTERNS = [
     '* * *',
     '<!--',
     '---',
+    '- 文字数:',
+    '- 採用トピック:',
+    '- 出典 URL リスト:',
+    '- ヘッダー画像プロンプト:',
+    '- 自動チェック結果:',
+    '  - 末尾句点:',
+    '  - AI 開示文:',
+    '  - 出典 URL 3 件以上:',
+    '  - 文字数 2500-3500 字:',
+    '  - description に H2 混入なし:',
+    '  - frontmatter 必須キー揃い:',
+    '  - editor_reviewed: false:',
+    '  - CTA プレースホルダ配置:',
+    '  - https://',
 ]
 while lines and any(pat in lines[-1] for pat in SKIP_PATTERNS):
     lines.pop()
