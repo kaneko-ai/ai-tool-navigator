@@ -5,6 +5,8 @@ date: 2026-05-11
 description: "Hermes Agent 完全セットアップガイドの最新情報と活用ガイド。"
 ai_generated: true
 tags: ["agent", "tutorial"]
+noindex: true
+eleventyExcludeFromCollections: true
 ---
 
 # Hermes Agent 完全セットアップガイド：Discord自動化の未来を今、手にする
