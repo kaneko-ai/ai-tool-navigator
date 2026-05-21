@@ -624,14 +624,19 @@ footer a:hover {
   display: inline-block;
 }
 
-/* PC: sticky追従 */
+/* PC: sticky追従 (堅牢版) */
 @media (min-width: 1024px) {
   .sidebar-ad {
     margin-top: 0;
+    /* grid item として stretch されないように高さ制約を緩める */
+    align-self: start;
   }
   .sidebar-ad__sticky {
+    position: -webkit-sticky;
     position: sticky;
-    top: var(--space-lg);
+    top: 24px;
+    /* デバッグ用: stickyが効いているか分かりやすくするマーカー */
+    z-index: 10;
   }
 }
 
