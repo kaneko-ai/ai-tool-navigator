@@ -50,6 +50,21 @@ module.exports = function(eleventyConfig) {
     return scored;
   });
 
+  // CTA プレースホルダ置換: <!-- CTA:KEY --> を _data/cta.js のHTMLに差し替え
+  // 対象: HTML出力ファイル全て。マッチしないキーは元のコメントを残す。
+  eleventyConfig.addTransform("ctaReplace", function(content, outputPath) {
+    if (!outputPath || !outputPath.endsWith(".html")) return content;
+    const ctaMap = require("./_data/cta.js");
+    return content.replace(/<!--\s*CTA:([A-Z0-9_]+)\s*-->/g, function(match, key) {
+      if (ctaMap[key]) {
+        return ctaMap[key];
+      }
+      console.warn("[ctaReplace] 未定義のCTAキー: " + key);
+      return match;
+    });
+  });
+
+
   return {
     dir: {
       input: "src",
