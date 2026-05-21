@@ -51,21 +51,26 @@
   </script>
 </head>
 <body>
-  <div class="container">
-    <nav>
+  <div class="site-shell">
+    <nav class="site-nav">
       <a href="{{ '/' | url }}">ホーム</a>
       <a href="{{ '/articles/' | url }}">記事一覧</a>
       <a href="{{ '/tags/' | url }}">タグ</a>
     </nav>
 
-    {{ content | safe }}
+    <div class="layout">
+      <main class="layout__main">
+        {{ content | safe }}
+      </main>
+      {% include "partials/sidebar-ad.njk" %}
+    </div>
 
-    <footer>
+    <footer class="site-footer">
       <p>
         <a href="{{ '/about/' | url }}">運営者情報</a>
         <a href="{{ '/privacy/' | url }}">プライバシーポリシー</a>
       </p>
-      <p>Powered by Navigator X</p>
+      <p>© ai-tool-navigator</p>
     </footer>
   </div>
 </body>

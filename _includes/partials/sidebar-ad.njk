@@ -1,0 +1,31 @@
+{# サイドバー追従広告: 記事タグに応じてA8広告を切替 #}
+{% set isFreelance = false %}
+{% if tags %}
+  {% for t in tags %}
+    {% if t == "freelance" or t == "side-business" or t == "independence" %}
+      {% set isFreelance = true %}
+    {% endif %}
+  {% endfor %}
+{% endif %}
+
+<aside class="sidebar-ad" aria-label="広告">
+  <div class="sidebar-ad__sticky">
+    <p class="sidebar-ad__label">広告</p>
+    {% if isFreelance %}
+      {# フリーランスボード 300x250 #}
+      <a href="https://px.a8.net/svt/ejp?a8mat=4B3KUO+2TT582+5R1M+62MDD" rel="nofollow noopener" target="_blank">
+        <img border="0" width="300" height="250" alt="フリーランスボード"
+             src="https://www25.a8.net/svt/bgt?aid=260507472171&wid=001&eno=01&mid=s00000026833001020000&mc=1">
+      </a>
+      <img border="0" width="1" height="1" src="https://www13.a8.net/0.gif?a8mat=4B3KUO+2TT582+5R1M+62MDD" alt="">
+    {% else %}
+      {# Neuro Dive 300x250 #}
+      <a href="https://px.a8.net/svt/ejp?a8mat=4B3KUO+2T7PMA+47GS+HVNAP" rel="nofollow noopener" target="_blank">
+        <img border="0" width="300" height="250" alt="Neuro Dive"
+             src="https://www23.a8.net/svt/bgt?aid=260507472170&wid=001&eno=01&mid=s00000019630003003000&mc=1">
+      </a>
+      <img border="0" width="1" height="1" src="https://www11.a8.net/0.gif?a8mat=4B3KUO+2T7PMA+47GS+HVNAP" alt="">
+    {% endif %}
+    <p class="sidebar-ad__pr">※本リンクはアフィリエイト広告を含みます</p>
+  </div>
+</aside>

@@ -517,3 +517,135 @@ footer a:hover {
   padding: 0.1rem 0.5rem;
   border-radius: 10px;
 }
+
+/* ============================================
+   3-Column Layout with Sticky Sidebar Ad (Day21)
+   ============================================ */
+
+.site-shell {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: var(--space-lg);
+}
+
+@media (min-width: 768px) {
+  .site-shell { padding: var(--space-xl); }
+}
+
+.site-nav {
+  display: flex;
+  gap: var(--space-lg);
+  padding-bottom: var(--space-md);
+  margin-bottom: var(--space-2xl);
+  border-bottom: 1px solid var(--color-border);
+  font-weight: 500;
+}
+
+.site-nav a {
+  color: var(--color-text);
+  text-decoration: none;
+  padding: var(--space-xs) 0;
+  transition: color 0.15s ease;
+}
+
+.site-nav a:hover {
+  color: var(--color-link);
+}
+
+.site-footer {
+  margin-top: var(--space-3xl);
+  padding: var(--space-lg) 0;
+  border-top: 1px solid var(--color-border);
+  text-align: center;
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+}
+
+.site-footer a {
+  color: var(--color-text-muted);
+  text-decoration: none;
+  margin: 0 var(--space-sm);
+}
+
+/* --- Layout grid --- */
+.layout {
+  display: block;
+}
+
+.layout__main {
+  min-width: 0;
+}
+
+/* PC: 2カラム化 (本文 + サイドバー) */
+@media (min-width: 1024px) {
+  .layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 320px;
+    gap: var(--space-2xl);
+    align-items: start;
+  }
+
+  .layout__main {
+    max-width: var(--max-width-wide);
+  }
+}
+
+/* --- Sidebar Ad --- */
+.sidebar-ad {
+  margin-top: var(--space-2xl);
+  text-align: center;
+}
+
+.sidebar-ad__sticky {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+}
+
+.sidebar-ad__label {
+  margin: 0 0 var(--space-sm);
+  font-size: 0.7rem;
+  color: var(--color-text-muted);
+  letter-spacing: 0.05em;
+  text-align: left;
+}
+
+.sidebar-ad__pr {
+  margin: var(--space-sm) 0 0;
+  font-size: 0.7rem;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+}
+
+.sidebar-ad img {
+  max-width: 100%;
+  height: auto;
+  display: inline-block;
+}
+
+/* PC: sticky追従 */
+@media (min-width: 1024px) {
+  .sidebar-ad {
+    margin-top: 0;
+  }
+  .sidebar-ad__sticky {
+    position: sticky;
+    top: var(--space-lg);
+  }
+}
+
+/* タブレット/モバイル: 記事末尾に小さく */
+@media (max-width: 1023px) {
+  .sidebar-ad {
+    max-width: 320px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+/* 旧 .container クラスは後方互換のため残す（ホーム等が使用） */
+.container {
+  max-width: var(--max-width-wide);
+  margin: 0 auto;
+}
