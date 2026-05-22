@@ -628,8 +628,8 @@ footer a:hover {
 @media (min-width: 1024px) {
   .sidebar-ad {
     margin-top: 0;
-    /* grid item として stretch されないように高さ制約を緩める */
-    align-self: start;
+    /* grid item を grid全高まで stretch させて sticky の可動域を最大化 */
+    align-self: stretch;
   }
   .sidebar-ad__sticky {
     position: -webkit-sticky;
