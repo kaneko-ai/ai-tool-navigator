@@ -4,6 +4,8 @@
 // eleventy.config.js の addTransform でビルド時にこのHTMLに置換される。
 
 module.exports = {
+  // 対応タグ（Phase C 決定木 条件B）: career, ai-engineer-career, career-change, data-science, reskill, ai-learning
+  // 禁止タグ: english-learning 系（広告主審査中、CTA配置自体を省略）
   A8_NEURODIVE: `
 <div class="cta-box" style="border:1px solid #ddd;padding:16px;margin:24px 0;background:#f9fafb;border-radius:8px;">
   <p style="margin:0 0 8px 0;font-weight:bold;">▼ AI・データサイエンスを学んで転職したい方へ</p>
@@ -16,6 +18,7 @@ module.exports = {
 </div>
 `.trim(),
 
+  // 対応タグ（Phase C 決定木 条件A）: freelance, freelance-board, side-business, independence, independent
   A8_FREELANCEBOARD: `
 <div class="cta-box" style="border:1px solid #ddd;padding:16px;margin:24px 0;background:#f9fafb;border-radius:8px;">
   <p style="margin:0 0 8px 0;font-weight:bold;">▼ フリーランス案件を探している方へ</p>
@@ -30,6 +33,8 @@ module.exports = {
 </div>
 `.trim(),
 
+  // 対応タグ（Phase C 決定木 条件C）: blog, wordpress, server, site-building
+  // 注: もしも経由リンクは現在URL未配置（差し替え提携先承認待ち）
   MOSHIMO_CONOHA_WING: `
 <div class="cta-box" style="border:1px solid #ddd;padding:16px;margin:24px 0;background:#f9fafb;border-radius:8px;">
   <p style="margin:0 0 8px 0;font-weight:bold;">▼ ブログ運営をはじめたい方へ</p>

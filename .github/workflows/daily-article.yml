@@ -290,6 +290,23 @@ jobs:
             FAIL=1
           fi
 
+          # Phase C: CTA-タグ整合性チェック（warning レベル、FAIL にはしない）
+          # 英語学習タグ + A8転職CTA の文脈ミスマッチを検出
+          if grep -qE "^\s*-\s*(english-learning|english|toeic|speaking|business-english|speak-review|teppen-english|best-teacher)\s*$" "$FINAL"; then
+            if grep -q "CTA:A8_NEURODIVE" "$FINAL"; then
+              echo "::warning::CTA-tag mismatch: 英語学習タグに A8_NEURODIVE が配置されています（文脈ミスマッチ）"
+            fi
+            if grep -q "CTA:A8_FREELANCEBOARD" "$FINAL"; then
+              echo "::warning::CTA-tag mismatch: 英語学習タグに A8_FREELANCEBOARD が配置されています（文脈ミスマッチ）"
+            fi
+          fi
+          # フリーランスタグ + 転職CTA の検出
+          if grep -qE "^\s*-\s*(freelance|freelance-board|side-business|independence)\s*$" "$FINAL"; then
+            if grep -q "CTA:A8_NEURODIVE" "$FINAL"; then
+              echo "::warning::CTA-tag mismatch: フリーランス系タグに A8_NEURODIVE が配置されています"
+            fi
+          fi
+
           echo "QUALITY_GATE_FAIL=$FAIL" >> $GITHUB_ENV
 
           if [ $FAIL -eq 1 ]; then
