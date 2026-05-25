@@ -318,13 +318,48 @@ jobs:
             echo "**Final article:** [\`drafts/$DRAFT_DATE/04_final.md\`](../blob/main/drafts/$DRAFT_DATE/04_final.md)"
           } >> $GITHUB_STEP_SUMMARY
 
+      - name: Auto-publish (Phase A)
+        id: auto_publish
+        if: env.QUALITY_GATE_FAIL == '0'
+        run: |
+          DRAFT_DATE="${{ steps.topic.outputs.draft_date }}"
+          ARTICLE_PATH="src/articles/${DRAFT_DATE}.md"
+          if [ -f "$ARTICLE_PATH" ]; then
+            echo "::notice title=Auto-publish skipped::既に $ARTICLE_PATH が存在します（手動編集を保護）"
+            echo "published=skipped" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+          echo "Auto-publishing: $DRAFT_DATE → $ARTICLE_PATH"
+          if python3 scripts/publish.py "$DRAFT_DATE"; then
+            echo "::notice title=Auto-publish success::$ARTICLE_PATH を自動公開しました"
+            echo "published=yes" >> $GITHUB_OUTPUT
+            # review_helper による事後検証（公開済みファイルに対して）
+            if [ -f scripts/review_helper.sh ]; then
+              echo "::group::Post-publish review"
+              bash scripts/review_helper.sh "$ARTICLE_PATH" || true
+              echo "::endgroup::"
+            fi
+          else
+            echo "::error::Auto-publish 失敗（publish.py が非ゼロ終了）。drafts のみ保存します。"
+            echo "published=failed" >> $GITHUB_OUTPUT
+          fi
+
       - name: Commit drafts (always)
         if: always()
         run: |
           git config user.name "ai-tool-navigator-bot"
           git config user.email "ai-tool-navigator-bot@users.noreply.github.com"
-          git add drafts/
-          git diff --staged --quiet || git commit -m "Daily draft: ${{ steps.topic.outputs.draft_date }} (gate_fail=${QUALITY_GATE_FAIL:-0}, models=s1:${{ steps.stage1.outputs.model }}/s2:${{ steps.stage2.outputs.model }}/s3:${{ steps.stage3.outputs.model }}/s4:${{ steps.stage4.outputs.model }})"
+          git add drafts/ src/articles/
+          PUBLISHED="${{ steps.auto_publish.outputs.published }}"
+          PUBLISHED_TAG=""
+          if [ "$PUBLISHED" = "yes" ]; then
+            PUBLISHED_TAG=" auto_published=yes"
+          elif [ "$PUBLISHED" = "skipped" ]; then
+            PUBLISHED_TAG=" auto_published=skipped"
+          elif [ "$PUBLISHED" = "failed" ]; then
+            PUBLISHED_TAG=" auto_published=failed"
+          fi
+          git diff --staged --quiet || git commit -m "Daily draft: ${{ steps.topic.outputs.draft_date }} (gate_fail=${QUALITY_GATE_FAIL:-0}${PUBLISHED_TAG}, models=s1:${{ steps.stage1.outputs.model }}/s2:${{ steps.stage2.outputs.model }}/s3:${{ steps.stage3.outputs.model }}/s4:${{ steps.stage4.outputs.model }})"
           # push 競合対策: リモートの最新を取り込んでから push
           for i in 1 2 3; do
             git pull --rebase origin main && git push origin main && break
