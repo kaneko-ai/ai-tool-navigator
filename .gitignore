@@ -184,3 +184,6 @@ _site/
 # Backup files (timestamped)
 *.bak.*
 *.bak
+
+# Phase B-1: 独白自動除去の記録（プロンプト改善用、リポジトリには含めない）
+drafts/*/_preamble_removed.txt

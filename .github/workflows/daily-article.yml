@@ -192,6 +192,44 @@ jobs:
           echo "::notice title=Stage 4 (Polish)::model=$MODEL premium=$PREMIUM duration=${DURATION}ms"
 
 
+      - name: Strip preamble before frontmatter (Phase B-1 auto-recovery)
+        id: strip_preamble
+        run: |
+          DRAFT_DATE="${{ steps.topic.outputs.draft_date }}"
+          FINAL="drafts/$DRAFT_DATE/04_final.md"
+          if [ ! -f "$FINAL" ]; then
+            echo "::warning::Strip preamble: $FINAL が存在しないためスキップ"
+            exit 0
+          fi
+          # --- の存在確認
+          if ! grep -q "^---$" "$FINAL"; then
+            echo "::warning::Strip preamble: frontmatter区切り --- が見つからないためスキップ"
+            exit 0
+          fi
+          # 最初の --- より前の行数を計測
+          FIRST_DASHES=$(grep -nE "^---$" "$FINAL" | head -1 | cut -d: -f1)
+          PREAMBLE_LINES=$((FIRST_DASHES - 1))
+          if [ "$PREAMBLE_LINES" -eq 0 ]; then
+            echo "Strip preamble: 独白なし、修復不要"
+            echo "removed_lines=0" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+          # 独白サンプル保存（プロンプト改善用フィードバック）
+          head -n "$PREAMBLE_LINES" "$FINAL" > "drafts/$DRAFT_DATE/_preamble_removed.txt"
+          # 独白除去
+          awk 'BEGIN{started=0} /^---$/{started=1} started{print}' "$FINAL" > "${FINAL}.tmp"
+          if [ -s "${FINAL}.tmp" ]; then
+            mv "${FINAL}.tmp" "$FINAL"
+            echo "::notice title=Phase B-1 auto-recovery::独白 ${PREAMBLE_LINES} 行を自動除去しました"
+            echo "removed_lines=$PREAMBLE_LINES" >> $GITHUB_OUTPUT
+            echo "--- 除去された独白 ---"
+            head -n "$PREAMBLE_LINES" "drafts/$DRAFT_DATE/_preamble_removed.txt"
+            echo "--- (ここまで) ---"
+          else
+            echo "::warning::awk結果が空、元ファイルを保持"
+            rm -f "${FINAL}.tmp"
+          fi
+
       - name: Quality gate
         id: gate
         run: |
