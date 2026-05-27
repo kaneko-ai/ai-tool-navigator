@@ -1,0 +1,106 @@
+{
+  "fetched_at": "2026-05-27T18:42:03.739996+09:00",
+  "date": "2026-05-27",
+  "model": "grok-4.3",
+  "provider": "xai-oauth",
+  "source": "x_search via hermes",
+  "prompt_version": "v1",
+  "trends": [
+    {
+      "topic": "NVIDIA AI投資ジレンマ",
+      "summary": "日経新聞投稿でAI相場の主役交代と巨額インフラ投資の収益化ジレンマが指摘され、投資家・ビジネス層で活発に議論されている。",
+      "category": "ai",
+      "intent": "informational",
+      "freshness_hours": 10,
+      "example_post": "AI相場の主役を降りたNVIDIA　インフラ投資は二律背反内包",
+      "keywords_jp": [
+        "NVIDIA",
+        "AI相場",
+        "インフラ投資",
+        "生成AI",
+        "二律背反"
+      ],
+      "article_angle": "AIブーム次の投資リスクと勝ち筋を解説"
+    },
+    {
+      "topic": "生成AIイラストバズ",
+      "summary": "高品質AI生成イラスト投稿が5500いいね超を記録し、AIアート判定や日常活用への関心が急上昇中。",
+      "category": "ai",
+      "intent": "informational",
+      "freshness_hours": 6,
+      "example_post": "えっ、これって…（美しいAI生成イラスト投稿）",
+      "keywords_jp": [
+        "生成AIイラスト",
+        "AIアート",
+        "AI活用",
+        "日常",
+        "バズ"
+      ],
+      "article_angle": "AI生成アートが日常化する理由と活用法"
+    },
+    {
+      "topic": "AI×仕組み化副業",
+      "summary": "現役フリーランスがAIを駆使した仕組み作りを強調し、単発稼ぎからスケールへシフトする動きが注目されている。",
+      "category": "freelance",
+      "intent": "how_to",
+      "freshness_hours": 8,
+      "example_post": "これから大事なのはAIを駆使して仕組みを作る力",
+      "keywords_jp": [
+        "AI仕組み化",
+        "フリーランス",
+        "副業",
+        "スケール",
+        "朝活"
+      ],
+      "article_angle": "AIで副業を仕組み化する方法と事例"
+    },
+    {
+      "topic": "行動重視副業論",
+      "summary": "100冊読むより10個挑戦した方が強いという投稿が143いいねを集め、知識より実践を重視するトレンドが広がっている。",
+      "category": "freelance",
+      "intent": "informational",
+      "freshness_hours": 12,
+      "example_post": "100冊のビジネス本を読んだ人より、10個の副業にチャレンジした人の方が圧倒的に強い",
+      "keywords_jp": [
+        "副業挑戦",
+        "行動力",
+        "フリーランス",
+        "実践",
+        "挫折"
+      ],
+      "article_angle": "本より行動が大事な副業成功のリアル"
+    },
+    {
+      "topic": "TOEIC継続のコツ",
+      "summary": "毎日少しずつ問題集を解く「ゼロにしない」習慣が104いいねを集め、モチベーション維持の現実的な方法として話題に。",
+      "category": "english",
+      "intent": "how_to",
+      "freshness_hours": 14,
+      "example_post": "気持ちが乗らないときでも、単語を10個だけやる、問題集1ページだけやる。ゼロにしないことを目標に",
+      "keywords_jp": [
+        "TOEIC継続",
+        "毎日学習",
+        "公式問題集",
+        "習慣化",
+        "モチベーション"
+      ],
+      "article_angle": "TOEICを毎日続けられる最小習慣の作り方"
+    },
+    {
+      "topic": "通訳者英語ルーティン",
+      "summary": "現役通訳者が独り言英会話・シャドーイング・例文暗唱を最強ルーティンとして紹介し、100いいね超の支持を集めている。",
+      "category": "english",
+      "intent": "how_to",
+      "freshness_hours": 9,
+      "example_post": "毎日必ず独り言英会話、基本例文の暗記→暗唱、シャドーイングで発音矯正",
+      "keywords_jp": [
+        "通訳者学習",
+        "シャドーイング",
+        "独り言英会話",
+        "例文暗唱",
+        "英会話"
+      ],
+      "article_angle": "プロ通訳者が実践する英語上達の毎日ルーティン"
+    }
+  ]
+}

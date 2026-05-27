@@ -187,3 +187,6 @@ _site/
 
 # Phase B-1: 独白自動除去の記録（プロンプト改善用、リポジトリには含めない）
 drafts/*/_preamble_removed.txt
+
+# Stage 0 (X trend fetch) - raw stdout for debugging only
+drafts/*/00_trends_raw.txt
