@@ -1,0 +1,101 @@
+{
+  "fetched_at": "2026-05-28T15:12:46.298881+09:00",
+  "date": "2026-05-28",
+  "model": "grok-4.3",
+  "provider": "xai-oauth",
+  "source": "x_search via hermes",
+  "prompt_version": "v1",
+  "trends": [
+    {
+      "topic": "ChatGPTだけで十分",
+      "summary": "ChatGPT以外のAIツールを増やしすぎず、仕組み化を重視する声が急増。2026年現在は実利的収益化フェーズに移行したため話題に。",
+      "category": "ai",
+      "intent": "informational",
+      "freshness_hours": 8,
+      "example_post": "凡人・主婦が月100万狙うならChatGPTが最重要。ツール増やすより仕組み化が大事",
+      "keywords_jp": [
+        "ChatGPT",
+        "生成AI",
+        "仕組み化",
+        "副業",
+        "月収"
+      ],
+      "article_angle": "ChatGPTだけで月50万稼ぐ現実的仕組み"
+    },
+    {
+      "topic": "悪魔の呪文プロンプト",
+      "summary": "Geminiに自分のアイデア欠陥を容赦なく指摘させる新プロンプトが233いいね超えで拡散。基本プロンプトが陳腐化した今、注目。",
+      "category": "ai",
+      "intent": "how_to",
+      "freshness_hours": 12,
+      "example_post": "Geminiに悪魔の呪文で欠陥指摘させるテクニックが効く",
+      "keywords_jp": [
+        "プロンプト",
+        "Gemini",
+        "AI活用",
+        "アイデア検証"
+      ],
+      "article_angle": "全肯定AIを逆手に取る最新プロンプト術"
+    },
+    {
+      "topic": "クラウドワークス全落ち",
+      "summary": "提案文を送っても全落ち続きで疲弊する声が相次ぐ。在宅初心者の登竜門だが競争激化が話題に。",
+      "category": "freelance",
+      "intent": "informational",
+      "freshness_hours": 6,
+      "example_post": "クラウドワークスで提案文書いて全落ち…疲れる",
+      "keywords_jp": [
+        "クラウドワークス",
+        "副業",
+        "在宅ワーク",
+        "案件獲得"
+      ],
+      "article_angle": "クラウドワークス全落ち回避の提案術"
+    },
+    {
+      "topic": "AI×副業シフト",
+      "summary": "クラウドワークスからX発信やnote販売へ移行する人が増加。AIで量産後の判断力が鍵と指摘。",
+      "category": "freelance",
+      "intent": "comparison",
+      "freshness_hours": 15,
+      "example_post": "CW中心からSNS案件獲得・note販売へシフトする動き",
+      "keywords_jp": [
+        "AI副業",
+        "note販売",
+        "X発信",
+        "独立"
+      ],
+      "article_angle": "AI活用で副業から独立へ移行する方法"
+    },
+    {
+      "topic": "TOEIC毎日問題",
+      "summary": "TOEIC頻出語彙・四択問題を毎日投稿するアカウントが活発。継続学習の習慣化ツールとして人気。",
+      "category": "english",
+      "intent": "how_to",
+      "freshness_hours": 10,
+      "example_post": "TOEIC対策四択問題毎日投稿で復習促進",
+      "keywords_jp": [
+        "TOEIC",
+        "語彙",
+        "毎日学習",
+        "スコアアップ"
+      ],
+      "article_angle": "TOEIC毎日1問習慣で900点突破"
+    },
+    {
+      "topic": "ビジネス英語防衛策",
+      "summary": "外資系会議で「地蔵」回避のための具体フレーズと図解投稿が話題。話せない高得点者の悩みも同時進行。",
+      "category": "english",
+      "intent": "informational",
+      "freshness_hours": 4,
+      "example_post": "外資会議で弾丸トークに負けない2つの防衛策",
+      "keywords_jp": [
+        "ビジネス英語",
+        "会議",
+        "英会話",
+        "外資"
+      ],
+      "article_angle": "TOEIC高得点でも話せるビジネス英語術"
+    }
+  ]
+}
