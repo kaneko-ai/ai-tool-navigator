@@ -43,6 +43,7 @@ jobs:
             SUFFIX=$((SUFFIX+1))
           done
           echo "draft_date=$DRAFT_DATE" >> $GITHUB_OUTPUT
+          echo "draft_date_base=$DRAFT_DATE_BASE" >> $GITHUB_OUTPUT
           mkdir -p drafts/$DRAFT_DATE
           echo "Draft date: $DRAFT_DATE (base: $DRAFT_DATE_BASE)"
 
@@ -61,15 +62,32 @@ jobs:
           GH_TOKEN: ${{ secrets.COPILOT_PAT }}
         run: |
           DRAFT_DATE="${{ steps.topic.outputs.draft_date }}"
+          DRAFT_DATE_BASE="${{ steps.topic.outputs.draft_date_base }}"
+          TRENDS_SUMMARY="drafts/${DRAFT_DATE_BASE}/00_trends_summary.md"
 
-          # プロンプト本体 + 直近トピックリストを結合（重複防止コンテキスト注入）
+          # プロンプト本体 + 直近トピックリスト + Xトレンドサマリ(あれば)を結合
           {
             cat prompts/01_topic_select.md
             echo ""
             echo "==="
             echo ""
             cat /tmp/recent_topics.txt
+            if [ -f "$TRENDS_SUMMARY" ]; then
+              echo ""
+              echo "==="
+              echo ""
+              echo "# 本日のXトレンド (Stage 0 で取得済)"
+              echo ""
+              cat "$TRENDS_SUMMARY"
+            fi
           } > /tmp/stage1_prompt.txt
+
+          # ログ通知 (プロンプト本体には混入させない)
+          if [ -f "$TRENDS_SUMMARY" ]; then
+            echo "::notice title=Stage 0 Trends::loaded $TRENDS_SUMMARY"
+          else
+            echo "::notice title=Stage 0 Trends::not found at $TRENDS_SUMMARY (fallback to fixed 30 topics)"
+          fi
 
           copilot -p "$(cat /tmp/stage1_prompt.txt)" \
             --model auto \
