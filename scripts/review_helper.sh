@@ -87,7 +87,31 @@ SKIP_PATTERNS = [
     '  - CTA プレースホルダ配置:',
     '  - https://',
 ]
-while lines and any(pat in lines[-1] for pat in SKIP_PATTERNS):
+# メタブロック一括除去: frontmatter以降に現れる horizontal rule (---) または
+# 既知のメタ見出し（文字数:/採用トピック:/出典URLリスト:/自動チェック結果:）以降を切り捨て
+META_HEADERS = ('文字数:', '採用トピック:', '出典URLリスト:', '出典 URL リスト:', '自動チェック結果:', 'ヘッダー画像プロンプト:')
+in_frontmatter = False
+fm_closed = False
+cut_at = None
+for i, line in enumerate(lines):
+    s = line.strip()
+    if i == 0 and s == '---':
+        in_frontmatter = True
+        continue
+    if in_frontmatter and s == '---':
+        in_frontmatter = False
+        fm_closed = True
+        continue
+    if not fm_closed:
+        continue
+    # frontmatter後の本文領域で、horizontal rule または メタ見出しが出たら境界
+    if s == '---' or any(s.startswith(h) for h in META_HEADERS):
+        cut_at = i
+        break
+if cut_at is not None:
+    lines = lines[:cut_at]
+# 末尾の空行・既存SKIPパターン行を削る
+while lines and (not lines[-1].strip() or any(pat in lines[-1] for pat in SKIP_PATTERNS)):
     lines.pop()
 # 見出し行のみで終わるのも本文末尾とは認めない
 while lines and lines[-1].lstrip().startswith('#'):
