@@ -38,7 +38,7 @@ jobs:
           DRAFT_DATE_BASE=$(TZ=Asia/Tokyo date +%Y-%m-%d)
           DRAFT_DATE="$DRAFT_DATE_BASE"
           SUFFIX=2
-          while [ -d "drafts/$DRAFT_DATE" ]; do
+          while [ -d "drafts/$DRAFT_DATE" ] && [ -f "drafts/$DRAFT_DATE/01_topic.md" ]; do
             DRAFT_DATE="${DRAFT_DATE_BASE}-${SUFFIX}"
             SUFFIX=$((SUFFIX+1))
           done
@@ -358,14 +358,15 @@ jobs:
         if: env.QUALITY_GATE_FAIL == '0'
         run: |
           DRAFT_DATE="${{ steps.topic.outputs.draft_date }}"
-          ARTICLE_PATH="src/articles/${DRAFT_DATE}.md"
+          DRAFT_DATE_BASE="${{ steps.topic.outputs.draft_date_base }}"
+          ARTICLE_PATH="src/articles/${DRAFT_DATE_BASE}.md"
           if [ -f "$ARTICLE_PATH" ]; then
             echo "::notice title=Auto-publish skipped::既に $ARTICLE_PATH が存在します（手動編集を保護）"
             echo "published=skipped" >> $GITHUB_OUTPUT
             exit 0
           fi
           echo "Auto-publishing: $DRAFT_DATE → $ARTICLE_PATH"
-          if python3 scripts/publish.py "$DRAFT_DATE"; then
+          if python3 scripts/publish.py "$DRAFT_DATE_BASE"; then
             echo "::notice title=Auto-publish success::$ARTICLE_PATH を自動公開しました"
             echo "published=yes" >> $GITHUB_OUTPUT
             # review_helper による事後検証（公開済みファイルに対して）
