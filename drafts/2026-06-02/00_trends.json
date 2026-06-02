@@ -1,0 +1,106 @@
+{
+  "fetched_at": "2026-06-02T12:09:16.050821+09:00",
+  "date": "2026-06-02",
+  "model": "grok-4.3",
+  "provider": "xai-oauth",
+  "source": "x_search via hermes",
+  "prompt_version": "v1",
+  "trends": [
+    {
+      "topic": "Claudeプロンプト改善",
+      "summary": "Claudeの新プロンプト技法が共有され、出力表現が美しく改善されたと話題。実務でのAI活用工夫として注目を集めている。",
+      "category": "ai",
+      "intent": "how_to",
+      "freshness_hours": 8,
+      "example_post": "claude新しくプロンプト編み出しました。野暮ったい説明もきれいな言葉だと苦痛ではありません",
+      "keywords_jp": [
+        "Claude",
+        "プロンプト",
+        "生成AI",
+        "AI活用",
+        "出力改善"
+      ],
+      "article_angle": "Claudeプロンプト工夫で高品質出力を実現"
+    },
+    {
+      "topic": "AI生成物検知力",
+      "summary": "10歳児がAI生成画像を即指摘した事例が共有され、子供世代のAIリテラシー向上を示す話題に。",
+      "category": "ai",
+      "intent": "informational",
+      "freshness_hours": 10,
+      "example_post": "10歳の姪がメニューの写真を見て『これAI生成だね』と即指摘した",
+      "keywords_jp": [
+        "AI生成",
+        "検知",
+        "リテラシー",
+        "子供",
+        "生成AI"
+      ],
+      "article_angle": "次世代AI検知力とリテラシー教育"
+    },
+    {
+      "topic": "副業収入1.5倍",
+      "summary": "副業で新卒年収の1.5倍達成事例が共有され、NISA活用との組み合わせが入金力最大化の観点で注目。",
+      "category": "freelance",
+      "intent": "informational",
+      "freshness_hours": 6,
+      "example_post": "副業収入で新卒年収の1.5倍になった事例",
+      "keywords_jp": [
+        "副業",
+        "フリーランス",
+        "収入",
+        "NISA",
+        "投資"
+      ],
+      "article_angle": "副業と投資の組み合わせ資産形成"
+    },
+    {
+      "topic": "SEO副業戦略",
+      "summary": "毎日投稿せずSEO強いコンテンツ1つ作る方が長期的に稼げるとのTipsが話題。継続しやすさが支持されている。",
+      "category": "freelance",
+      "intent": "how_to",
+      "freshness_hours": 12,
+      "example_post": "毎日投稿に頼らず、Google検索に強いSEOコンテンツを1つ作った方が長期的に稼げる",
+      "keywords_jp": [
+        "SEO",
+        "副業",
+        "コンテンツ",
+        "Google",
+        "継続"
+      ],
+      "article_angle": "低労力SEO副業で検索上位を狙う"
+    },
+    {
+      "topic": "TOEIC800点対策",
+      "summary": "商社・メガバンク向けTOEIC800-900点対策投稿が活発。就活・昇進に直結する実践力向上が求められている。",
+      "category": "english",
+      "intent": "how_to",
+      "freshness_hours": 15,
+      "example_post": "商社（三菱商事・三井物産など）メガバンクが求める800〜900点対策",
+      "keywords_jp": [
+        "TOEIC",
+        "800点",
+        "就活",
+        "英語力",
+        "対策"
+      ],
+      "article_angle": "企業が求めるTOEIC高得点最短ルート"
+    },
+    {
+      "topic": "英語学習記録",
+      "summary": "毎日1時間以上の学習記録投稿が増加。ハノンやCNNリスニングなどの具体メニュー共有が継続の励みになっている。",
+      "category": "english",
+      "intent": "how_to",
+      "freshness_hours": 4,
+      "example_post": "今日は英語のハノン＋CNNリスニング＋はま単で1時間28分",
+      "keywords_jp": [
+        "英語学習",
+        "継続",
+        "学習記録",
+        "TOEIC",
+        "リスニング"
+      ],
+      "article_angle": "毎日続けられる英語学習ルーティン"
+    }
+  ]
+}
