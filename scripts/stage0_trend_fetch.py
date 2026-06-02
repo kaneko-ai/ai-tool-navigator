@@ -11,7 +11,7 @@ drafts/<DATE>/00_trends.json と 00_trends_summary.md に保存する。
 環境変数:
     STAGE0_MODEL     (default: grok-4.3)
     STAGE0_PROVIDER  (default: xai-oauth)
-    STAGE0_TIMEOUT   (default: 120 秒)
+    STAGE0_TIMEOUT   (default: 300 秒)
     STAGE0_HERMES_BIN (default: hermes)
 """
 
@@ -32,7 +32,7 @@ JST = timezone(timedelta(hours=9))
 
 MODEL = os.environ.get("STAGE0_MODEL", "grok-4.3")
 PROVIDER = os.environ.get("STAGE0_PROVIDER", "xai-oauth")
-TIMEOUT = int(os.environ.get("STAGE0_TIMEOUT", "120"))
+TIMEOUT = int(os.environ.get("STAGE0_TIMEOUT", "300"))
 HERMES_BIN = os.environ.get("STAGE0_HERMES_BIN", "hermes")
 
 REQUIRED_KEYS = {
