@@ -8,6 +8,8 @@ ai_assisted: true
 editor_reviewed: false
 provider: "github_copilot_auto"
 character_count: 3487
+noindex: true
+eleventyExcludeFromCollections: true
 ---
 
 # Neuro Diveを選ぶ前に知るべきこと
