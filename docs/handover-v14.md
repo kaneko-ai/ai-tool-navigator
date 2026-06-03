@@ -524,3 +524,54 @@ setopt no_nomatch
 
 handover-v14.md 作成日: 2026-06-02（Day28 午後）
 Phase A 連続稼働実証 + Stage 0 復活記念ドキュメント
+
+
+---
+
+## 補遺: 6/4 朝の rescue 作業メモ (2026-06-03 追記)
+
+### 背景
+
+- `drafts/2026-06-02-2/` は Stage 0 → Stage 1 統合の初の歴史的成果ドラフト
+  - 採用Xトレンド: 「副業収入1.5倍 / 6h前 / freelance」
+  - タイトル: 「AI副業で新卒年収1.5倍へ〜独立判断と資産戦略」
+  - 3187字、出典6本 (金融庁NISA等)、CTAプレースホルダ2箇所配置済み
+  - quality_gate 全通過 (gate_fail=0)
+- ただし 6/2 当日は既に正記事 `src/articles/2026-06-02.md` が存在し `auto_published=skipped` でコミットのみ
+- 6/2 正記事「AI副業で独立を試す実践ロードマップ」と隣接させると重複感が出るため、6/3 を挟んで 6/4 に rescue 配置する判断
+
+### 準備済み状態 (2026-06-03 朝)
+
+- `drafts/2026-06-04-rescued/` 作成済み (untracked)
+- `04_final.md` の date を 2026-06-04 に書き換え済み
+- publish.py の仕様確認済み: 引数 YYYY-MM-DD 厳格、`drafts/<date>/04_final.md` 決め打ち
+- stage0 skip ロジック確認済み: `00_trends.json` の存在のみで判定
+- → 6/4 朝に `drafts/2026-06-04-rescued/` → `drafts/2026-06-04/` リネームすれば衝突なし
+
+### 6/4 朝の実行手順 (15:00 JST までに完了させる)
+
+1. `mv drafts/2026-06-04-rescued drafts/2026-06-04`
+2. `python3 scripts/publish.py 2026-06-04 --dry-run`
+3. `python3 scripts/publish.py 2026-06-04`
+4. `ls -la src/articles/2026-06-04.md` で確認
+5. `git add drafts/2026-06-04 src/articles/2026-06-04.md`
+6. `git commit -m "rescue: drafts/2026-06-02-2 を 6/4 記事として救出公開"`
+7. `git push origin main`
+
+### 6/4 cron との衝突予測
+
+- 15:55 launchd Stage 0: `drafts/2026-06-04/00_trends.json` 既存 → skip OK
+- 16:00 GitHub Actions cron:
+  - workflow while 条件で `drafts/2026-06-04/01_topic.md` 既存検出 → `drafts/2026-06-04-2/` で Stage 1-4 走行
+  - Phase A は `src/articles/2026-06-04.md` 既存 → skip OK
+  - `auto_published=skipped` で `drafts/2026-06-04-2/` のみコミットされる予想
+- 6/4-2 ドラフトは後日 archive 行きか、また rescue 候補かで判断
+
+### 仮説と懸念
+
+- 仮説: rescue 記事の date が 2026-06-04 に書き換わっても character_count や本文内の日付参照が古いままの可能性
+  - 確認コマンド: `grep -n "2026-06-02\|6/2\|6月2日" drafts/2026-06-04-rescued/04_final.md`
+  - 必要に応じて本文も書き換える
+- 懸念: A8アフィリエイト CTA タグが freelance ジャンルで適切に展開されるか
+  - `<!-- CTA:A8_FREELANCEBOARD -->` プレースホルダの実体化は Eleventy ビルド時に行われる想定
+  - 既存記事 (5/23, 5/30, 5/31) のレンダリング結果と比較確認推奨
