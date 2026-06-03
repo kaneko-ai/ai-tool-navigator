@@ -1,0 +1,100 @@
+{
+  "fetched_at": "2026-06-03T16:02:32.989900+09:00",
+  "date": "2026-06-03",
+  "model": "grok-4.3",
+  "provider": "xai-oauth",
+  "source": "x_search via hermes",
+  "prompt_version": "v1",
+  "trends": [
+    {
+      "topic": "AIビーチイラスト",
+      "summary": "台風接近中も爽やかアニメ風AIイラストが大量投稿され、#AIイラストがトレンド。日常の癒しとして人気。",
+      "category": "ai",
+      "intent": "informational",
+      "freshness_hours": 8,
+      "example_post": "台風でもビーチ気分！AIで描いた水着美少女イラスト #AIart",
+      "keywords_jp": [
+        "AIイラスト",
+        "生成AI",
+        "アニメ風",
+        "台風"
+      ],
+      "article_angle": "AIイラストの日常活用とコミュニティ"
+    },
+    {
+      "topic": "AIと新卒就職",
+      "summary": "AIによりジュニアポジションが減少し新卒の経験積みが難しくなっていると警告。テック業界で深刻化。",
+      "category": "ai",
+      "intent": "informational",
+      "freshness_hours": 12,
+      "example_post": "新卒・ジュニアの就職・経験積みがAIで奪われている",
+      "keywords_jp": [
+        "AI 就職",
+        "生成AI 影響",
+        "新卒",
+        "ジュニアエンジニア"
+      ],
+      "article_angle": "AIが若手雇用に与える影響"
+    },
+    {
+      "topic": "副業配達員意識",
+      "summary": "副業で配達を楽しむ人と専業で不満な人の違いが話題に。副業のモチベーション差が議論されている。",
+      "category": "freelance",
+      "intent": "informational",
+      "freshness_hours": 6,
+      "example_post": "副業配達員に楽しんで配達してる人が多くて 専業配達員に文句言いながら配達してる人が多いのは なんでだろう すごい興味深い",
+      "keywords_jp": [
+        "副業",
+        "配達員",
+        "フリーランス",
+        "意識差"
+      ],
+      "article_angle": "副業と専業の働き方比較"
+    },
+    {
+      "topic": "在宅ワーク通過",
+      "summary": "子育て中主婦が在宅ワークの書類選考通過を報告。継続的な挑戦が実を結び励ましの声多数。",
+      "category": "freelance",
+      "intent": "how_to",
+      "freshness_hours": 10,
+      "example_post": "応募した案件、書類選考通過！ #skimama",
+      "keywords_jp": [
+        "在宅ワーク",
+        "副業",
+        "書類選考",
+        "主婦"
+      ],
+      "article_angle": "在宅副業の始め方と成功事例"
+    },
+    {
+      "topic": "英文法 仮定法",
+      "summary": "英語教員が仮定法を条件文として整理する指導法を提案。学習者の混乱を減らす工夫が話題。",
+      "category": "english",
+      "intent": "how_to",
+      "freshness_hours": 4,
+      "example_post": "仮定法 → 第0〜第3条件文として整理",
+      "keywords_jp": [
+        "英文法",
+        "仮定法",
+        "英語学習",
+        "条件文"
+      ],
+      "article_angle": "英文法のわかりやすい教え方"
+    },
+    {
+      "topic": "TOEIC 継続勉強",
+      "summary": "台風で在宅中もリスニング中心にTOEIC勉強を継続する人が多数。朝活文化が活発。",
+      "category": "english",
+      "intent": "informational",
+      "freshness_hours": 9,
+      "example_post": "ムビスタ600のPart5を進めている",
+      "keywords_jp": [
+        "TOEIC",
+        "英語学習",
+        "リスニング",
+        "台風"
+      ],
+      "article_angle": "台風時の英語学習継続術"
+    }
+  ]
+}
