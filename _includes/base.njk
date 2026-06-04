@@ -27,9 +27,12 @@
   <meta property="og:url" content="{{ pageUrl }}">
   <meta property="og:locale" content="ja_JP">
 
-  <meta name="twitter:card" content="summary">
+  <meta property="og:image" content="{{ ogpImage or 'https://kaneko-ai.github.io/ai-tool-navigator/assets/images/ogp-default.png' }}">
+
+  <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="{{ pageTitle }}">
   <meta name="twitter:description" content="{{ pageDesc }}">
+  <meta name="twitter:image" content="{{ ogpImage or 'https://kaneko-ai.github.io/ai-tool-navigator/assets/images/ogp-default.png' }}">
 
   {% if noindex %}<meta name="robots" content="noindex,follow">{% endif %}
 
