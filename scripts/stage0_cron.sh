@@ -9,8 +9,28 @@ log() {
   echo "[$(date '+%Y-%m-%d %H:%M:%S')] $*" >> "${LOG}"
 }
 
+# Healthchecks.io ping helper (環境変数未設定なら何もしない)
+hc_ping() {
+  local status="${1:-}"  # 空="success", "fail", "start" など
+  if [ -z "${HC_STAGE0:-}" ]; then
+    log "INFO: HC_STAGE0 未設定のため ping をスキップ"
+    return 0
+  fi
+  local url="${HC_STAGE0}"
+  if [ -n "${status}" ]; then
+    url="${HC_STAGE0}/${status}"
+  fi
+  if curl -fsS -m 10 --retry 2 "${url}" -o /dev/null 2>>"${LOG}"; then
+    log "INFO: Healthchecks ping ${status:-success} sent"
+  else
+    log "WARN: Healthchecks ping ${status:-success} failed"
+  fi
+}
+
 log "=== Stage 0 cron start ==="
-cd "${REPO_DIR}" || { log "ERROR: cd failed"; exit 1; }
+hc_ping "start"
+
+cd "${REPO_DIR}" || { log "ERROR: cd failed"; hc_ping "fail"; exit 1; }
 
 export PATH="${HOME}/.local/bin:${HOME}/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:${PATH}"
 
@@ -24,17 +44,20 @@ TRENDS_JSON="${REPO_DIR}/drafts/${DATE_JST}/00_trends.json"
 if [ -f "${TRENDS_JSON}" ]; then
   log "INFO: ${TRENDS_JSON} already exists, skipping"
   log "=== Stage 0 cron end (skipped) ==="
+  hc_ping ""  # skip も「実行確認」として success ping
   exit 0
 fi
 
 log "INFO: fetching trends for ${DATE_JST}"
 if ! /Users/common/anaconda3/bin/python3 scripts/stage0_trend_fetch.py "${DATE_JST}" >> "${LOG}" 2>&1; then
   log "ERROR: stage0_trend_fetch.py failed"
+  hc_ping "fail"
   exit 1
 fi
 
 if [ ! -f "${TRENDS_JSON}" ]; then
   log "ERROR: ${TRENDS_JSON} was not created"
+  hc_ping "fail"
   exit 1
 fi
 
@@ -51,9 +74,11 @@ else
       log "INFO: push OK"
     else
       log "ERROR: push failed"
+      hc_ping "fail"
       exit 1
     fi
   fi
 fi
 
 log "=== Stage 0 cron end (success) ==="
+hc_ping ""  # success ping
