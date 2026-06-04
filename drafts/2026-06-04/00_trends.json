@@ -1,0 +1,100 @@
+{
+  "fetched_at": "2026-06-04T12:14:33.566492+09:00",
+  "date": "2026-06-04",
+  "model": "grok-4.3",
+  "provider": "xai-oauth",
+  "source": "x_search via hermes",
+  "prompt_version": "v1",
+  "trends": [
+    {
+      "topic": "AI小説クレジット",
+      "summary": "生成AIで小説を作成した際の「書きました」表現について「作りました」とすべきという指摘が広がっている。AI生成コンテンツの責任所在が話題に。",
+      "category": "ai",
+      "intent": "informational",
+      "freshness_hours": 10,
+      "example_post": "AI小説書きました！という表現をよく見るが、実際は書いてないので「作りました」と言ってほしい",
+      "keywords_jp": [
+        "AI小説",
+        "生成AI",
+        "クレジット",
+        "著作権"
+      ],
+      "article_angle": "生成AI小説の適切なクレジット表記方法"
+    },
+    {
+      "topic": "AI投資壁打ち",
+      "summary": "株投資でAIに壁打ち相談を繰り返しポートフォリオを固めた体験談が共有されている。X情報過多の中でのAI実践が注目されている。",
+      "category": "ai",
+      "intent": "how_to",
+      "freshness_hours": 8,
+      "example_post": "株投資を始めて7ヶ月、AIに壁打ちしまくってポートフォリオを固めた",
+      "keywords_jp": [
+        "AI投資",
+        "壁打ち",
+        "ポートフォリオ",
+        "生成AI"
+      ],
+      "article_angle": "投資判断における生成AI活用事例"
+    },
+    {
+      "topic": "副業プラットフォーム",
+      "summary": "クラウドワークス以外で高単価案件が取りやすいSOKUDANやWorkshipなどのサービスが紹介されている。フリーランスの選択肢拡大が話題。",
+      "category": "freelance",
+      "intent": "comparison",
+      "freshness_hours": 15,
+      "example_post": "クラウドワークス・ランサーズ以外で高単価・副業案件が取りやすいサービスを詳しく解説",
+      "keywords_jp": [
+        "副業",
+        "フリーランス",
+        "プラットフォーム",
+        "案件"
+      ],
+      "article_angle": "クラウドワークス以外のおすすめ副業サイト"
+    },
+    {
+      "topic": "動画編集副業案件",
+      "summary": "動画編集者の継続案件が募集されており、横動画400〜1000円/分などの条件が明示されている。安定副業を求める声が多い。",
+      "category": "freelance",
+      "intent": "transactional",
+      "freshness_hours": 20,
+      "example_post": "横動画 400〜1,000円/分、ショート 1,000〜3,000円の実績者募集",
+      "keywords_jp": [
+        "動画編集",
+        "副業",
+        "案件募集",
+        "単価"
+      ],
+      "article_angle": "動画編集フリーランスの継続案件獲得"
+    },
+    {
+      "topic": "海外仕事英語力",
+      "summary": "TOEICだけでなく仕事で使える信頼性や結論から話す力が重要と指摘。英会話継続の重要性が再認識されている。",
+      "category": "english",
+      "intent": "informational",
+      "freshness_hours": 6,
+      "example_post": "TOEICだけ追いかけるのは避けるべき。英会話を続けるのは無難",
+      "keywords_jp": [
+        "英語学習",
+        "TOEIC",
+        "英会話",
+        "海外就職"
+      ],
+      "article_angle": "TOEIC以外で磨くべきビジネス英語力"
+    },
+    {
+      "topic": "TOEIC学習YouTube",
+      "summary": "TOEIC学習にAtsueigoなどのYouTubeが推奨されている。資格勉強と英語学習の両立方法が共有されている。",
+      "category": "english",
+      "intent": "how_to",
+      "freshness_hours": 14,
+      "example_post": "TOEICならAtsueigo、その他しまぶーのIT大学など",
+      "keywords_jp": [
+        "TOEIC",
+        "英語学習",
+        "YouTube",
+        "おすすめ"
+      ],
+      "article_angle": "TOEIC対策に効果的な学習リソース"
+    }
+  ]
+}
