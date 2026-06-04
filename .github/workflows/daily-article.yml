@@ -14,6 +14,12 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
+      - name: Notify Healthchecks (Stage 1 start)
+        if: ${{ env.ACT != 'true' }}
+        run: |
+          curl -fsS -m 10 --retry 3 "${{ secrets.HC_STAGE1 }}/start" || true
+        continue-on-error: true
+
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
@@ -380,6 +386,22 @@ jobs:
             echo "published=failed" >> $GITHUB_OUTPUT
           fi
 
+      - name: Notify Healthchecks (Phase A result)
+        if: always()
+        run: |
+          PUBLISHED="${{ steps.auto_publish.outputs.published }}"
+          if [ "$PUBLISHED" = "yes" ] || [ "$PUBLISHED" = "skipped" ]; then
+            echo "Phase A ping: success ($PUBLISHED)"
+            curl -fsS -m 10 --retry 3 "${{ secrets.HC_PHASE_A }}" || true
+          elif [ "$PUBLISHED" = "failed" ]; then
+            echo "Phase A ping: fail"
+            curl -fsS -m 10 --retry 3 "${{ secrets.HC_PHASE_A }}/fail" || true
+          else
+            echo "Phase A ping: skipped (quality gate failed, no Phase A run)"
+            curl -fsS -m 10 --retry 3 "${{ secrets.HC_PHASE_A }}/fail" || true
+          fi
+        continue-on-error: true
+
       - name: Commit drafts (always)
         if: always()
         run: |
@@ -402,3 +424,15 @@ jobs:
             echo "push retry $i"
             sleep 5
           done
+
+      - name: Notify Healthchecks (Stage 1 success)
+        if: success()
+        run: |
+          curl -fsS -m 10 --retry 3 "${{ secrets.HC_STAGE1 }}" || true
+        continue-on-error: true
+
+      - name: Notify Healthchecks (Stage 1 fail)
+        if: failure()
+        run: |
+          curl -fsS -m 10 --retry 3 "${{ secrets.HC_STAGE1 }}/fail" || true
+        continue-on-error: true
