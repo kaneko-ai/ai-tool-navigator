@@ -575,3 +575,156 @@ Phase A 連続稼働実証 + Stage 0 復活記念ドキュメント
 - 懸念: A8アフィリエイト CTA タグが freelance ジャンルで適切に展開されるか
   - `<!-- CTA:A8_FREELANCEBOARD -->` プレースホルダの実体化は Eleventy ビルド時に行われる想定
   - 既存記事 (5/23, 5/30, 5/31) のレンダリング結果と比較確認推奨
+
+
+
+---
+
+## 補遺 B: 2026-06-04 達成記録（Healthchecks.io 統合 + SEO 強化 + Rescue 公開）
+
+**作業日時**: 2026-06-04 (06:00 - 12:15 JST)
+**ステータス**: ✅ 全タスク完了、本番運用中
+
+### B-1. 6/3 の Stage 0 → Stage 1 統合初成功（前夜の振り返り）
+
+- 6/3 15:58 JST: launchd Stage 0 自動起動（予定 15:55 から 3 分遅れ、許容範囲内）
+- トレンド 6 件取得 → `drafts/2026-06-03/00_trends.json` (3683 bytes) 生成
+- commit `68e032f` で push 成功
+- 6/3 20:55 JST: GitHub Actions Stage 1〜4 起動（cron 予定 19:00 から 4h 55m 遅延）
+- Phase A 自動公開成功 → `src/articles/2026-06-03.md` (6001 bytes) 生成
+- commit `b3ee392` (`auto_published=yes`)
+- **意義**: Stage 0 取得 → Stage 1 利用の完全連携を初実証
+
+### B-2. 6/4 Rescue 記事公開（drafts/2026-06-02-2 救出）
+
+**背景**: 6/2 に Stage 0→Stage 1 連携の初成果として `drafts/2026-06-02-2/` が生成されたが、当日既に正規 6/2 記事 (`src/articles/2026-06-02.md`) が存在したため `auto_published=skipped`。歴史的価値のあるドラフトを救うため 6/4 へ配置（6/3 を挟んで重複回避）。
+
+**手順実行ログ**:
+1. `cp -r drafts/2026-06-02-2 drafts/2026-06-04-rescued`（6/3 朝、事前準備）
+2. `sed -i '' 's|^date: 2026-06-02$|date: 2026-06-04|'` で front-matter 修正
+3. 6/4 朝 `mv drafts/2026-06-04-rescued drafts/2026-06-04`
+4. `python3 scripts/publish.py 2026-06-04 --dry-run` で検証
+5. 本番 publish → `src/articles/2026-06-04.md` (7127 bytes, 3187 字)
+6. commit `b4d4b08` push
+
+**記事**: 「AI副業で新卒年収1.5倍へ〜独立判断と資産戦略」
+- tags: ai-tools, freelance, ai-engineer-income
+- 主要数値: 平均月単価 79.9 万円、目標月収 37.5 万円、時給換算 5000 円
+- 段階的収入モデル（0-3 / 3-9 / 9-18 ヶ月）
+
+**事後検証**: 16:00 JST の GitHub Actions が `drafts/2026-06-04/01_topic.md` 存在を検知し `drafts/2026-06-04-2/` を生成、Phase A は `src/articles/2026-06-04.md` 存在で skipped → 想定通り。
+
+### B-3. JSON-LD BlogPosting を E-E-A-T 強化版に更新
+
+**ファイル**: `_includes/post.njk`（commit `a13b6f6`）
+
+**変更点**:
+- `author.@type` を `Organization` → `Person`（個人運営の透明性向上）
+- `publisher.logo` を追加（Google リッチスニペット要件）
+- `image` プロパティを追加（front-matter `image` または `assets/images/ogp-default.png`）
+- `wordCount` を `character_count` から自動設定（古い記事はスキップ）
+- `articleSection` を最初のタグから自動設定
+
+**検証結果**:
+- 全記事で JSON 構文 valid
+- 5/31 記事: wordCount 2738, articleSection "ai-tools"
+- 6/2 記事: wordCount 2627, articleSection "ai-tools"
+- 6/4 記事: wordCount 3187, articleSection "ai-tools"
+- 4/23 旧記事（character_count 無し）: wordCount スキップ動作確認、articleSection は出力 ✅
+
+**残課題**: `assets/images/ogp-default.png` と `logo.png` の実体ファイル未作成（現状 404）。リッチスニペット完全対応のため近日中に作成予定。
+
+### B-4. Healthchecks.io 監視統合（3 check 体制）
+
+**アカウント**: ai-tool-navigator プロジェクト
+**プラン**: 無料（20 check まで、現在 3 使用）
+
+**Check 一覧**:
+
+| Check 名 | Schedule | Grace | Tags | 用途 |
+|---|---|---|---|---|
+| Stage 0 - launchd trend fetch | 55 15 * * * (JST) | 30 min | stage0, launchd, daily | Mac ローカル launchd 監視 |
+| GitHub Actions daily-article | 0 7 * * * (UTC) | 6 h | stage1, github-actions, daily | Stage 1〜4 全体監視 |
+| Phase A - auto-publish success | 0 7 * * * (UTC) | 7 h | phase-a, publish, daily | 自動公開成否監視 |
+
+**Ping URL 管理方針**:
+- Stage 0: launchd plist `~/Library/LaunchAgents/ai.tool.navigator.stage0.plist` の `EnvironmentVariables` に `HC_STAGE0` を直接埋め込み（ローカルのみ、git 管理外）
+- Stage 1, Phase A: GitHub repository secrets `HC_STAGE1` / `HC_PHASE_A` として登録
+- `~/.zshrc` にも export 設定（手動テスト用）
+
+**実装**:
+
+**Stage 0 (`scripts/stage0_cron.sh`)** — commit `04724b5`
+- `hc_ping()` ヘルパー関数追加（`HC_STAGE0` 未設定なら no-op）
+- start ping: 起動直後
+- success ping: 正常終了（skip 含む）
+- fail ping: 各エラー箇所（cd 失敗、python 失敗、JSON 不在、サイズ 0 等）
+
+**Stage 1 / Phase A (`.github/workflows/daily-article.yml`)** — commit `a36f67f`
+- Notify Healthchecks (Stage 1 start): Checkout 前に挿入
+- Notify Healthchecks (Phase A result): Phase A 直後、`published` 出力で分岐
+  - `yes` or `skipped` → success ping（skipped は正常運用なので success 扱い）
+  - `failed` → /fail ping
+  - その他（quality gate fail 等）→ /fail ping
+- Notify Healthchecks (Stage 1 success): `if: success()` で job 末尾
+- Notify Healthchecks (Stage 1 fail): `if: failure()` で job 末尾
+- 全 ping は `continue-on-error: true` で Healthchecks 障害が workflow を落とさない設計
+
+**本番検証ログ**:
+- 6/3 18:22 JST: 手動実行 → Stage 0 start/success ping 確認、ダッシュボード反映 OK
+- 6/4 09:44 JST (00:44 UTC): workflow_dispatch 手動実行（run ID 26922602046）
+  - 実行時間 3 m 36 s、全 stage success、Phase A skipped → success ping ✅
+  - Healthchecks ダッシュボードで "GitHub Actions daily-article" "Phase A auto-publish" 両方が緑 ✓
+- 6/4 12:12 JST: `launchctl kickstart` で Stage 0 launchd 経由テスト → start ping 送信確認
+
+### B-5. その他の整備
+
+- `.gitignore` に `*.bak`, `*.bak.*`, `*.bak-*` を追加（commit `04724b5` の一部）
+  - 既存の 26 個の bak ファイルは untracked のまま残置（将来一括削除予定）
+- handover-v14.md に Rescue 作業メモを追記（commit `5d5935c`）
+
+### B-6. 残課題（v14 完了に向けて）
+
+**短期（1 週間以内）**:
+1. **OGP デフォルト画像作成**: `assets/images/ogp-default.png`（1200×630）と `logo.png`（512×512 程度）。JSON-LD `image` / `publisher.logo` の 404 解消、Twitter/Facebook シェア時の見栄え向上
+2. **AdSense 申請準備**: `/about/` `/privacy/` ページ内容の充実、`ads.txt` 雛形作成、申請手続き開始
+3. **Twitter Card を `summary_large_image` に変更**: OGP 画像準備後
+4. **bak ファイル一括削除**: 26 個の旧バックアップを `find -name "*.bak*" -delete` で整理
+
+**中期（1 ヶ月以内）**:
+5. **Person/Author schema 追加**: about ページに JSON-LD Person で運営者情報構造化
+6. **IndexNow 通知**: 記事公開時に Bing/Yandex へ即座通知（publish.py 拡張）
+7. **GitHub Actions retry logic**: `nick-fields/retry@v3` で Copilot API 一時障害に耐性
+8. **`<time datetime>` を ISO-8601 化**: 現在 `Date.toString()` 出力で `Thu Apr 23 2026 09:00:00 GMT+0900 (日本標準時)` 形式
+
+**長期（2 ヶ月以内）**:
+9. Lighthouse CI / Core Web Vitals 自動測定
+10. eleventy-img プラグインでサムネイル自動生成
+11. Cloudflare Pages プレビュー環境（PR ベース）
+12. Hermes Agent 自己学習結果の品質ゲート連動
+
+### B-7. 主要コミット履歴（6/2 〜 6/4）
+
+```
+9e9c43b Daily draft: 2026-06-04-2 (gate_fail=0 auto_published=skipped, ...)
+a36f67f feat(ops): GitHub Actions に Healthchecks.io ping を組み込み
+b4d4b08 rescue: drafts/2026-06-02-2 を 6/4 記事として救出公開
+04724b5 feat(ops): Stage 0 cron に Healthchecks.io ping を組み込み
+b3ee392 Daily draft: 2026-06-03 (gate_fail=0 auto_published=yes, ...)
+68e032f stage0: 2026-06-03 のXトレンド取得
+a13b6f6 feat(seo): JSON-LD BlogPosting を E-E-A-T 強化版に更新
+5d5935c docs(handover-v14): 6/4 rescue 作業メモを補遺に追記
+c169eb6 docs: handover-v14.md を追加 - Phase A 連続稼働実証 + Stage 0 復活記念版
+a053982 Daily draft: 2026-06-02-2 (Stage 0→Stage 1 統合初成果)
+```
+
+### B-8. 運用所感
+
+- **Stage 0 launchd は安定**: 6/2 の TIMEOUT=300s 修正以降、3 日連続成功
+- **GitHub Actions cron 遅延は常態化**: 6/3 は 4h 55m 遅延、Healthchecks の Grace 6h は妥当
+- **Phase A の skipped を success 扱いにする判断**: 手動 rescue や複数本生成の運用パターンを許容する設計、誤通知抑制に寄与
+- **記事品質**: 末尾切れ・文字数オーバー等の warning は時折出るが gate_fail には至らず、自動公開は許容範囲
+
+---
+
+*補遺 B 追記: 2026-06-04 12:15 JST*
