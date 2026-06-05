@@ -12,6 +12,8 @@ module.exports = function(eleventyConfig) {
   });
 
   eleventyConfig.addPassthroughCopy("src/assets");
+  // IndexNow キーファイル (src直下の16進.txt) をルートへコピー
+  eleventyConfig.addPassthroughCopy("src/*.txt");
 
   eleventyConfig.addCollection("articles", function(collectionApi) {
     return collectionApi.getFilteredByGlob("src/articles/**/*.md").sort((a,b) => b.date - a.date);
