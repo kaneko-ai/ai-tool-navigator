@@ -1,4 +1,16 @@
 module.exports = function(eleventyConfig) {
+  const { DateTime } = require("luxon");
+
+  // ISO-8601 (YYYY-MM-DD) — <time> の datetime 属性用
+  eleventyConfig.addFilter("isoDate", function(d) {
+    return DateTime.fromJSDate(new Date(d), { zone: "Asia/Tokyo" }).toFormat("yyyy-MM-dd");
+  });
+
+  // 和暦表示 (2026年6月4日) — 表示テキスト用
+  eleventyConfig.addFilter("jpDate", function(d) {
+    return DateTime.fromJSDate(new Date(d), { zone: "Asia/Tokyo" }).toFormat("yyyy年M月d日");
+  });
+
   eleventyConfig.addPassthroughCopy("src/assets");
 
   eleventyConfig.addCollection("articles", function(collectionApi) {
