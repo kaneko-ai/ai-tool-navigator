@@ -728,3 +728,54 @@ a053982 Daily draft: 2026-06-02-2 (Stage 0→Stage 1 統合初成果)
 ---
 
 *補遺 B 追記: 2026-06-04 12:15 JST*
+
+
+---
+
+## 補遺 C: 2026-06-08 SEO短期スプリント完了 + Stage 0 障害対応・再発防止
+
+### C-1. 6/5 実施: 補遺B-6 短期項目スプリント
+
+補遺B-6で挙げた短期項目をまとめて消化した。
+
+- **タスク1 (OGP画像・ロゴ)**: Gemini AI Pro + Genspark Plus 経由で Nano Banana Pro により生成。`sips` で OGP 用 `ogp-default.png` (1200x630) とロゴ `logo.png` (512x512) にリサイズし `src/assets/images/` に配置。JSON-LD image / publisher.logo の 404 解消。
+- **タスク3 (Twitter Card)**: `_includes/base.njk` に `og:image` / `twitter:image` メタタグを新規追加し、`twitter:card` を `summary` → `summary_large_image` に変更。Nunjucks の全角スペース混入によるビルドエラーを経て修正完了。
+- **タスク4 (bakファイル削除)**: `find . -name "*.bak*" -delete` で 23 個削除。すべて .gitignore 管理外でコミット不要。
+- **タスク2 (AdSense準備)**: `src/privacy.njk` に Google AdSense の Cookie / オプトアウト記載を追加。about / privacy ページは既存。github.io ドメインで申請実施（共有ドメインのため却下リスクあり、審査結果待ち）。
+- **短期#8 (time datetime)**: `eleventy.config.js` に luxon ベースの `isoDate` / `jpDate` フィルタを追加（Asia/Tokyo固定）。`post.njk` の `<time>` を `datetime="2026-06-04"` + 和暦表示に修正。ISO-8601非準拠を解消。
+- **短期#6 第1段階 (IndexNow)**: キー `55c9cc041af994b35488f082cf7ec8ec` を生成し `src/` 直下に配置、`addPassthroughCopy("src/*.txt")` でルート出力。本番 URL で HTTP 200 / 中身一致を確認、所有権証明クリア。
+- **短期#5 (Person/Author schema)**: 本番 JSON-LD で author が @type:Person + url で実装済みと確認、ほぼ完了扱い。
+
+関連コミット: fa8c57f (画像+メタタグ), 30ac49c (AdSenseポリシー), 7d120b0 (time datetime), edbae36 (IndexNowキー第1段階)。
+
+### C-2. 6/5-6/7 障害: Stage 0 トレンド取得が3日連続 timeout
+
+`~/Library/Logs/ai-tool-navigator/stage0.log` より、6/5・6/6・6/7 の Stage 0 が
+`[stage0] FAILED: hermes timeout after 300s` で連続失敗。trends.json が生成されず、
+後続の記事生成も影響を受け 6/7 ドラフトの 03_factcheck.md / 04_final.md が空に。
+6/7・6/8 の記事が未公開状態になった。
+
+**原因切り分け（6/8 午前に実施）**:
+- `hermes auth status xai-oauth` → `logged in`（認証は正常、トークン失効ではない）
+- x_search なしの素の grok-4.3 → 約12秒で正常応答（モデル本体は正常）
+- x_search あり 1件取得 → 約42秒で正常応答
+- 本番相当プロンプト（6件要求）→ 約71秒で正常応答
+- `hermes tools` で x_search は [✓] 有効、廃止されていない
+- → **結論: 6/5-6/7 は xAI 側（または経路）の一時的な不調が原因。設定ミス・認証切れ・ツール廃止ではない。**
+
+### C-3. 6/8 復旧対応
+
+- **トレンド手動取得**: `python3 scripts/stage0_trend_fetch.py` で `drafts/2026-06-08/00_trends.json` 等を生成し、`00_trends.json` / `00_trends_summary.md` をコミット・プッシュ（cb36aad）。GitHub Actions のステージ1は `00_trends_summary.md` を読むため、夕方の自動実行が記事生成を引き継げる状態にした。6/7 は欠番として割り切り。
+- **リトライ機構実装 (短期#7 / Stage 0側)**: `stage0_trend_fetch.py` に `run_hermes_with_retry()` を追加。最大3回試行・間隔30秒、環境変数 `STAGE0_MAX_RETRIES` / `STAGE0_RETRY_WAIT` で調整可能。単発の x_search タイムアウトを自動リカバリし、連続失敗による記事欠番を防止（872d21e）。
+
+### C-4. 残タスク
+
+- **IndexNow 第2段階**: デプロイ完了後に対象 URL を IndexNow API へ POST する処理（keyLocation 指定）。GitHub Actions のデプロイ後ジョブへの組み込みを想定。
+- **Actions側リトライ**: ステージ1〜4（copilot呼び出し）への `nick-fields/retry@v3` 等の適用検討。今回直したのは Stage 0（ローカル）側のみ。
+- **AdSense**: github.io 申請の審査結果待ち。却下時はカスタムドメイン取得を検討。
+- **記事数**: noindex 除く約30本。AdSense 本申請は40本到達後が推奨。
+- 6/8 夕方の Actions 自動実行が 6/8 記事を正常生成・公開したか要確認。
+
+---
+
+*補遺 C 追記: 2026-06-08 13:20 JST*
