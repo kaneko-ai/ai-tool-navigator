@@ -22,6 +22,7 @@ import os
 import re
 import subprocess
 import sys
+import time
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
 
@@ -34,6 +35,8 @@ MODEL = os.environ.get("STAGE0_MODEL", "grok-4.3")
 PROVIDER = os.environ.get("STAGE0_PROVIDER", "xai-oauth")
 TIMEOUT = int(os.environ.get("STAGE0_TIMEOUT", "300"))
 HERMES_BIN = os.environ.get("STAGE0_HERMES_BIN", "hermes")
+MAX_RETRIES = int(os.environ.get("STAGE0_MAX_RETRIES", "3"))
+RETRY_WAIT = int(os.environ.get("STAGE0_RETRY_WAIT", "30"))
 
 REQUIRED_KEYS = {
     "topic", "summary", "category", "intent",
@@ -122,6 +125,22 @@ def run_hermes() -> str:
     return proc.stdout
 
 
+def run_hermes_with_retry() -> str:
+    """run_hermes を最大 MAX_RETRIES 回まで試行する。
+    一時的な x_search タイムアウト等を自動リカバリするため。"""
+    last_err = None
+    for attempt in range(1, MAX_RETRIES + 1):
+        try:
+            return run_hermes()
+        except RuntimeError as e:
+            last_err = e
+            print(f"[stage0] attempt {attempt}/{MAX_RETRIES} failed: {e}", file=sys.stderr)
+            if attempt < MAX_RETRIES:
+                print(f"[stage0] retrying in {RETRY_WAIT}s...", file=sys.stderr)
+                time.sleep(RETRY_WAIT)
+    raise RuntimeError(f"all {MAX_RETRIES} attempts failed: {last_err}")
+
+
 def render_markdown_summary(date: str, payload: dict) -> str:
     lines = [f"# {date} のXトレンド（Stage 0 取得）", ""]
     lines.append(f"- 取得日時: {payload['fetched_at']}")
@@ -165,7 +184,7 @@ def main() -> int:
         return 0
 
     try:
-        raw = run_hermes()
+        raw = run_hermes_with_retry()
     except RuntimeError as e:
         print(f"[stage0] FAILED: {e}", file=sys.stderr)
         return 1
