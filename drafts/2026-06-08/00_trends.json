@@ -1,0 +1,106 @@
+{
+  "fetched_at": "2026-06-08T10:39:35.889460+09:00",
+  "date": "2026-06-08",
+  "model": "grok-4.3",
+  "provider": "xai-oauth",
+  "source": "x_search via hermes",
+  "prompt_version": "v1",
+  "trends": [
+    {
+      "topic": "ローカルLLM活用",
+      "summary": "SillyTavernとLM Studioの組み合わせが人気。キャラクター設定のカスタマイズが実践派に支持されている。",
+      "category": "ai",
+      "intent": "how_to",
+      "freshness_hours": 12,
+      "example_post": "SillyTavernを高く評価する声が多い。キャラクターの詳細設定を細かくカスタマイズできる点が魅力。",
+      "keywords_jp": [
+        "ローカルLLM",
+        "SillyTavern",
+        "LM Studio",
+        "キャラクターAI",
+        "生成AI"
+      ],
+      "article_angle": "ローカルLLMツールの設定と実践活用法"
+    },
+    {
+      "topic": "ローカルLLMの限界",
+      "summary": "Web参照不可のためアニメ話題が難しい点が指摘され、技術者の間で現実的な弱点として話題に。",
+      "category": "ai",
+      "intent": "informational",
+      "freshness_hours": 10,
+      "example_post": "Web参照ができないため、現在放送中のアニメの話をするには全部自分で教える必要がある",
+      "keywords_jp": [
+        "ローカルLLM",
+        "限界",
+        "生成AI",
+        "AIエージェント",
+        "アニメ"
+      ],
+      "article_angle": "ローカルLLMの実用弱点と克服策"
+    },
+    {
+      "topic": "副業継続のコツ",
+      "summary": "最初から完璧を目指さず出して直す方が大事という体験談が共感を呼び、フリーランス初心者に広がっている。",
+      "category": "freelance",
+      "intent": "how_to",
+      "freshness_hours": 8,
+      "example_post": "自分も、最初からうまくやろうとして止まるより、出して直す方が大事だなと感じています。",
+      "keywords_jp": [
+        "副業",
+        "フリーランス",
+        "継続",
+        "メンタル",
+        "案件"
+      ],
+      "article_angle": "副業初心者が挫折せずに続ける方法"
+    },
+    {
+      "topic": "50代からの副業",
+      "summary": "「もう50代だから無理」と思っていた女性が副業を始めた体験談がシェアされ、挑戦のきっかけに。",
+      "category": "freelance",
+      "intent": "informational",
+      "freshness_hours": 15,
+      "example_post": "「もう50代だし、今さら無理」そう思っていた女性が副業を始めた。",
+      "keywords_jp": [
+        "50代副業",
+        "フリーランス",
+        "女性副業",
+        "ブログ",
+        "挑戦"
+      ],
+      "article_angle": "50代から始める副業成功事例"
+    },
+    {
+      "topic": "英語の心理的壁",
+      "summary": "話せない本当の理由は知識不足ではなく心理的抵抗だと指摘。使った量が全てという意見が注目。",
+      "category": "english",
+      "intent": "informational",
+      "freshness_hours": 6,
+      "example_post": "日本人が話せない本当の理由は「知識不足」ではなく心理的な抵抗",
+      "keywords_jp": [
+        "英語学習",
+        "心理的壁",
+        "英会話",
+        "TOEIC",
+        "学習法"
+      ],
+      "article_angle": "英語が話せない心理的ハードルを克服する"
+    },
+    {
+      "topic": "TOEIC高得点者",
+      "summary": "TOEIC990点ホルダーの教材考察や924点自慢投稿が活発で、学習者の間で比較・励みになっている。",
+      "category": "english",
+      "intent": "comparison",
+      "freshness_hours": 18,
+      "example_post": "ワイTOEIC924点",
+      "keywords_jp": [
+        "TOEIC",
+        "英語学習",
+        "高得点",
+        "教材",
+        "英検"
+      ],
+      "article_angle": "TOEIC学習者のリアル体験と戦略"
+    }
+  ]
+}
