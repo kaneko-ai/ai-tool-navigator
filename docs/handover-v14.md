@@ -729,53 +729,130 @@ a053982 Daily draft: 2026-06-02-2 (Stage 0→Stage 1 統合初成果)
 
 *補遺 B 追記: 2026-06-04 12:15 JST*
 
+補遺 C: 2026-06-05 SEO短期項目スプリント（OGP/Twitter Card/bak削除/AdSense/time/IndexNow）
+作業日時: 2026-06-05 (09:00 - 12:30 JST 頃)。補遺 B-6「残課題（短期）」の優先4項目 + 追加でB-6短期8番・6番（第1段階）・5番確認を実施。
+
+C-1. OGP デフォルト画像・ロゴ作成（B-6 短期1）完了
+Nano Banana Pro (Gemini 3 Pro Image) で生成、トリミングして配置。
+src/assets/images/ogp-default.png (1200x630) — JSON-LD image / og:image 用
+src/assets/images/logo.png (512x512) — JSON-LD publisher.logo 用
+配色: ダークネイビー(#0F172A)×シアン(#22D3EE)、コンパス+サーキットノードのアイコン+「AI Tool Navigator」ワードマーク。
+サイズ調整は macOS の sips を使用（ImageMagick不使用）。
+これまで404だった assets/images/ogp-default.png / logo.png を解消。本番200確認済み。
+C-2. og:image / twitter:image 追加 + Twitter Card large_image化（B-6 短期3 + B-3取りこぼし）完了
+重大な取りこぼし発覚: _includes/base.njk に og:image / twitter:image メタタグがそもそも存在していなかった（B-3でJSON-LD側のみ実装、HTMLメタタグ側が未実装）。画像を置いてもSNS/LINE/Slack等でサムネが出ない状態だった。
+_includes/base.njk を編集:
+og:image 追加（ogpImage変数 or デフォルト画像URLのフォールバック付き）
+twitter:card を summary → summary_large_image に変更
+twitter:image 追加（同フォールバック）
+注意: 当初の手編集で {{ }} を改行+全角スペース混入させてビルドエラー（expected variable end）。Python置換で1行化して解決。njkの {{ }} は改行不可・全角スペース厳禁。
+commit fa8c57f。本番HTMLで3タグとも反映確認済み。
+C-3. bak ファイル一括削除（B-6 短期4）完了
+find . -name "*.bak*" -not -path "./node_modules/*" -delete で23個削除（補遺では26個想定、base.njk.bak先行削除と数え方の差）。
+全て .gitignore(*.bak)で除外済みのGit管理外ファイルだったため、git status は clean。コミット不要。
+_includes/base.njk.bak（過去に誤コミットされていた1個）は C-2作業中に削除済み（commit fa8c57f に含む）。
+C-4. AdSense 申請準備 + 申請実行（B-6 短期2）
+src/privacy.njk に「Google AdSense について」セクション追加（Google第三者Cookie使用 + adssettings.google.com / aboutads.info でのオプトアウト導線）。AdSense審査の定番必須記載に対応。commit 30ac49c。
+src/about.njk は既存内容が審査要件を概ね満たしていたため変更なし。
+AdSense申請を実行済み（2026-06-05 午前）。ただし注意点あり:
+サイトが kaneko-ai.github.io/ai-tool-navigator/（GitHub Pages共有ドメイン・サブディレクトリ）のため、AdSense登録画面で「有効なTLDを指定してください」エラー。kaneko-ai.github.io で申請。
+共有ドメイン(*.github.io)はAdSense審査で却下されやすい。 本気で収益化するなら独自ドメイン取得+GitHub Pagesカスタムドメイン設定が推奨。今回は「ダメ元で申請して評価を見る」方針。却下されたら記事増やして(目安40本)再申請。
+ads.txt は承認後にパブリッシャーID発行されてから作成（現時点では作れない）。
+審査用コードがAdSenseから案内されたら base.njk の <head> に貼る作業が別途必要。
+C-5. time datetime ISO-8601化（B-6 短期8）完了
+問題: _includes/post.njk の <time datetime="{{ date }}">{{ date }}</time> が Date.toString() 出力（Thu Jun 04 2026 00:00:00 GMT+0000 ...）になっていた。仕様違反 + UTC表記。
+eleventy.config.js に luxon ベースのフィルタ2つ追加（Asia/Tokyo 固定）:
+isoDate → yyyy-MM-dd（datetime属性用）
+jpDate → yyyy年M月d日（表示用）
+post.njk を <time datetime="{{ date | isoDate }}">{{ date | jpDate }}</time> に変更。
+本番確認: <time datetime="2026-06-04">2026年6月4日</time>。commit 7d120b0。
+一覧側（index.njk / articles.njk）は post.date.toISOString().slice(0,10) で既にISO形式・実害なしのため今回は未変更（任意の改善余地として残す）。
+C-6. IndexNow（B-6 短期6）— 第1段階のみ完了
+設計判断: 補遺B-6は「publish.pyに組み込む」想定だったが、publish.py実行時点ではまだデプロイ前でURLが実在しない（404空振りリスク）。通知はデプロイ完了後にGitHub Actions側で行うべきと判断。第2段階に回す。
+第1段階（所有権証明・完了）:
+キー生成: 55c9cc041af994b35488f082cf7ec8ec（openssl rand -hex 16）
+src/55c9cc041af994b35488f082cf7ec8ec.txt（中身=キー）配置
+eleventy.config.js に addPassthroughCopy("src/*.txt") 追加（src直下txtをルートへ）
+commit edbae36。本番 https://kaneko-ai.github.io/ai-tool-navigator/55c9cc041af994b35488f082cf7ec8ec.txt が200・中身一致を確認。
+注: 公開リポジトリ上にキーが露出するが、IndexNowキーは秘密情報でなく公開前提のため実害なし。
+サブディレクトリ配置のため、第2段階の通知時は keyLocation を明示する必要あり。
+C-7. Person/Author schema（B-6 短期5）— 確認の結果ほぼ完了済み
+本番JSON-LD確認: author は既に @type: Person, name: "ai-tool-navigator 編集部", url: (aboutページ) を実装済み（B-3時点で実装されていた）。
+追加強化（sameAs等）の余地はあるが、基本要件は満たしているため実質完了扱い。
+C-8. 今日のコミット（6/5）
+Copyedbae36 feat(seo): IndexNow キーファイル配置 + passthrough設定（第1段階・所有権証明）
+7d120b0 fix(seo): <time>のdatetimeをISO-8601化、表示を和暦に
+30ac49c feat(seo): プライバシーポリシーにGoogle AdSenseのCookie・オプトアウト記載を追加
+fa8c57f feat(seo): OGPデフォルト画像・ロゴ追加 + og:image/twitter:image出力 + Twitter Card summary_large_image化
+C-9. 残タスク（次回・ワークフロー編集が必要なため自動投稿後に実施）
+IndexNow 第2段階（B-6 短期6の続き）: deploy成功後にIndexNow APIへ更新URLをPOST。keyLocation 明示必須。GitHub Actions（deploy.yml or daily-article.yml）への組み込み。
+GitHub Actions retry logic（B-6 短期7）: nick-fields/retry@v3 でCopilot API呼び出し等をリトライ可能に。Stage 0タイムアウト/API一時エラー対策の本命。
+AdSense 審査用コード貼付: AdSenseから案内され次第 base.njk の <head> に設置。
+AdSense ads.txt: 承認・パブリッシャーID発行後に作成。
+（任意）独自ドメイン取得 + GitHub Pagesカスタムドメイン設定（AdSense本格運用の前提）。
+（任意）一覧ページの日付を <time>+和暦に統一。
+補遺 C 追記: 2026-06-05 12:30 JST
+
+以下が補遺Dの全文です。ダウンロードフォルダの `handover-v14.md` の末尾にそのまま貼り付けてください。
 
 ---
 
-## 補遺 C: 2026-06-08 SEO短期スプリント完了 + Stage 0 障害対応・再発防止
+## 補遺 D: 2026-06-08〜09 Copilotクレジット枯渇とgrok手動記事生成への暫定移行
 
-### C-1. 6/5 実施: 補遺B-6 短期項目スプリント
+### D-1. 障害の経緯（2つの別問題）
+6/5〜6/9にかけて記事自動生成が停止したが、原因は2系統あった。
 
-補遺B-6で挙げた短期項目をまとめて消化した。
+1. **Stage 0 タイムアウト（6/5〜6/7）**: ローカルlaunchdのトレンド取得(x_search)が300秒タイムアウト。xAI側の一時的不調が原因。→ 補遺Cで対応済み（リトライ機構を実装、commit 872d21e）。
+2. **GitHub Actions ステージ1〜4 の空応答（6/8〜）**: Stage 0復旧後も6/8記事が生成されず。draftの01〜04が全て0バイト、commit 6a99f88 で gate_fail=1・全ステージ model=unknown。
 
-- **タスク1 (OGP画像・ロゴ)**: Gemini AI Pro + Genspark Plus 経由で Nano Banana Pro により生成。`sips` で OGP 用 `ogp-default.png` (1200x630) とロゴ `logo.png` (512x512) にリサイズし `src/assets/images/` に配置。JSON-LD image / publisher.logo の 404 解消。
-- **タスク3 (Twitter Card)**: `_includes/base.njk` に `og:image` / `twitter:image` メタタグを新規追加し、`twitter:card` を `summary` → `summary_large_image` に変更。Nunjucks の全角スペース混入によるビルドエラーを経て修正完了。
-- **タスク4 (bakファイル削除)**: `find . -name "*.bak*" -delete` で 23 個削除。すべて .gitignore 管理外でコミット不要。
-- **タスク2 (AdSense準備)**: `src/privacy.njk` に Google AdSense の Cookie / オプトアウト記載を追加。about / privacy ページは既存。github.io ドメインで申請実施（共有ドメインのため却下リスクあり、審査結果待ち）。
-- **短期#8 (time datetime)**: `eleventy.config.js` に luxon ベースの `isoDate` / `jpDate` フィルタを追加（Asia/Tokyo固定）。`post.njk` の `<time>` を `datetime="2026-06-04"` + 和暦表示に修正。ISO-8601非準拠を解消。
-- **短期#6 第1段階 (IndexNow)**: キー `55c9cc041af994b35488f082cf7ec8ec` を生成し `src/` 直下に配置、`addPassthroughCopy("src/*.txt")` でルート出力。本番 URL で HTTP 200 / 中身一致を確認、所有権証明クリア。
-- **短期#5 (Person/Author schema)**: 本番 JSON-LD で author が @type:Person + url で実装済みと確認、ほぼ完了扱い。
+### D-2. 根本原因の特定
+6/8の問題は認証エラーではなく **GitHub Copilot の月間AIクレジット枯渇**。
+Copilot設定画面に「You've run out of your included AI credits for the month. Limit resets on Jul 1.」（200/200使用済み、リセットは7/1）と表示。
+このため `copilot -p` が認証は通るが何も生成せず約3秒で即終了し、全ステージが空応答となった。COPILOT_PAT等のトークンは有効期限内で問題なし。
 
-関連コミット: fa8c57f (画像+メタタグ), 30ac49c (AdSenseポリシー), 7d120b0 (time datetime), edbae36 (IndexNowキー第1段階)。
+### D-3. 暫定対応：hermes(grok-4.3)による手動記事生成フロー
+Copilotクレジットが7/1まで使えないため、Stage 0で実績のある hermes(grok-4.3) を記事生成にも転用する暫定フローを確立。
 
-### C-2. 6/5-6/7 障害: Stage 0 トレンド取得が3日連続 timeout
+- **方式**: A案（半自動）。Stage 0でトレンド取得 → 人がトピックを1件選定 → grokで `04_final.md` を生成 → 人が確認 → publish.py で公開。
+- **スクリプト化**: `scripts/generate_article.sh` を新規作成（commit de7a55e）。
+  - 引数なし実行: Stage 0トレンド取得＋サマリ表示（トピック選定用、既存なら取得スキップ）。
+  - 引数にトピック指定: grok-4.3で記事生成し、行数/H2数/CTA位置/末尾を自動チェック表示。
+  - 公開(publish.py)は誤公開防止のため意図的に人手で実行する設計。
+  - 調整: PROVIDER=xai-oauth, MODEL=grok-4.3。front-matterはプロンプト内に埋め込み。
+- **注意点**: grok生成時の `-t web_search` はエラー（正しいツールセット名は未確定）。現状はweb検索なしで生成し、出典URLは手動確認する運用。出典付き生成が必要なら `-t web`（要検証）。
 
-`~/Library/Logs/ai-tool-navigator/stage0.log` より、6/5・6/6・6/7 の Stage 0 が
-`[stage0] FAILED: hermes timeout after 300s` で連続失敗。trends.json が生成されず、
-後続の記事生成も影響を受け 6/7 ドラフトの 03_factcheck.md / 04_final.md が空に。
-6/7・6/8 の記事が未公開状態になった。
+### D-4. 6/9 記事の初公開（暫定フローの実証）
+本フローで初の記事を公開完了。
 
-**原因切り分け（6/8 午前に実施）**:
-- `hermes auth status xai-oauth` → `logged in`（認証は正常、トークン失効ではない）
-- x_search なしの素の grok-4.3 → 約12秒で正常応答（モデル本体は正常）
-- x_search あり 1件取得 → 約42秒で正常応答
-- 本番相当プロンプト（6件要求）→ 約71秒で正常応答
-- `hermes tools` で x_search は [✓] 有効、廃止されていない
-- → **結論: 6/5-6/7 は xAI 側（または経路）の一時的な不調が原因。設定ミス・認証切れ・ツール廃止ではない。**
+- トピック: 「副業初心者が信頼できる案件を見つける現実的な方法」（フリーランス/副業カテゴリ）。
+- 生成: grok-4.3で約49秒、7,477バイト、H2×6、CTA×2。
+- 公開: publish.py → eleventyビルド → push（commit 8c6868f）。本番反映済み（Deploy to GitHub Pages #133 緑）。
+- OGP/Twitter Card確認済み（og:image=ogp-default.png, twitter:card=summary_large_image）。
 
-### C-3. 6/8 復旧対応
+### D-5. 日々の運用手順（7/1まで）
 
-- **トレンド手動取得**: `python3 scripts/stage0_trend_fetch.py` で `drafts/2026-06-08/00_trends.json` 等を生成し、`00_trends.json` / `00_trends_summary.md` をコミット・プッシュ（cb36aad）。GitHub Actions のステージ1は `00_trends_summary.md` を読むため、夕方の自動実行が記事生成を引き継げる状態にした。6/7 は欠番として割り切り。
-- **リトライ機構実装 (短期#7 / Stage 0側)**: `stage0_trend_fetch.py` に `run_hermes_with_retry()` を追加。最大3回試行・間隔30秒、環境変数 `STAGE0_MAX_RETRIES` / `STAGE0_RETRY_WAIT` で調整可能。単発の x_search タイムアウトを自動リカバリし、連続失敗による記事欠番を防止（872d21e）。
+```
+cd ~/ai-tool-navigator
+./scripts/generate_article.sh                 # トレンド取得＋一覧表示
+./scripts/generate_article.sh "カテゴリ: ... / テーマ: ..."   # 記事生成
+# 内容確認後:
+python3 scripts/publish.py <YYYY-MM-DD>
+npx @11ty/eleventy
+git add src/articles/<date>.md drafts/<date>/00_trends.json drafts/<date>/00_trends_summary.md drafts/<date>/04_final.md
+git commit -m "feat(article): <date> 記事公開（hermes/grok手動生成）"
+git push origin main
+```
 
-### C-4. 残タスク
+※ GitHub Actions の Daily Article Generation は7/1までクレジット枯渇で空振りし続ける。失敗通知が煩わしい場合は daily-article.yml の schedule を一時コメントアウトする選択肢あり（未実施）。
 
-- **IndexNow 第2段階**: デプロイ完了後に対象 URL を IndexNow API へ POST する処理（keyLocation 指定）。GitHub Actions のデプロイ後ジョブへの組み込みを想定。
-- **Actions側リトライ**: ステージ1〜4（copilot呼び出し）への `nick-fields/retry@v3` 等の適用検討。今回直したのは Stage 0（ローカル）側のみ。
-- **AdSense**: github.io 申請の審査結果待ち。却下時はカスタムドメイン取得を検討。
-- **記事数**: noindex 除く約30本。AdSense 本申請は40本到達後が推奨。
-- 6/8 夕方の Actions 自動実行が 6/8 記事を正常生成・公開したか要確認。
+### D-6. 7/1以降の判断ポイント
+- **クレジット復活後（7/1〜）**: 元のActions(copilot)フローに戻すか、grok手動フローを継続するか要判断。grokフローは安定・追加費用なしだが手動トピック選定の手間がある。
+- **完全自動化の検討**: generate_article.shをlaunchdに登録すれば自走可能。ただしトピックの質を人が担保できる利点が失われるため、数日の手動運用で安定を確認してから判断する。
+- **未着手**: IndexNow第2段階、Actions側リトライ（ステージ1〜4）、AdSense審査結果確認、記事数40本到達、OGP画像のリサイズ・配置（magickコマンド未検出で滞留中）。
 
 ---
 
-*補遺 C 追記: 2026-06-08 13:20 JST*
+*補遺 D 追記: 2026-06-09 15:50 JST*
+
+---
+
