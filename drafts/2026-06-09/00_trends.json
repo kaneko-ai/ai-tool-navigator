@@ -1,0 +1,106 @@
+{
+  "fetched_at": "2026-06-09T10:01:32.005927+09:00",
+  "date": "2026-06-09",
+  "model": "grok-4.3",
+  "provider": "xai-oauth",
+  "source": "x_search via hermes",
+  "prompt_version": "v1",
+  "trends": [
+    {
+      "topic": "AI半導体株急落",
+      "summary": "日経平均がAI関連株の下落で前日比3.85%安となり、個人投資家の間で「死猫反発か本物の底か」議論が活発化。AI需要の持続性への懐疑と強気論が混在している。",
+      "category": "ai",
+      "intent": "informational",
+      "freshness_hours": 8,
+      "example_post": "キオクシアをショートした個人投資家のドキドキ投稿も見られる",
+      "keywords_jp": [
+        "AI半導体",
+        "株急落",
+        "生成AI",
+        "投資",
+        "日経平均"
+      ],
+      "article_angle": "AI需要の本質と市場変動の関係を投資家視点で解説"
+    },
+    {
+      "topic": "Google AI値下げ",
+      "summary": "Google AI Plusが月額1200円から725円に大幅値下げされ、ストレージ2倍・Gemini上限2倍になったニュースが速報拡散。AIツールのコスパ議論が活発。",
+      "category": "ai",
+      "intent": "transactional",
+      "freshness_hours": 6,
+      "example_post": "Google AI Plus月額725円に値下げ、ストレージ2倍",
+      "keywords_jp": [
+        "Google AI",
+        "値下げ",
+        "Gemini",
+        "AIプラン",
+        "コスパ"
+      ],
+      "article_angle": "AIサブスクの価格改定がユーザー行動に与える影響"
+    },
+    {
+      "topic": "副業案件探し",
+      "summary": "「ちゃんとした案件ない？」という声が複数投稿され、詐欺案件への不満と信頼できる仕事探しの需要が顕在化。副業初心者のリアルな悩みが共感を呼んでいる。",
+      "category": "freelance",
+      "intent": "informational",
+      "freshness_hours": 12,
+      "example_post": "副業でいい案件ありませんか？詐欺ばかり",
+      "keywords_jp": [
+        "副業案件",
+        "フリーランス",
+        "詐欺注意",
+        "クラウドワークス",
+        "案件獲得"
+      ],
+      "article_angle": "副業で信頼できる案件を見つける現実的な方法"
+    },
+    {
+      "topic": "脱サラ農業",
+      "summary": "脱サラして有機農業を始めた人が初売上100円のエピソードを投稿し140いいね。組織に頼らない稼ぎ方のリアルな体験談として注目されている。",
+      "category": "freelance",
+      "intent": "how_to",
+      "freshness_hours": 10,
+      "example_post": "初売上は100円だった。それでも飛び上がって喜んだ",
+      "keywords_jp": [
+        "脱サラ",
+        "有機農業",
+        "副業成功",
+        "時間価値",
+        "フリーランス"
+      ],
+      "article_angle": "小さく始めてスケールさせた副業のリアル体験"
+    },
+    {
+      "topic": "TOEIC独学奮闘",
+      "summary": "中卒からTOEIC920・英検1級まで独学した人の奮闘記本を地元図書館にリクエストした話が共感を集め、忙しい社会人の朝活継続がトレンドに。",
+      "category": "english",
+      "intent": "informational",
+      "freshness_hours": 7,
+      "example_post": "中卒からTOEIC920・英検1級まで独学した人の奮闘記",
+      "keywords_jp": [
+        "TOEIC独学",
+        "英検1級",
+        "朝活",
+        "英語学習",
+        "独学成功"
+      ],
+      "article_angle": "社会人がTOEIC900超えを達成した学習ルーティン"
+    },
+    {
+      "topic": "ビジネス英語語彙",
+      "summary": "みずほ×楽天銀行の資本業務提携ニュースを題材にcapital and business allianceなどの重要語彙をリストアップする投稿が複数あり、実務英語学習が活発。",
+      "category": "english",
+      "intent": "how_to",
+      "freshness_hours": 9,
+      "example_post": "capital and business alliance、share swapなどの語彙",
+      "keywords_jp": [
+        "ビジネス英語",
+        "語彙学習",
+        "金融英語",
+        "英会話",
+        "ニュース活用"
+      ],
+      "article_angle": "ニュース記事から学ぶ実践的なビジネス英語"
+    }
+  ]
+}
