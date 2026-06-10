@@ -190,3 +190,4 @@ drafts/*/_preamble_removed.txt
 
 # Stage 0 (X trend fetch) - raw stdout for debugging only
 drafts/*/00_trends_raw.txt
+drafts/*/04_final.stderr

@@ -1,0 +1,106 @@
+{
+  "fetched_at": "2026-06-10T09:06:56.400289+09:00",
+  "date": "2026-06-10",
+  "model": "grok-4.3",
+  "provider": "xai-oauth",
+  "source": "x_search via hermes",
+  "prompt_version": "v1",
+  "trends": [
+    {
+      "topic": "AIイラスト生成",
+      "summary": "NovelAI V4.5を使ったアニメキャラ生成が活発。プロンプトTips共有でクリエイターが毎日投稿している。",
+      "category": "ai",
+      "intent": "how_to",
+      "freshness_hours": 8,
+      "example_post": "NovelAI V4.5でbow (weapon)の挙動が改善されたので試してみた",
+      "keywords_jp": [
+        "生成AI",
+        "AIイラスト",
+        "NovelAI",
+        "アニメ",
+        "プロンプト"
+      ],
+      "article_angle": "AIイラストツールの最新Tipsと活用事例"
+    },
+    {
+      "topic": "Claude新モデル",
+      "summary": "Claude Fable 5登場でタスク別モデル選択の重要性が議論されている。ゼロショット乱用リスクも指摘。",
+      "category": "ai",
+      "intent": "informational",
+      "freshness_hours": 12,
+      "example_post": "新モデルClaude Fable 5でどのタスクに割り当てるかが鍵になった",
+      "keywords_jp": [
+        "Claude",
+        "生成AI",
+        "モデル選択",
+        "AI活用",
+        "業務効率"
+      ],
+      "article_angle": "実務で使える生成AIモデル比較と選び方"
+    },
+    {
+      "topic": "フリーランス信用",
+      "summary": "会社員のうちにクレカ作成や引っ越しを済ませるべきというアドバイスが共感を呼んでいる。",
+      "category": "freelance",
+      "intent": "how_to",
+      "freshness_hours": 15,
+      "example_post": "フリーランス志望なら会社員のうちにクレカ作りと引っ越しを",
+      "keywords_jp": [
+        "フリーランス",
+        "信用",
+        "クレジットカード",
+        "独立準備",
+        "副業"
+      ],
+      "article_angle": "フリーランス独立前にやるべき信用対策"
+    },
+    {
+      "topic": "AI副業継続",
+      "summary": "AIを活用した副業で看護師妻が4ヶ月で70万達成。継続力の差が話題に。",
+      "category": "freelance",
+      "intent": "informational",
+      "freshness_hours": 10,
+      "example_post": "AIど素人の看護師妻が4ヶ月で70万超えた話",
+      "keywords_jp": [
+        "AI副業",
+        "フリーランス",
+        "継続",
+        "看護師",
+        "在宅ワーク"
+      ],
+      "article_angle": "AIツールで始める初心者向け副業事例"
+    },
+    {
+      "topic": "英語暗唱練習",
+      "summary": "ラジオ英会話の暗唱・音読を100回以上繰り返す猛練習報告が学習者の共感を集めている。",
+      "category": "english",
+      "intent": "how_to",
+      "freshness_hours": 6,
+      "example_post": "暗唱10回・オーバーラッピング50回など合計100回超の練習",
+      "keywords_jp": [
+        "英語学習",
+        "暗唱",
+        "ラジオ英会話",
+        "音読",
+        "ディクテーション"
+      ],
+      "article_angle": "毎日継続できる英語暗唱ルーティンの作り方"
+    },
+    {
+      "topic": "TOEIC朝活",
+      "summary": "TOEIC900点目指す社会人がスタサプを朝活で進める報告。7月本番に向けたモチベ投稿が目立つ。",
+      "category": "english",
+      "intent": "informational",
+      "freshness_hours": 18,
+      "example_post": "今日はスタサプのアダプティブ講座をガッツリ進める日",
+      "keywords_jp": [
+        "TOEIC",
+        "英語学習",
+        "朝活",
+        "スタサプ",
+        "900点"
+      ],
+      "article_angle": "働きながらTOEICスコアを伸ばす朝活習慣"
+    }
+  ]
+}
