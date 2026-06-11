@@ -1,0 +1,106 @@
+{
+  "fetched_at": "2026-06-11T10:36:57.303192+09:00",
+  "date": "2026-06-11",
+  "model": "grok-4.3",
+  "provider": "xai-oauth",
+  "source": "x_search via hermes",
+  "prompt_version": "v1",
+  "trends": [
+    {
+      "topic": "AI副業収入源多角化",
+      "summary": "業務委託先トラブルで報酬月15万減の可能性が出た事例が拡散。AI副業でも単一収入源のリスクが改めて注目されている。",
+      "category": "ai",
+      "intent": "informational",
+      "freshness_hours": 8,
+      "example_post": "業務委託先の会社がトラブルで自身の報酬が月15万円程度下がる可能性が出てきたケース。フリーやってると実際ありえる",
+      "keywords_jp": [
+        "AI副業",
+        "収入源多角化",
+        "フリーランスリスク",
+        "生成AI",
+        "報酬変動"
+      ],
+      "article_angle": "AI副業で収入を安定させる多角化戦略と実例"
+    },
+    {
+      "topic": "生成AIアート品質議論",
+      "summary": "AI生成画像の違和感（れんげの向きや遠近法）を指摘する投稿が活発。クオリティ向上と限界が話題に。",
+      "category": "ai",
+      "intent": "informational",
+      "freshness_hours": 6,
+      "example_post": "AI生成と思われる画像に対して「れんげの向き」「提灯の遠近法」「文字の傾き」などの違和感を具体的に指摘",
+      "keywords_jp": [
+        "生成AIアート",
+        "AI画像品質",
+        "違和感指摘",
+        "Midjourney",
+        "Stable Diffusion"
+      ],
+      "article_angle": "生成AIアートの限界と今後の品質向上ポイント"
+    },
+    {
+      "topic": "副業継続力の重要性",
+      "summary": "副業で一番大事なのは継続力という声が多数。才能より続けることの難しさが実践者から共有されている。",
+      "category": "freelance",
+      "intent": "informational",
+      "freshness_hours": 10,
+      "example_post": "副業で一番大事なのはどれだと思いますか？ ②継続力 今の僕は②かなと思ってます",
+      "keywords_jp": [
+        "副業継続",
+        "フリーランス習慣",
+        "行動力",
+        "継続力",
+        "副業成功"
+      ],
+      "article_angle": "副業で結果を出すための継続力の身につけ方"
+    },
+    {
+      "topic": "家族時間と副業バランス",
+      "summary": "副業没頭で家族会話が減った失敗談が共感を呼んでいる。目的と手段の逆転を戒める声が増加。",
+      "category": "freelance",
+      "intent": "informational",
+      "freshness_hours": 7,
+      "example_post": "副業に没頭しすぎて家族との会話がほとんどなくなった結果、危機感を抱き家族との時間を先に確保するように変えた",
+      "keywords_jp": [
+        "副業家族時間",
+        "ワークライフバランス",
+        "リーマン副業",
+        "時間管理",
+        "副業失敗談"
+      ],
+      "article_angle": "副業と家族時間を両立させる現実的な時間管理術"
+    },
+    {
+      "topic": "英語学習完璧主義脱却",
+      "summary": "サボった日を責めすぎない姿勢が継続の鍵として人気。止まらないことより再開することが大事と実体験共有。",
+      "category": "english",
+      "intent": "how_to",
+      "freshness_hours": 9,
+      "example_post": "忙しい日や疲れた日は休むのも学習の一部。1日休むことより、自分を責めてやる気を失う方が危険",
+      "keywords_jp": [
+        "英語学習継続",
+        "完璧主義",
+        "TOEIC勉強法",
+        "習慣化",
+        "社会人英語"
+      ],
+      "article_angle": "完璧主義を捨てて英語を続けるためのメンタル習慣"
+    },
+    {
+      "topic": "ながら英語学習法",
+      "summary": "机に向かわない隙間時間活用が結果を左右すると話題。通勤中や家事中の学習が社会人に推奨されている。",
+      "category": "english",
+      "intent": "how_to",
+      "freshness_hours": 5,
+      "example_post": "机に向かって『よしやるぞ』と気合を入れる休日に5時間まとめて勉強は挫折しやすい",
+      "keywords_jp": [
+        "ながら学習",
+        "英語習慣",
+        "通勤英語",
+        "隙間時間",
+        "英会話上達"
+      ],
+      "article_angle": "忙しい社会人向けながら英語学習の具体的な実践法"
+    }
+  ]
+}
