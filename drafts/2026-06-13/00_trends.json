@@ -1,0 +1,106 @@
+{
+  "fetched_at": "2026-06-13T21:21:21.908333+09:00",
+  "date": "2026-06-13",
+  "model": "grok-4.3",
+  "provider": "xai-oauth",
+  "source": "x_search via hermes",
+  "prompt_version": "v1",
+  "trends": [
+    {
+      "topic": "高市早苗AI知財政策",
+      "summary": "高市早苗議員が生成AI時代の知的財産推進計画2026を発表。学習・生成過程の透明性確保や権利侵害防止策が注目され、9400超のいいねを集めた。",
+      "category": "ai",
+      "intent": "informational",
+      "freshness_hours": 18,
+      "example_post": "知的財産推進計画2026で、生成AI時代のプリンシプル・コード策定を発表",
+      "keywords_jp": [
+        "生成AI",
+        "知財政策",
+        "高市早苗",
+        "知的財産",
+        "透明性"
+      ],
+      "article_angle": "生成AI時代に必要な知財ルール整備のポイント"
+    },
+    {
+      "topic": "Claudeでコード完全委託",
+      "summary": "長年コードを書いてきたエンジニアがClaudeにほぼすべて任せるようになったと投稿。設計・指示役へのシフトが話題に。",
+      "category": "ai",
+      "intent": "how_to",
+      "freshness_hours": 12,
+      "example_post": "ここ6ヶ月でClaudeにほぼすべて任せるようになった",
+      "keywords_jp": [
+        "Claude",
+        "AI活用",
+        "エンジニア",
+        "コード生成",
+        "仕事改革"
+      ],
+      "article_angle": "AIに任せてエンジニアの役割が変わる実態"
+    },
+    {
+      "topic": "副業で家族プレゼント",
+      "summary": "副業収入が増えた30代父親が子供の誕生日プレゼントを奮発。家族の小さな幸せを守るためと投稿が共感を呼んだ。",
+      "category": "freelance",
+      "intent": "informational",
+      "freshness_hours": 10,
+      "example_post": "副業の収入増えたので、去年よりプレゼントも奮発",
+      "keywords_jp": [
+        "副業",
+        "家族",
+        "収入アップ",
+        "30代",
+        "モチベーション"
+      ],
+      "article_angle": "副業が家族の日常を豊かにする事例"
+    },
+    {
+      "topic": "フルリモート副業OK求人",
+      "summary": "製造業Webマーケティング会社の求人がフルリモート・副業自由を強調し拡散。柔軟な働き方が支持されている。",
+      "category": "freelance",
+      "intent": "transactional",
+      "freshness_hours": 15,
+      "example_post": "フルリモートフルフレックスの柔軟な勤務形態・業務時間外の副業・起業自由",
+      "keywords_jp": [
+        "リモートワーク",
+        "副業OK",
+        "求人",
+        "フルフレックス",
+        "成果主義"
+      ],
+      "article_angle": "副業を許容する企業の最新採用トレンド"
+    },
+    {
+      "topic": "Duolingo1063日連続",
+      "summary": "40代学習者がDuolingoを1063日連続達成。ラジオビジネス英会話と組み合わせた継続報告が励みになっている。",
+      "category": "english",
+      "intent": "how_to",
+      "freshness_hours": 8,
+      "example_post": "Duolingo 1063日連続達成しながら、ラジオビジネス英会話も",
+      "keywords_jp": [
+        "Duolingo",
+        "継続学習",
+        "朝活",
+        "40代",
+        "英会話"
+      ],
+      "article_angle": "アプリと音声教材を組み合わせた長期継続術"
+    },
+    {
+      "topic": "駅でThe Japan Times Alpha",
+      "summary": "新大阪駅のタリーズでThe Japan Times Alphaを読みながらの勉強報告。104いいねと反響が大きかった。",
+      "category": "english",
+      "intent": "informational",
+      "freshness_hours": 20,
+      "example_post": "新大阪駅のタリーズでThe Japan Times Alphaを読みながら勉強",
+      "keywords_jp": [
+        "The Japan Times Alpha",
+        "駅活",
+        "TOEIC",
+        "朝活",
+        "英語教材"
+      ],
+      "article_angle": "通勤・移動時間を活用した英語学習の実践例"
+    }
+  ]
+}
