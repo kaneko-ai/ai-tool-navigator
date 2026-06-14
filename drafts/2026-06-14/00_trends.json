@@ -1,0 +1,106 @@
+{
+  "fetched_at": "2026-06-14T21:38:38.933271+09:00",
+  "date": "2026-06-14",
+  "model": "grok-4.3",
+  "provider": "xai-oauth",
+  "source": "x_search via hermes",
+  "prompt_version": "v1",
+  "trends": [
+    {
+      "topic": "Claude SEO連携",
+      "summary": "ClaudeにGSCをMCP接続して検索パフォーマンスを可視化するワークフローが話題。生成AIの実務活用が加速している。",
+      "category": "ai",
+      "intent": "how_to",
+      "freshness_hours": 10,
+      "example_post": "ClaudeにGSC（Google Search Console）をMCP接続して検索パフォーマンスを可視化。CSV不要で会話だけでグラフ化まで完了するワークフローを紹介。",
+      "keywords_jp": [
+        "Claude",
+        "SEO分析",
+        "生成AI",
+        "LLM",
+        "データ可視化"
+      ],
+      "article_angle": "Claude活用でSEO業務を効率化する実践例"
+    },
+    {
+      "topic": "AI自動生成実験",
+      "summary": "1日129ポストで大量インプ達成の生成AI運用実験が注目。AIの文脈理解限界を検証する動き。",
+      "category": "ai",
+      "intent": "informational",
+      "freshness_hours": 15,
+      "example_post": "1日129ポストで500万インプ達成というネタ投稿に対して、24時間稼働の収集AI＋自動生成AIでどこまで文脈を理解した反応ができるか検証",
+      "keywords_jp": [
+        "生成AI",
+        "自動投稿",
+        "AI運用",
+        "大量生成",
+        "実験"
+      ],
+      "article_angle": "生成AIによるコンテンツ自動化の可能性と限界"
+    },
+    {
+      "topic": "AIアフィ副業",
+      "summary": "AIアフィリエイトがスマホだけで始められる簡単副業として人気。難しい副業を避ける人が増えている。",
+      "category": "freelance",
+      "intent": "transactional",
+      "freshness_hours": 8,
+      "example_post": "なんでみんなわざわざ難しい副業選ぶんだろ？ AIアフィならスマホがあればどこでもできるし、AIで作った内容で投稿するだけ。",
+      "keywords_jp": [
+        "AIアフィ",
+        "副業",
+        "初心者",
+        "スマホ副業",
+        "アフィリエイト"
+      ],
+      "article_angle": "AIツールで始める簡単副業のリアル"
+    },
+    {
+      "topic": "副業継続術",
+      "summary": "1年未満で副業を辞める人への厳しい指摘がバズ。毎日1-2時間の継続と正しいやり方が重要視されている。",
+      "category": "freelance",
+      "intent": "how_to",
+      "freshness_hours": 6,
+      "example_post": "1年未満で副業辞めちゃう人、「正しいやり方教わった？」「毎日1〜2時間やった？」両方Yesじゃないなら始まってもいない。",
+      "keywords_jp": [
+        "副業継続",
+        "フリーランス",
+        "マインドセット",
+        "毎日継続",
+        "挫折防止"
+      ],
+      "article_angle": "副業で挫折しないための継続習慣"
+    },
+    {
+      "topic": "英語習慣化",
+      "summary": "朝コーヒーと学習を紐付ける習慣化術が共感を呼んでいる。意志より仕組み作りが大事という声。",
+      "category": "english",
+      "intent": "how_to",
+      "freshness_hours": 12,
+      "example_post": "勉強を習慣化するには意志の強さではなく、朝コーヒーを飲んだらすぐ『金のフレーズ』や洋書を開くという『きっかけ』を固定する",
+      "keywords_jp": [
+        "英語学習",
+        "習慣化",
+        "朝活",
+        "TOEIC",
+        "継続"
+      ],
+      "article_angle": "英語学習を習慣化するための実践テクニック"
+    },
+    {
+      "topic": "発音の鬼門",
+      "summary": "worldの発音が難しいという指摘が英語学習者間で話題。schwa音の壁が多くの人を悩ませている。",
+      "category": "english",
+      "intent": "informational",
+      "freshness_hours": 18,
+      "example_post": "throughの次に必ず躓くのはworldの発音。w + schwa + r + lの組み合わせが鬼門。綺麗に言えるようになると英語っぽくなる",
+      "keywords_jp": [
+        "英語発音",
+        "world発音",
+        "英会話",
+        "発音練習",
+        "英語あるある"
+      ],
+      "article_angle": "日本人英語学習者がつまずく発音のポイント"
+    }
+  ]
+}
