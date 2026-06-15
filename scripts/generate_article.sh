@@ -39,6 +39,7 @@ fi
 
 # ---- 引数なし: 一覧表示して終了 ----
 TOPIC="${1:-}"
+TAGS="${2:-}"   # カンマ区切りで明示指定可（例: "english-learning,ai-tools"）。未指定ならgrokが選ぶ
 if [ -z "${TOPIC}" ]; then
   echo ""
   echo "===== 本日のトレンドサマリ（この中から1件選んでトピックを指定してください）====="
@@ -50,6 +51,17 @@ if [ -z "${TOPIC}" ]; then
   echo "  テーマ: 副業で信頼できる案件を見つける現実的な方法\""
   echo "----------------------------------------------------------------"
   exit 0
+fi
+
+# ---- タグブロックの構築 ----
+if [ -n "${TAGS}" ]; then
+  # 明示指定: カンマ区切りを "  - xxx" 形式に展開
+  TAGS_BLOCK="$(echo "${TAGS}" | tr ',' '\n' | sed 's/^ *//; s/ *$//; /^$/d; s/^/  - /')"
+  TAG_INSTRUCTION="上記のtagsはそのまま使用すること。"
+else
+  # 未指定: 無難なデフォルト＋grokに選ばせる指示
+  TAGS_BLOCK="  - ai-tools"
+  TAG_INSTRUCTION="tags は次の語彙から記事内容に合うものを2〜3個だけ選んで置き換えること（新しいタグ名は作らない）: ai-tools, english-learning, freelance, side-business, ai-learning, career"
 fi
 
 # ---- 記事生成 ----
@@ -68,14 +80,13 @@ title: \"（30字程度の記事タイトル。）\"
 description: \"（120-150字の説明文。）\"
 date: ${TODAY}
 tags:
-  - ai-tools
-  - freelance
-  - side-business
+${TAGS_BLOCK}
 ai_assisted: true
 editor_reviewed: false
 provider: \"hermes_grok_manual\"
 character_count: 0
 ---
+※タグについて: ${TAG_INSTRUCTION}
 （本文は 02_draft.md のルールに従って執筆）
 ===
 # 本日のトピック
