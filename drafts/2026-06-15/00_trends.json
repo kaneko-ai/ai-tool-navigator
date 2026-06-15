@@ -1,0 +1,100 @@
+{
+  "fetched_at": "2026-06-15T15:56:34.222811+09:00",
+  "date": "2026-06-15",
+  "model": "grok-4.3",
+  "provider": "xai-oauth",
+  "source": "x_search via hermes",
+  "prompt_version": "v1",
+  "trends": [
+    {
+      "topic": "AI動画副業",
+      "summary": "AIで動画を作成して副業収入を得る方法が注目されている。ポンコツでも3ヶ月で月100万を目指す事例が334いいねを集め話題に。",
+      "category": "ai",
+      "intent": "how_to",
+      "freshness_hours": 12,
+      "example_post": "AI動画を始めれば「ポンコツでも3ヶ月で月100万狙える」",
+      "keywords_jp": [
+        "AI動画",
+        "副業",
+        "月100万",
+        "生成AI"
+      ],
+      "article_angle": "AI動画制作から収益化までの実践ノウハウ"
+    },
+    {
+      "topic": "AIプロンプト活用",
+      "summary": "ChatGPTやClaudeを10倍賢くするプロンプト10選が無料公開され、初心者向けにコピペで使えると好評。",
+      "category": "ai",
+      "intent": "informational",
+      "freshness_hours": 10,
+      "example_post": "ChatGPT・Claude・Geminiを10倍賢くするプロンプト10選",
+      "keywords_jp": [
+        "プロンプト",
+        "ChatGPT",
+        "Claude",
+        "生成AI"
+      ],
+      "article_angle": "効果的なAIプロンプトで作業効率を劇的に上げる方法"
+    },
+    {
+      "topic": "フリーランス柔軟性",
+      "summary": "子どもの体調不良時でも納期調整がしやすいフリーランスの働き方が、子育て世帯で改めて評価されている。",
+      "category": "freelance",
+      "intent": "informational",
+      "freshness_hours": 8,
+      "example_post": "今日納期の切羽詰まったものもないし、フリーランスはこういう調整が簡単にできるの、ほんとありがたい",
+      "keywords_jp": [
+        "フリーランス",
+        "子育て",
+        "柔軟性",
+        "働き方"
+      ],
+      "article_angle": "子育てママ・パパにフリーランスが向く理由"
+    },
+    {
+      "topic": "副業外注化",
+      "summary": "面倒な作業を外注することで副業の行動が加速したという体験談が共有され、効率化の重要性が話題に。",
+      "category": "freelance",
+      "intent": "how_to",
+      "freshness_hours": 15,
+      "example_post": "最近は面倒な作業を外注するようになって行動が加速した",
+      "keywords_jp": [
+        "副業",
+        "外注",
+        "業務委託",
+        "効率化"
+      ],
+      "article_angle": "副業を加速させる外注・業務委託の活用術"
+    },
+    {
+      "topic": "TOEIC毎日学習",
+      "summary": "キクフレや金のセンテンスを使ったTOEIC学習の毎日継続報告が活発で、朝の学習記録文化が根強い。",
+      "category": "english",
+      "intent": "how_to",
+      "freshness_hours": 6,
+      "example_post": "キクフレ Day53 出る単特急金のセンテンス 61-70",
+      "keywords_jp": [
+        "TOEIC",
+        "英語学習",
+        "キクフレ",
+        "継続"
+      ],
+      "article_angle": "TOEICスコアアップのための毎日コツコツ学習法"
+    },
+    {
+      "topic": "英検1級目標",
+      "summary": "高校生が英検1級合格を長期目標に据えた計画を公開し、資格取得への本気度が注目されている。",
+      "category": "english",
+      "intent": "informational",
+      "freshness_hours": 20,
+      "example_post": "英検1級合格を高3の目標に入れた長期計画",
+      "keywords_jp": [
+        "英検1級",
+        "英語学習",
+        "資格",
+        "高校生"
+      ],
+      "article_angle": "英検1級合格に向けた長期学習計画の立て方"
+    }
+  ]
+}
