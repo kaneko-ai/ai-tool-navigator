@@ -1,0 +1,106 @@
+{
+  "fetched_at": "2026-06-17T19:27:00.284612+09:00",
+  "date": "2026-06-17",
+  "model": "grok-4.3",
+  "provider": "xai-oauth",
+  "source": "x_search via hermes",
+  "prompt_version": "v1",
+  "trends": [
+    {
+      "topic": "生成AIポートフォリオ問題",
+      "summary": "ゲーム・デザイン業界でAI生成イラストを自作ポートフォリオとして提出する事例が増加し、採用担当者の間で即不採用やAI判定の必要性が話題に。日本の雇用制度との組み合わせでリスクが指摘されている。",
+      "category": "ai",
+      "intent": "informational",
+      "freshness_hours": 10,
+      "example_post": "即不採用だが、最近明らかに増えた。版権再現ばかりでオリジナルがないポートフォリオは即落としていたが、今後はAI判定も必要",
+      "keywords_jp": [
+        "生成AI",
+        "ポートフォリオ",
+        "採用",
+        "AI詐欺",
+        "クリエイター"
+      ],
+      "article_angle": "生成AIがクリエイティブ職の採用をどう変えるか実態分析"
+    },
+    {
+      "topic": "フィジカルAI投資熱",
+      "summary": "フィジカルAIやチタニウム企業への注目が高まり、日本株投資の文脈でロボット・物理層AIへの期待が拡散。ソフトウェアから実世界へのシフトがトレンド。",
+      "category": "ai",
+      "intent": "informational",
+      "freshness_hours": 14,
+      "example_post": "フィジカルAIへの投資が日本企業で加速、馬渕氏関連動画も拡散中",
+      "keywords_jp": [
+        "フィジカルAI",
+        "ロボット",
+        "日本株",
+        "具身AI",
+        "投資"
+      ],
+      "article_angle": "日本企業が注目するフィジカルAIの今後と投資視点"
+    },
+    {
+      "topic": "フリーランスエンジニア実態",
+      "summary": "未経験から独立した3年目フリーランスエンジニアの体験談が拡散。エージェント選びやメリデメが共有され、フリーランス希望者の参考に。",
+      "category": "freelance",
+      "intent": "how_to",
+      "freshness_hours": 8,
+      "example_post": "未経験→転職→独立のリアル。フリーランスエンジニア3年目のメリデメとおすすめエージェントまとめ",
+      "keywords_jp": [
+        "フリーランス",
+        "エンジニア",
+        "独立",
+        "エージェント",
+        "案件"
+      ],
+      "article_angle": "フリーランスエンジニアになるための現実的なステップ"
+    },
+    {
+      "topic": "副業継続のコツ",
+      "summary": "顧客心理の言語化や空き時間の活用など、副業を続けるためのマインドセットTipsが人気。実績報告とともにゆるく続ける方法が共有されている。",
+      "category": "freelance",
+      "intent": "how_to",
+      "freshness_hours": 12,
+      "example_post": "顧客心理を言語化する習慣が大事。空いた時間を思考に使う副業Tips",
+      "keywords_jp": [
+        "副業",
+        "マインドセット",
+        "継続",
+        "案件獲得",
+        "時間管理"
+      ],
+      "article_angle": "副業を長続きさせるための日常習慣と実践法"
+    },
+    {
+      "topic": "イマージョン英語学習",
+      "summary": "日常のコンテンツを全て英語に置き換えるイマージョン学習法が注目。TOEIC高得点者でも会話に苦戦する中、実践的なアプローチとして支持されている。",
+      "category": "english",
+      "intent": "how_to",
+      "freshness_hours": 6,
+      "example_post": "日常で観たり聞いたりするものを全て自分に合ったレベルの英語コンテンツに。日本について話すものは入りやすい",
+      "keywords_jp": [
+        "イマージョン",
+        "英会話",
+        "英語学習",
+        "TOEIC",
+        "実践"
+      ],
+      "article_angle": "イマージョンで英会話を上達させる具体的な方法"
+    },
+    {
+      "topic": "TOEIC独学記録",
+      "summary": "猫と暮らしながらのゆるいTOEIC再開や、仕事と子育ての合間の勉強記録が共感を呼んでいる。モチベーション維持のリアルな声が目立つ。",
+      "category": "english",
+      "intent": "informational",
+      "freshness_hours": 15,
+      "example_post": "猫と一緒にTOEIC再開。今日は英文法の勉強記録",
+      "keywords_jp": [
+        "TOEIC",
+        "独学",
+        "英語勉強",
+        "モチベーション",
+        "学習記録"
+      ],
+      "article_angle": "忙しい社会人がTOEICを継続するコツと体験談"
+    }
+  ]
+}
